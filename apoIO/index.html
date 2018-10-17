@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <title>APOIO | PI WEB API</title>
+  <!--favicon-->
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+  <!-- Vector CSS -->
+  <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+  <!-- simplebar CSS-->
+  <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
+  <!-- Bootstrap core CSS-->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- animate CSS-->
+  <link href="assets/css/animate.css" rel="stylesheet" type="text/css"/>
+  <!-- Icons CSS-->
+  <link href="assets/css/icons.css" rel="stylesheet" type="text/css"/>
+  <!-- Sidebar CSS-->
+  <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
+  <!-- Custom Style-->
+  <link href="assets/css/app-style.css" rel="stylesheet"/>  
+  
+</head>
+<body ng-app="myApp" ng-controller="summaryController">
+<!-- Start wrapper-->
+ <div id="wrapper"> 
+
+     <!--Start sidebar-wrapper-->
+     <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
+     <div class="brand-logo">
+      <a href="#!Home">
+       <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+       <h5 class="logo-text">APOIO </h5>
+     </a>
+	 </div>
+	 <ul class="sidebar-menu do-nicescrol">
+      <li class="sidebar-header">MAIN NAVIGATION</li>       
+          <li>
+              <a href="#!Home" class="waves-effect">
+                <i class="ti-home"></i> <span>Home</span>
+              </a>
+          </li>
+          <li>
+              <a href="#!Master" class="waves-effect">
+                <i class="ti-layout-grid2"></i> <span>Master Dashboard</span>
+              </a>
+          </li>
+          <li>
+              <a href="#!AssetDesign" class="waves-effect">
+                  <i class="ti-direction-alt"></i> Asset Design
+              </a>
+          </li>
+          <li>
+              <a href="#!Allocation" class="waves-effect">
+                  <i class="ti-layout-slider"></i> Allocation
+              </a>
+          </li> 
+          <li>
+              <a href="#!EventEditor" class="waves-effect">
+                  <i class="ti-pencil-alt"></i> Event Editor
+              </a>
+          </li> 
+            <li>
+              <a href="Login.html" class="waves-effect">
+                  <i class="ti-lock"></i> Logout
+              </a>
+          </li> 
+      <li>
+        <a href="javaScript:void();" class="waves-effect">
+          <i class="icon-briefcase"></i>
+          <span>UI Elements</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+  		  <li><a href="ui-typography.html"><i class="fa fa-circle-o"></i> Typography</a></li>
+  		  <li><a href="ui-buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
+  		  <li><a href="ui-checkbox-radio.html"><i class="fa fa-circle-o"></i> Checkboxes & Radios</a></li>
+  		  <li><a href="ui-nav-tabs.html"><i class="fa fa-circle-o"></i> Nav Tabs</a></li>
+        <li><a href="ui-accordions.html"><i class="fa fa-circle-o"></i> Accordions</a></li>
+  		  <li><a href="ui-modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
+  		  <li><a href="ui-bootstrap-elements.html"><i class="fa fa-circle-o"></i> BS Elements</a></li>
+        <li><a href="ui-pagination.html"><i class="fa fa-circle-o"></i> Pagination</a></li>
+        <li><a href="ui-list-groups.html"><i class="fa fa-circle-o"></i> List Groups</a></li>
+        <li><a href="ui-alerts.html"><i class="fa fa-circle-o"></i> Alerts</a></li>
+  		  <li><a href="ui-progressbars.html"><i class="fa fa-circle-o"></i> Progress Bars</a></li>
+  		  <li><a href="ui-notification.html"><i class="fa fa-circle-o"></i> Notifications</a></li>
+  		  <li><a href="ui-sweet-alert.html"><i class="fa fa-circle-o"></i> Sweet Alerts</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="calendar.html" class="waves-effect">
+          <i class="icon-calendar"></i> <span>Calendar</span>
+          <small class="badge float-right badge-info">New</small>
+        </a>
+      </li>
+	
+	
+
+    </ul>
+	 
+   </div>  
+    
+   <!--End sidebar-wrapper-->
+
+   
+<!--Start topbar header-->
+<header class="topbar-nav">
+ <nav class="navbar navbar-expand fixed-top bg-white">
+  <ul class="navbar-nav mr-auto align-items-center">
+<!--      <li class="nav-item">
+          <a href="index.html">
+              <i class="ti-home" style="font-size:25px;"></i>
+          </a>
+      </li>-->
+<!--    <li class="nav-item">
+      <a class="nav-link toggle-menu" href="javascript:void();">
+       <i class="icon-menu menu-icon"></i>
+     </a>
+    </li>-->
+    
+  </ul>  
+  <ul class="navbar-nav align-items-center right-nav-link">
+   
+    <li class="nav-item">
+      <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
+        <span class="user-profile"><img src="assets/images/avatars/admin.jpg" class="img-circle" alt="Admin"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right">
+       <li class="dropdown-item user-details">
+        <a href="javaScript:void();">
+           <div class="media">
+             <div class="avatar"><img class="align-self-start mr-3" src="assets/images/avatars/admin.jpg" alt="Admin"></div>
+            <div class="media-body">
+            <h6 class="mt-2 user-title">Admin</h6>
+            <p class="user-subtitle">admin@gmail.com</p>
+            </div>
+           </div>
+          </a>
+        </li>
+        <li class="dropdown-divider"></li>
+        <li class="dropdown-item"><i class="icon-envelope mr-2"></i> Inbox</li>
+        <li class="dropdown-divider"></li>
+        <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
+        <li class="dropdown-divider"></li>
+        <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
+        <li class="dropdown-divider"></li>
+        <li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</header>
+<!--End topbar header-->
+
+<div class="clearfix"></div>
+
+<div ng-view></div>
+
+<!--End content-wrapper-->
+   <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
+	
+	<!--Start footer-->
+	<footer class="footer">
+      <div class="container">
+        <div class="text-center">
+         Copyright &copy; 2018 <b> ECGiT Private Limited</b>
+        </div>
+      </div>
+    </footer>
+        
+	<!--End footer-->
+   
+  </div>
+<!--End wrapper-->
+<script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+	
+  <!-- simplebar js -->
+  <script src="assets/plugins/simplebar/js/simplebar.js"></script>
+  <!-- waves effect js -->
+  <script src="assets/js/waves.js"></script>
+  <!-- sidebar-menu js -->
+  <script src="assets/js/sidebar-menu.js"></script>
+  <!-- Custom scripts -->
+  <script src="assets/js/app-script.js"></script>
+ <!-- Vector map JavaScript -->
+  <script src="assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+  <script src="assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+  <!-- Chart js -->
+  <script src="assets/plugins/Chart.js/Chart.min.js"></script>
+  
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+<script>
+var app = angular.module("myApp", ["ngRoute"]);
+    app.config(function($routeProvider) {
+    $routeProvider   
+    .when("/Home", {
+        controller: 'summaryController',
+        templateUrl : "Views/default.html"
+    })
+    .when("/Master", {        
+        controller : "masterController",
+        templateUrl : "Views/master_dashboard.html"
+    })
+    .otherwise({ redirectTo: '/Home' });
+});
+
+app.controller("summaryController", ['$scope', function ($scope) {
+    $scope.msg = '3950';
+}]);
+
+app.controller('masterController',['$scope', function($scope) {        
+            var ajaxEF =  processJsonContent('https://192.168.1.28:1706/piwebapi/assetservers/F1RSDi3z9dHIi0CwxL3X6F3C0wRUNHLURFVi1TRVJWRVI/assetdatabases', 'GET', null,'Asif','ECG@123');
+                $.when(ajaxEF).fail(function () {
+                    console.log("Cannot create event frame.");
+                });
+                $.when(ajaxEF).done(function () {
+                    //console.log("Event frame created successfully.\n"+JSON.stringify(ajaxEF));
+                   var Items = (ajaxEF.responseJSON.Items); 
+                   //$("#myval").val(name);
+                     //$("#myval").val();
+                    var data1 = [];
+                    $.each(Items, function(key) {
+                        data1.push(Items[key].Name);
+                        console.log("Database Name : "+ data1);
+                    });
+                    //alert(data1);
+                    $scope.foo = data1;
+                });
+                
+    }]);
+ var processJsonContent = function (url, type, data, user, pass) {
+           return $.ajax({
+            url: encodeURI(url),
+            type: type,
+            data: data,
+            contentType: "application/json; charset=UTF-8",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization",  makeBasicAuth(user, pass));
+            }
+        });
+    };
+    var makeBasicAuth = function (user, password) {
+        var tok = user + ':' + password;
+        var hash = window.btoa(tok);
+        return "Basic " + hash;
+    };
+</script>
+
+</body>
+</html>
