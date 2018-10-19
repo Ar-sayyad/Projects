@@ -15,32 +15,21 @@ app.controller('masterController', function($scope) {
                         console.log("Cannot Find the Element Templates.");
                     });
                     $.when(elementTemplates).done(function () {
-                         var list = [];
+                        $scope.List = [];
                         var Items = (elementTemplates.responseJSON.Items);
-                        $.each(Items,function(key) {                          
-                           list.push(Items[key].Name);  
-                           //list.push('id:'+Items[key].WebId+', name:'+Items[key].Name+',');       
-                           //$("#elementTemplates").append("<option value="+Items[key].WebId+">"+Items[key].Name+"</option>");                          
-                            });   
-                             console.log("Element Name : "+ list);
-                             $scope.list = list;
-
-                                $scope.changedValue = function(item) {
-                                  $scope.itemList.push(item);
                                 }       
+                        $.each(Items,function(key) {     
+                           //$("#elementTemplates").append("<option ng-value='item.id' ng-repeat='item in List' class='ng-binding ng-scope' value='string:"+Items[key].WebId+"'>"+Items[key].Name+"</option>");  
+                           //$("#elementTemplates").append("<option label="+Items[key].Name+" value="+Items[key].WebId+">"+Items[key].Name+"</option>");                          
+                            }); 
+                            $scope.check = function () {
+                               // $scope.itemList.push($scope.cardSelected);
+                                console.log('cardSelected', $scope.cardSelected);
+                              };
                         });
                         //console.log("Event frame created successfully.\n"+JSON.stringify(ajaxEF));
                     });
-                    
-
-    $scope.GetValue = function (fruit) {
-                var fruitId = $scope.ddlFruits;
-                var fruitName = $.grep($scope.list, function (fruit) {
-                    return fruit.Id == fruitId;
-                })[0].Name;
-                alert("Selected Value: " + fruitId + "\nSelected Text: " + fruitName);
-            }
-    
+      
     /*********chart section**********/
     
     var dataPoints1 = [];
