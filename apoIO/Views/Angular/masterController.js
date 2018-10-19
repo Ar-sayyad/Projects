@@ -17,8 +17,8 @@ app.controller('masterController', function($scope) {
                     $.when(elementTemplates).done(function () {
                         $scope.List = [];
                         var Items = (elementTemplates.responseJSON.Items);
-                                }       
                         $.each(Items,function(key) {     
+                           $scope.List.push({ id:Items[key].WebId, name:Items[key].Name });  
                            //$("#elementTemplates").append("<option ng-value='item.id' ng-repeat='item in List' class='ng-binding ng-scope' value='string:"+Items[key].WebId+"'>"+Items[key].Name+"</option>");  
                            //$("#elementTemplates").append("<option label="+Items[key].Name+" value="+Items[key].WebId+">"+Items[key].Name+"</option>");                          
                             }); 
