@@ -16,9 +16,9 @@ var app = angular.module("myApp", ["ngRoute"]);
         controller : "masterController",
         templateUrl : "Views/master_dashboard.html"
     })
-    .when("/Chart", {        
-        controller : "chartController",
-        templateUrl : "Views/chart.html"
+    .when("/Allocation", {        
+        controller : "allocationController",
+        templateUrl : "Views/allocation.html"
     })
     .otherwise({ redirectTo: '/Home' });
 });
