@@ -305,10 +305,36 @@
 		    pauseDelayOnHover: true,
             continueDelayOnInactiveTab: false,
 		    position: 'center top',
-		    showClass: 'rollIn',
-            hideClass: 'rollOut',
+		    showClass: 'zoomIn',
+            hideClass: 'zoomOut',
             icon: 'fa fa-check-circle',
             width: 600,
-		    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+		    msg: 'Data Saved Successfully...!'
+		    });
+		  }
+                  
+                  function successmsg($msg){
+			Lobibox.notify('success', {
+		    pauseDelayOnHover: true,
+            continueDelayOnInactiveTab: false,
+		    position: 'center top',
+		    showClass: 'zoomIn',
+            hideClass: 'zoomOut',
+            icon: 'fa fa-check-circle',
+            width: 500,
+		    msg: $msg
+		    });
+		  }
+                  
+                   function errormsg($msg){
+			Lobibox.notify('error', {
+		    pauseDelayOnHover: true,
+            continueDelayOnInactiveTab: false,
+            icon: 'fa fa-times-circle',
+		    position: 'center top',
+		    showClass: 'zoomIn',
+            hideClass: 'zoomOut',
+            width: 500,
+		    msg: $msg
 		    });
 		  }

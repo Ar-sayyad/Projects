@@ -1,0 +1,11 @@
+ <tr ng-repeat="item in EnumerationValues>
+    <td>
+        <input type="checkbox" data-name="{{block.name}}" name="{{block.name}}" value="{{block.id}}"> {{block.name}} 
+    </td>
+    <td>
+        <select ng-change="checkEnumeration()" id="enumerationValues" class="form-control" ng-model="enumSelected">
+        <option value="">---Select Connection---</option>
+        <option  value="{{item.Value}}" data-name="{{item.Name}}" ng-disabled="item.Disabled===1" ng-repeat="item in EnumerationValues  | orderBy:'Value'">{{item.Name}}</option>
+     </select> 
+    </td>
+</tr>

@@ -34,7 +34,7 @@
       <!--End Row-->
     
         <div class="row">  
-            <div class="col-12 col-lg-6 col-xl-3" style="">
+            <div class="col-12 col-lg-6 col-xl-4" style="">
                 <div class="card" style="">
                    <div class="card-body">
                        <label>Select Template</label>
@@ -46,20 +46,20 @@
                </div>               
             </div>
           
-                    <div class="col-12 col-lg-6 col-xl-6">
-                        <div class="row" >
-                           <div class="col-12 col-lg-6 col-xl-6">
+                    <div class="col-12 col-lg-6 col-xl-8">
+                        <div class="row" ng-repeat="block in elementList">
+                           <div class="col-12 col-lg-6 col-xl-3">
                             <div class="card" style="" >
                                <div class="card-body">
                                     <label>Select Block</label>
-                                    <select ng-change="blockcheck()" id="elements" class="elements form-control" ng-model="blockSelected">
-                                       <!--<option value="{{block.id}}" name="{{block.name}}" selected="" ng-repeat="block in elementList">{{block.name}}</option>-->
+                                    <select ng-change="blockcheck()" id="" class="form-control" ng-model="blockSelected">
+                                       <option value="{{block.id}}" name="{{block.name}}" selected>{{block.name}}</option>
                                    </select>   
                               </div>
                            </div>
                         </div>
 
-                       <div class="col-12 col-lg-6 col-xl-6">
+                       <div class="col-12 col-lg-6 col-xl-3">
                         <div class="card" style="">
                             <div class="card-body">
                                 <label>Select Connection</label>

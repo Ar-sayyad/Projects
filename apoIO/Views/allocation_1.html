@@ -34,8 +34,8 @@
       <!--End Row-->
     
         <div class="row">  
-            <div class="col-12 col-lg-6 col-xl-3" style="">
-                <div class="card" style="">
+            <div class="col-12 col-lg-6 col-xl-3">
+                <div class="card" style="margin-bottom: 5px;">
                    <div class="card-body">
                        <label>Select Template</label>
                       <select ng-change="check()" id="elementTemplates" class="form-control" ng-model="cardSelected">
@@ -43,37 +43,33 @@
                            <!--<option value="{{item.name}}" data-id="{{item.id}}" ng-repeat="item in List">{{item.name}}</option>-->
                        </select>   
                   </div>
-               </div>               
+               </div>
             </div>
-          
-                    <div class="col-12 col-lg-6 col-xl-6">
-                        <div class="row" >
-                           <div class="col-12 col-lg-6 col-xl-6">
-                            <div class="card" style="" >
-                               <div class="card-body">
-                                    <label>Select Block</label>
-                                    <select ng-change="blockcheck()" id="elements" class="elements form-control" ng-model="blockSelected">
-                                       <!--<option value="{{block.id}}" name="{{block.name}}" selected="" ng-repeat="block in elementList">{{block.name}}</option>-->
-                                   </select>   
-                              </div>
-                           </div>
-                        </div>
+            <div class="col-12 col-lg-6 col-xl-3">
+                <div class="card" style="margin-bottom: 5px;">
+                   <div class="card-body">
+                        <label>Select Block</label>
+                      <select ng-change="blockcheck()" id="elements" class="form-control" ng-model="blockSelected">
+                           <!--<option value="{{block.id}}" name="{{block.name}}" ng-repeat="block in elementList">{{block.name}}</option>-->
+                       </select>   
+                  </div>
+               </div>
+            </div>
 
-                       <div class="col-12 col-lg-6 col-xl-6">
-                        <div class="card" style="">
-                            <div class="card-body">
-                                <label>Select Connection</label>
-                                <select ng-change="checkEnumeration()" id="enumerationValues" class="form-control" ng-model="enumSelected">
-                                    <option value="">---Select Connection---</option>
-                                    <option  value="{{item.Value}}" data-name="{{item.Name}}" ng-disabled="item.Disabled===1" ng-repeat="item in EnumerationValues  | orderBy:'Value'">{{item.Name}}</option>
-                                 </select>   
-                            </div>
-                        </div>
+            <div class="col-12 col-lg-6 col-xl-3">
+                <div class="card" style="margin-bottom: 5px;">
+                    <div class="card-body">
+                        <label>Select Connection</label>
+                        <select ng-change="checkEnumeration()" id="enumerationValues" class="form-control" ng-model="enumSelected">
+                            <option value="">---Select Connection---</option>
+                            <option  value="{{item.Value}}" data-name="{{item.Name}}" ng-disabled="item.Disabled===1" ng-repeat="item in EnumerationValues  | orderBy:'Value'">{{item.Name}}</option>
+                         </select>   
                     </div>
-                    </div>
-                    </div>
-             <div class="col-12 col-lg-6 col-xl-3">
-             <div class="card" style="">
+                </div>
+            </div>
+            
+            <div class="col-12 col-lg-6 col-xl-3">
+                <div class="card" style="margin-bottom: 5px;">
                     <div class="card-body">
                         <label>Current Date-Time</label>
                         <span  style="text-align: center;">
@@ -81,17 +77,15 @@
                         </span>
                     </div>
                 </div>
-             </div>
-             <div class="col-12 col-lg-12 col-xl-12">
-                <div class="card" style="">
+            </div>
+            
+            <div class="col-12 col-lg-6 col-xl-3">
+                <div class="card" style="margin-bottom: 5px;">
                     <div class="card-body"  style="text-align: center">
                         <button type="button" id="saveAllocation" class="btn btn-primary"><i class="ti-save"></i> Save</button>
                     </div>
                 </div>
-             </div>
-                
             </div>
-
         </div>   
       
     </div>
