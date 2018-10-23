@@ -12,7 +12,7 @@ app.controller('allocationController', function($scope) {
      var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName;       
             var ajaxEF =  processJsonContent(url, 'GET', null);
                 $.when(ajaxEF).fail(function () {
-                    errormsg("Cannot Find the Assetdatabases.");
+                    warningmsg("Cannot Find the Assetdatabases.");
                     console.log("Cannot Find the Assetdatabases.");
                 });
                 $.when(ajaxEF).done(function () {
@@ -29,7 +29,7 @@ app.controller('allocationController', function($scope) {
                               var EnumValueurl = baseServiceUrl+'enumerationsets/'+ EnumWebId + '/enumerationvalues';
                               var ajaxEnumValues =  processJsonContent(EnumValueurl, 'GET', null);
                                 $.when(ajaxEnumValues).fail(function () {
-                                     errormsg("Cannot Find the Enumeration Sets Values.");
+                                     warningmsg("Cannot Find the Enumeration Sets Values.");
                                     console.log("Cannot Find the Enumeration Sets Values.");
                                 });
                                 $.when(ajaxEnumValues).done(function () {
@@ -56,7 +56,7 @@ app.controller('allocationController', function($scope) {
                     var url = baseServiceUrl+'assetdatabases/'+ WebId + '/elementtemplates'; 
                     var elements =  processJsonContent(url, 'GET', null);                    
                         $.when(elements).fail(function () {
-                             errormsg("Cannot Find the Element Templates.");
+                             warningmsg("Cannot Find the Element Templates.");
                             console.log("Cannot Find the Element Templates.");
                         });
                     $.when(elements).done(function () {
@@ -74,7 +74,7 @@ app.controller('allocationController', function($scope) {
                                 var url = baseServiceUrl+'assetdatabases/' + WebId + '/elements?templateName='+TemplatesName; 
                                 var elementdata =  processJsonContent(url, 'GET', null);
                                     $.when(elementdata).fail(function () {
-                                        errormsg("Cannot Find the Element.");
+                                        warningmsg("Cannot Find the Element.");
                                         console.log("Cannot Find the Element.");
                                     });
                                     $.when(elementdata).done(function () {                                        
@@ -91,7 +91,7 @@ app.controller('allocationController', function($scope) {
                                             //console.log("Attributes : "+ JSON.stringify($scope.elementList));
                                     });
                                 }else{
-                                   errormsg("Template Not Selected.");
+                                   warningmsg("Template Not Selected.");
                                     console.log("Template Not Selected.");
                                 }
                 /***Elements***/
@@ -113,6 +113,7 @@ $('#saveAllocation').click(function(){
    var url = baseServiceUrl+'elements/' + elementWebId + '/attributes'; 
    var attributesElements =  processJsonContent(url, 'GET', null);
         $.when(attributesElements).fail(function () {
+            warningmsg("Cannot Find the Attributes.");
             console.log("Cannot Find the Attributes.");
         });
         $.when(attributesElements).done(function () {

@@ -338,3 +338,16 @@
 		    msg: $msg
 		    });
 		  }
+                  
+                  function warningmsg($msg){
+			Lobibox.notify('warning', {
+		    pauseDelayOnHover: true,
+            continueDelayOnInactiveTab: false,
+            icon: 'fa fa-exclamation-circle',
+		    position: 'center top',
+		    showClass: 'zoomIn',
+            hideClass: 'zoomOut',
+            width: 500,
+		    msg: $msg
+		    });
+		  }
