@@ -232,7 +232,7 @@ hr {
 .col-xl-9,
 .col-xl-auto{
 	padding-right: 15px;
-    padding-left: 15px;
+	padding-left: 15px;
 }
 
 
@@ -501,7 +501,7 @@ hr {
 
 /*Cards */
 .card{
-   margin: 25px 10px 25px 10px;
+   margin: 20px 0px 10px 0px;
    /* box-shadow: 0 6px 7px 0px rgba(0, 0, 0, .26), 0px 6px 6px 0px #dee2e6; */
    border: none;
    box-shadow: 0 2px 6px 0 rgba(218, 218, 253, 0.65), 0 0px 6px 0 rgba(206, 206, 238, 0.54);
@@ -640,12 +640,13 @@ hr {
 /*Buttons */
 .btn{
 	font-size: .75rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    padding: 10px 20px;
-    border-radius: .25rem;
-    text-transform: uppercase;
-    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+	font-weight: 600;
+	letter-spacing: 1px;
+	padding: 10px 20px;
+	margin: 5px;
+	border-radius: .25rem;
+	text-transform: uppercase;
+	box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
 }
 .btn:focus{
 	box-shadow:none;

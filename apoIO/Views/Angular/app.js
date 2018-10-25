@@ -4,6 +4,7 @@
     var afServerName = "ECG-DEV-SERVER";
     var afDatabaseName = "Aasif_Development";
     var EnumerationSets = "CONNECTED_TO_PLANT";
+    var templateName = "BLOCK";
 
 var app = angular.module("myApp", ["ngRoute"]);
     app.config(function($routeProvider) {

@@ -1,35 +1,12 @@
 app.controller('allocationController', function($scope) { 
-//   $scope.intervalFunction = function(){
-//        $scope.date = new Date().toLocaleString().replace(",","");//new Date(); //Date.now();        
-//       // console.log($scope.date);
-//        $("#dateTime1").val($scope.date);
-//    }
-//    setInterval(function() {
-//      $scope.intervalFunction();
-//    }, 1000);
-//  
- $(function() {
-      var now = new Date();
-    var month = (now.getMonth() + 1);               
-    var day = now.getDate();
-    if (month < 10) 
-        month = "0" + month;
-    if (day < 10) 
-        day = "0" + day;
-    var today = month + '/' + day + '/'+now.getFullYear();    
-     $("#dateTime").val(today);
-    $( "#dateTime" ).datepicker();
-});
-$(function(){     
-  var d = new Date(),        
-      h = d.getHours(),
-      m = d.getMinutes();
-  if(h < 10) h = '0' + h; 
-  if(m < 10) m = '0' + m; 
-  $('input[type="time"][name="time"]').each(function(){ 
-    $(this).attr({'value': h + ':' + m});
-  });
-});
+   $scope.intervalFunction = function(){
+        $scope.date = new Date().toLocaleString().replace(",","");//new Date(); //Date.now();        
+       // console.log($scope.date);
+        $("#dateTime").val($scope.date);
+    }
+    setInterval(function() {
+      $scope.intervalFunction();
+    }, 1000);
   
 /***Asset Database***/
      var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName;       
@@ -75,8 +52,26 @@ $(function(){
                         });
         /***EnumerationSets***/
         
-        /***Elements***/  
-                          var url = baseServiceUrl+'assetdatabases/' + WebId + '/elements?templateName='+templateName; 
+        /***elementtemplates***/                    
+                    var url = baseServiceUrl+'assetdatabases/'+ WebId + '/elementtemplates'; 
+                    var elements =  processJsonContent(url, 'GET', null);                    
+                        $.when(elements).fail(function () {
+                             warningmsg("Cannot Find the Element Templates.");
+                            console.log("Cannot Find the Element Templates.");
+                        });
+                    $.when(elements).done(function () {
+                        $scope.List = [];
+                        var Items = (elements.responseJSON.Items);
+                            $.each(Items,function(key) {   
+                              $("#elementTemplates").append("<option label="+Items[key].Name+" data-id="+Items[key].WebId+" value="+Items[key].Name+">"+Items[key].Name+"</option>");
+                               //$scope.List.push({ id:Items[key].WebId, name:Items[key].Name });  
+                            }); 
+                                $("#elementTemplates").change(function () {
+                /***Elements***/                                
+                               $("#elements").children().remove().end();//.append('<option selected="" value="">---Select Block---</option>') ;
+                                var TemplatesName = $("#elementTemplates").val();
+                                if(TemplatesName){
+                                var url = baseServiceUrl+'assetdatabases/' + WebId + '/elements?templateName='+TemplatesName; 
                                 var elementdata =  processJsonContent(url, 'GET', null);
                                     $.when(elementdata).fail(function () {
                                         warningmsg("Cannot Find the Element.");
@@ -87,66 +82,7 @@ $(function(){
                                          var elementsItems = (elementdata.responseJSON.Items);
                                          //alert(ElementsItems);
                                          $.each(elementsItems,function(key) {                                          
-                                             //$("#elements").append("<option value="+elementsItems[key].WebId+">"+elementsItems[key].Name+"</option>");
-                                             $("#loadedDiv").append('<div class="col-12 col-lg-6 col-xl-2" style="">\n\
-<div class="card cardpadding">\n\
-                    <div class="card-body" style="text-align: center;margin-top: 15px;">\n\
-                       <input type="hidden" id="elements" value="'+elementsItems[key].Name+'" class="elements form-control">\n\
-                       <h4>'+elementsItems[key].Name+'</h4>\n\
-                  </div>\n\
-               </div>\n\
-</div>\n\
-             <div class="col-12 col-lg-6 col-xl-5">\n\
-                 <div class="row card">\n\
-                     <div class="col-12 col-lg-6 col-xl-6">\n\
-                         <div class="card-body" style="margin-top: 20px;">\n\
-                                <select id="connection" class="form-control">\n\
-                                    <option value="" selected="" disabled="">---Select Connection---</option>\n\
-                                      <option value="0">Not Connected</option>\n\
-                                        <option value="128">Recirculation</option>\n\
-                                          <option value="0">Connected</option>\n\
-                                </select>\n\
-                            </div> \n\
-                        </div>\n\
-                     <div class="col-12 col-lg-6 col-xl-6">\n\
-                            <div class="card-body">\n\
-                                <select id="prValues" class="form-control">\n\
-                                    <option value="">---Select PR---</option>\n\
-                                    <option value="1">PR</option>\n\
-                                    <option value="17">PR - TKD </option>\n\
-                                    <option value="33">PR - MKM_old</option>\n\
-                                    <option value="65">PR - MKM_new</option>\n\
-                                 </select>\n\
-                                <select id="vrValues" class="form-control">\n\
-                                    <option value="">---Select VR---</option>\n\
-                                    <option value="2">VR</option>\n\
-                                    <option value="18">VR - TKD </option>\n\
-                                    <option value="34">VR - MKM_old</option>\n\
-                                    <option value="66">VR - MKM_new</option>\n\
-                                </select>   \n\
-                            </div>\n\
-                     </div>\n\
-                 </div>\n\
-             </div>\n\
-                <div class="col-12 col-lg-6 col-xl-3">\n\
-                <div class="card cardpadding">\n\
-                    <div class="card-body">\n\
-                        <span  style="text-align: center;width: 50%;float: left">\n\
-                            <input type="text" class="dateTime form-control" style="width:95%;"  id="dateTime"  placeholder="Date Time">\n\
-                        </span>\n\
-                         <span  style="text-align: center;width: 50%;float: left">\n\
-                                <input type="time" name="time" style="width:95%;" class="time form-control">\n\
-                        </span>\n\
-                    </div>\n\
-                </div>\n\
-             </div>\n\
-             <div class="col-12 col-lg-6 col-xl-2">\n\
-                <div class="card cardpadding">\n\
-                    <div class="card-body"  style="text-align: center">\n\
-                        <button type="button" id="saveAllocation" class="btn btn-primary"><i class="ti-save"></i> Save</button>\n\
-                    </div>\n\
-                </div>\n\
-             </div>');
+                                             $("#elements").append("<option value="+elementsItems[key].WebId+">"+elementsItems[key].Name+"</option>");
 //                                             $scope.elementList.push({
 //                                                  id:elementsItems[key].WebId,
 //                                                  name:elementsItems[key].Name
@@ -154,7 +90,16 @@ $(function(){
                                           });
                                             //console.log("Attributes : "+ JSON.stringify($scope.elementList));
                                     });
-                /***Elements***/    
+                                }else{
+                                   warningmsg("Template Not Selected.");
+                                    console.log("Template Not Selected.");
+                                }
+                /***Elements***/
+                              });
+                              
+         //console.log("Attributes : "+ JSON.stringify($scope.List));
+                        });
+        /***elementtemplates***/
                     });
                    
 /***Asset Database***/

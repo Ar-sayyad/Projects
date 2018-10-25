@@ -1,0 +1,110 @@
+    <div class="content-wrapper">
+    <div class="container-fluid">
+
+      <!--Start Dashboard Content-->
+        <div class="row">
+          <div class="col-12 col-lg-12 col-xl-12">
+              <div class="card border-secondary" style="margin-bottom: 5px;">
+                <div class="card-body" style="padding: 15px;text-align: center;text-transform: uppercase;">
+                    <h4 style="color: #212529;">Allocation</h4>    
+                    <!--<h4>{{Attributes}}</h4>-->
+                </div>
+            </div>
+          </div>
+        </div>
+<!--      <div class="row">
+        <div class="col-lg-12">
+          <div id="accordion1">
+              <div class="card mb-2" ng-repeat="item in List">
+                <div class="card-header">
+                    <button class="btn btn-link shadow-none" data-toggle="collapse" data-target="#{{item.name}}" aria-expanded="true" aria-controls="{{item.name}}">
+                     {{item.name}}
+                    </button>
+                </div>
+
+                <div id="{{item.name}}" class="collapse" data-parent="#accordion1">
+                  <div class="card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                  </div>
+                </div>
+              </div>             
+            </div>
+        </div>
+      </div>-->
+      <!--End Row-->
+    
+        <div class="row">  
+            <div class="col-12 col-lg-6 col-xl-3" style="">
+                <div class="card" style="">
+                   <div class="card-body">
+                       <label>Select Template</label>
+                      <select ng-change="check()" id="elementTemplates" class="form-control" ng-model="cardSelected">
+                          <option value="">---Select Template---</option>
+                           <!--<option value="{{item.name}}" data-id="{{item.id}}" ng-repeat="item in List">{{item.name}}</option>-->
+                       </select>   
+                  </div>
+               </div>               
+            </div>
+          
+                    <div class="col-12 col-lg-6 col-xl-6">
+                        <div class="row" >
+                           <div class="col-12 col-lg-6 col-xl-6">
+                            <div class="card" style="" >
+                               <div class="card-body">
+                                    <label>Select Block</label>
+                                    <select ng-change="blockcheck()" id="elements" class="elements form-control" ng-model="blockSelected">
+                                         <option value="">---Select Block---</option>
+                                       <!--<option value="{{block.id}}" name="{{block.name}}" selected="" ng-repeat="block in elementList">{{block.name}}</option>-->
+                                   </select>   
+                              </div>
+                           </div>
+                        </div>
+
+                       <div class="col-12 col-lg-6 col-xl-6">
+                        <div class="card" style="">
+                            <div class="card-body">
+                                <label>Select Connection</label>
+                                <select ng-change="checkEnumeration()" id="enumerationValues" class="form-control" ng-model="enumSelected">
+                                    <option value="">---Select Connection---</option>
+                                    <option  value="{{item.Value}}" data-name="{{item.Name}}" ng-disabled="item.Disabled===1" ng-repeat="item in EnumerationValues  | orderBy:'Value'">{{item.Name}}</option>
+                                 </select>   
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+             <div class="col-12 col-lg-6 col-xl-3">
+             <div class="card" style="">
+                    <div class="card-body">
+                        <label>Current Date-Time</label>
+                        <span  style="text-align: center;">
+                            <input type="text" class="form-control" id="dateTime" value="{{date | date:'yyyy-MM-dd HH:mm:ss'}}" placeholder="Date Time" readonly="">
+                        </span>
+                    </div>
+                </div>
+             </div>
+             <div class="col-12 col-lg-12 col-xl-12">
+                <div class="card" style="">
+                    <div class="card-body"  style="text-align: center">
+                        <button type="button" id="saveAllocation" class="btn btn-primary"><i class="ti-save"></i> Save</button>
+                    </div>
+                </div>
+             </div>
+                
+            </div>
+
+        </div>   
+      
+    </div>
+      
+      <!--End Row-->		  
+      
+       <!--End Dashboard Content-->
+       
+    </div>
+    <!-- End container-fluid-->
+    <div class="container-fluid" style="height: 500px;">
+  
+    </div>
+
+  

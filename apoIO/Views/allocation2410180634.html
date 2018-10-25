@@ -33,12 +33,14 @@
       </div>-->
       <!--End Row-->
     
-        <div class="row" id="loadedDiv">  
+        <div class="row">  
             <div class="col-12 col-lg-6 col-xl-2" style="">
                 <div class="card cardpadding">
-                    <div class="card-body" style="text-align: center;margin-top: 15px;">
-                       <input type="hidden" id="elements" value="block1" class="elements form-control">
-                       <h4>block1</h4>
+                   <div class="card-body">
+                        <select ng-change="blockcheck()" id="elements" class="elements form-control" ng-model="blockSelected">
+                             <option value="">---Select Block---</option>
+                           <!--<option value="{{block.id}}" name="{{block.name}}" selected="" ng-repeat="block in elementList">{{block.name}}</option>-->
+                       </select>  
                   </div>
                </div>               
             </div>
@@ -46,35 +48,31 @@
                  <div class="row card">
                      <div class="col-12 col-lg-6 col-xl-6">
                          <div class="card-body" style="margin-top: 20px;">
-                                <select id="connection" class="form-control">
+                                <select ng-change="checkEnumeration()" id="enumerationValues" class="form-control" ng-model="enumSelected">
                                     <option value="" selected="" disabled="">---Select Connection---</option>
                                       <option value="0">Not Connected</option>
                                         <option value="128">Recirculation</option>
                                           <option value="0">Connected</option>
-                                </select>   
+                                    <!--<option  value="{{item.Value}}" data-name="{{item.Name}}" ng-disabled="item.Disabled===1" ng-repeat="item in EnumerationValues  | orderBy:'Value'">{{item.Name}}</option>-->
+                                 </select>   
                             </div>                       
                      </div>
                      <div class="col-12 col-lg-6 col-xl-6">
                             <div class="card-body">
-                                <select id="prValues" class="form-control">
-                                    <option value="">---Select PR---</option>
-                                    <option value="1">PR</option>
-                                    <option value="17">PR - TKD </option>
-                                    <option value="33">PR - MKM_old</option>
-                                    <option value="65">PR - MKM_new</option>
+                                <select ng-change="checkEnumeration()" id="enumerationValues" class="form-control" ng-model="enumSelected">
+                                    <option value="">---PR---</option>
+                                    <option  value="{{item.Value}}" data-name="{{item.Name}}" ng-disabled="item.Disabled===1" ng-repeat="item in EnumerationValues  | orderBy:'Value'">{{item.Name}}</option>
                                  </select>   
 
-                                <select id="vrValues" class="form-control">
-                                    <option value="">---Select VR---</option>
-                                    <option value="2">VR</option>
-                                    <option value="18">VR - TKD </option>
-                                    <option value="34">VR - MKM_old</option>
-                                    <option value="66">VR - MKM_new</option>
-                                </select>   
+                                <select ng-change="checkEnumeration()" id="enumerationValues" class="form-control" ng-model="enumSelected">
+                                    <option value="">---VR---</option>
+                                    <option  value="{{item.Value}}" data-name="{{item.Name}}" ng-disabled="item.Disabled===1" ng-repeat="item in EnumerationValues  | orderBy:'Value'">{{item.Name}}</option>
+                                 </select>   
                             </div>
                      </div>
                  </div>
-             </div>         
+             </div>          
+
             
              <div class="col-12 col-lg-6 col-xl-3">
                 <div class="card cardpadding">
@@ -83,7 +81,7 @@
                             <input type="text" class="form-control" style="width:95%;"  id="dateTime"  placeholder="Date Time">
                         </span>
                          <span  style="text-align: center;width: 50%;float: left">
-                                <input type="time" name="time" style="width:95%;" class="form-control">
+                                <input type="time" value="time" style="width:95%;" class="form-control">
                         </span>
                     </div>
                 </div>
@@ -96,7 +94,7 @@
                 </div>
              </div>
                 
-        </div>
+            </div>
 
 
         </div>   
