@@ -21,6 +21,10 @@ var app = angular.module("myApp", ["ngRoute"]);
         controller : "allocationController",
         templateUrl : "Views/allocation.html"
     })
+    .when("/AssetDesign", {        
+        controller : "assetdesignController",
+        templateUrl : "Views/assetDesign.html"
+    })
     .otherwise({ redirectTo: '/Home' });
 });
 

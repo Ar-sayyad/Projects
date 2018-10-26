@@ -1,0 +1,117 @@
+    <div class="content-wrapper">
+    <div class="container-fluid">
+
+      <!--Start Dashboard Content-->
+      <div class="row">
+        <div class="col-12 col-lg-12 col-xl-12">
+            <div class="card" style="margin-bottom: 5px;">
+              <div class="card-body" style="padding: 15px;text-align: center;text-transform: uppercase;">
+                  <h4 style="color: #212529;">Asset Design</h4>    
+                  <h4>{{Attributes}}</h4>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-12 col-lg-6 col-xl-4">
+          <div class="card">
+            <div class="card-body">
+                <div class="form-group">                    
+                      <span  style="text-align: center;width: 30%;float: left;margin-top: 3%;">
+                           <label>Select Date :</label>
+                      </span>
+                      <span  style="text-align: center;width: 70%;float: left">
+                          <input type="text" class="dateTime form-control" style="width: 90%;"  id="dateTime"  placeholder="Date Time">   
+                     </span>
+                </div>
+                
+            </div>
+          </div>
+        </div>
+          <div class="col-12 col-lg-6 col-xl-4">
+          <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                     <span  style="text-align: center;width: 30%;float: left;margin-top: 3%;">
+                           <label>Select Template :</label>
+                      </span>
+                      <span  style="text-align: center;width: 70%;float: left">
+                          <select ng-change="check()" id="elementTemplatesLeft" style="width: 90%;" class="form-control" ng-model="cardSelected">
+                              <option value="" selected="" disabled="">---Select Element Template---</option>
+                     </select> 
+                     </span>                        
+                </div>
+                
+            </div>
+          </div>
+        </div>
+          <div class="col-12 col-lg-6 col-xl-4">
+          <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <span  style="text-align: center;width: 30%;float: left;margin-top: 3%;">
+                           <label>Select Template :</label>
+                      </span>
+                      <span  style="text-align: center;width: 70%;float: left">
+                          <select ng-change="check()" id="elementTemplatesRight" style="width: 90%;" class="form-control" ng-model="cardSelected">
+                        <option value="">---Select Elements---</option>
+                     </select> 
+                     </span>                
+                </div>
+                
+            </div>
+          </div>
+        </div>
+          
+        <div class="col-12 col-lg-6 col-xl-5">
+          <div class="card">
+            <div class="card-body">
+                <div class="assetList">
+                    <ul id="elementListLeft">
+                        <li class="elemList">
+                            one
+                        </li>
+                         <li class="elemList">
+                            two
+                        </li>
+                        <li class="elemList">
+                            three
+                        </li>
+                    </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+          <div class="col-12 col-lg-6 col-xl-2">
+          <div class="card">
+            <div class="card-body">
+                <div class="assetList">
+                    <button class="splitter btn btn-primary"><i class="ti-control-forward"></i></button>                    
+                    <button class="splitter btn btn-primary"><i class="ti-control-backward"></i></button>
+                </div>
+            </div>
+          </div>
+        </div>
+          <div class="col-12 col-lg-6 col-xl-5">
+          <div class="card">
+            <div class="card-body">
+              <div class="assetList"></div>
+            </div>
+          </div>
+        </div>
+      
+      </div>
+      
+      <!--End Row-->		  
+      
+       <!--End Dashboard Content-->
+       
+    </div>
+    <!-- End container-fluid-->
+    <div class="container-fluid" style="margin-top: 50px;">
+  
+    </div>
+    </div>
+
+  

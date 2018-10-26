@@ -1,10 +1,4 @@
-app.controller('allocationController', function($scope) {   
-    /****Save Allocation***/
-$(".saveAllocat").click(function(){
-       alert("hello");
-    
-});
-   /****Save Allocation***/
+app.controller('allocationController', function($scope) { 
    
 /***Asset Database***/
      var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName;       
