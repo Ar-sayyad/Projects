@@ -67,18 +67,8 @@
         <div class="col-12 col-lg-6 col-xl-5">
           <div class="card">
             <div class="card-body">
-                <div class="assetList">
-                    <ul id="elementListLeft">
-                        <li class="elemList">
-                            one
-                        </li>
-                         <li class="elemList">
-                            two
-                        </li>
-                        <li class="elemList">
-                            three
-                        </li>
-                    </ul>
+                <div class="assetList">  
+                     <ul id="elementListLeft"></ul>                   
                 </div>
             </div>
           </div>
@@ -87,8 +77,8 @@
           <div class="card">
             <div class="card-body">
                 <div class="assetList">
-                    <button class="splitter btn btn-primary"><i class="ti-control-forward"></i></button>                    
-                    <button class="splitter btn btn-primary"><i class="ti-control-backward"></i></button>
+                    <button class="splitter btn btn-primary" id="shiftRight"><i class="ti-control-forward"></i></button>                    
+                    <button class="splitter btn btn-primary" id="shiftLeft"><i class="ti-control-backward"></i></button>
                 </div>
             </div>
           </div>
@@ -96,7 +86,10 @@
           <div class="col-12 col-lg-6 col-xl-5">
           <div class="card">
             <div class="card-body">
-              <div class="assetList"></div>
+                <div class="assetList">
+                     <ul id="elementListRight"></ul>                    
+                </div>
+                <button class="btn btn-primary" style="float: right"><i class="ti-save"></i> Save</button>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
-app.controller('assetdesignController', function($scope) {  
+app.controller('assetdesignController', function($scope) { 
+    var elementdata = '';
       $(function() {
           var now = new Date();
           var month = (now.getMonth() + 1);               
@@ -22,17 +23,17 @@ app.controller('assetdesignController', function($scope) {
                     var WebId = (ajaxEF.responseJSON.WebId);
         /***Elements***/  
                           var url = baseServiceUrl+'assetdatabases/' + WebId + '/elementtemplates'; 
-                                var elementdata =  processJsonContent(url, 'GET', null);
-                                    $.when(elementdata).fail(function () {
+                                var elementTemplatedata =  processJsonContent(url, 'GET', null);
+                                    $.when(elementTemplatedata).fail(function () {
                                         warningmsg("Cannot Find the Element Templates.");
                                         console.log("Cannot Find the Element Templates.");
                                     });
-                                    $.when(elementdata).done(function () {                                        
+                                    $.when(elementTemplatedata).done(function () {                                        
                                         $scope.elementTemplateList = [];
-                                         var elementsItems = (elementdata.responseJSON.Items);
+                                         var elementTemplateItems = (elementTemplatedata.responseJSON.Items);
                                          var sr= 1;
-                                         $.each(elementsItems,function(key) { 
-                                             $("#elementTemplatesLeft").append("<option label="+elementsItems[key].Name+" data-id="+elementsItems[key].WebId+" value="+elementsItems[key].Name+">"+elementsItems[key].Name+"</option>");                                             
+                                         $.each(elementTemplateItems,function(key) { 
+                                             $("#elementTemplatesLeft").append("<option label="+elementTemplateItems[key].Name+" data-id="+elementTemplateItems[key].WebId+" value="+elementTemplateItems[key].Name+">"+elementTemplateItems[key].Name+"</option>");                                             
 //                                               $scope.elementTemplateList.push({
 //                                                  id:elementsItems[key].WebId,
 //                                                  name:elementsItems[key].Name
@@ -48,7 +49,7 @@ app.controller('assetdesignController', function($scope) {
                               //  alert(leftTemplate);
                                  /***Elements***/  
                           var url = baseServiceUrl+'assetdatabases/' + WebId + '/elements?templateName='+leftTemplate; 
-                                var elementdata =  processJsonContent(url, 'GET', null);
+                                 elementdata =  processJsonContent(url, 'GET', null);
                                     $.when(elementdata).fail(function () {
                                         warningmsg("Cannot Find the Element.");
                                         console.log("Cannot Find the Element.");
@@ -59,10 +60,22 @@ app.controller('assetdesignController', function($scope) {
                                          //alert(ElementsItems);
                                          $("#elementListLeft").empty();
                                          $("#elementTemplatesRight").empty();
+                                         $("#elementListRight").empty();
+                                         $("#elementTemplatesRight").append("<option value='' selected disabled>---Select Elements---</option>");
                                          var sr= 1;
                                          $.each(elementsItems,function(key) {
-                                             $("#elementTemplatesRight").append("<option label="+elementsItems[key].Name+" data-id="+elementsItems[key].WebId+" value="+elementsItems[key].Name+">"+elementsItems[key].Name+"</option>");
-                                             $("#elementListLeft").append('<li class="elemList elemList'+sr+'" onClick="return elemList();" name="'+sr+'" id="'+elementsItems[key].WebId+'" value="'+elementsItems[key].Name+'">'+elementsItems[key].Name+'</li>');
+                                             $("#elementTemplatesRight").append("<option data-name="+elementsItems[key].Name+" data-id="+sr+" value="+elementsItems[key].WebId+">"+elementsItems[key].Name+"</option>");
+                                             $("#elementListLeft").append('<li class="elemList elemList'+sr+'"><input type="radio" id="elemList'+sr+'" data-id="'+sr+'" data-name="'+elementsItems[key].Name+'" value="'+elementsItems[key].WebId+'" name="selectorLeft"><label class="labelList" for="elemList'+sr+'">'+elementsItems[key].Name+'</label></li>');
+
+                                            
+                                             $("#elemList"+sr).click(function(){
+                                                 var WebId = $(this).val();
+                                                 var sr = ($(this).attr("data-id"));
+                                                 var name = ($(this).attr("data-name"));
+                                                 //selectedList(WebId,sr,name); 
+                                                 //$("#elementListRight").append('<li class="subelemList elemRightList'+sr+'"><input type="radio" id="elemRightList'+sr+'" data-id="'+sr+'" value="'+WebId+'" name="selectorRight"><label class="labelList" for="elemRightList'+sr+'">'+name+'</label></li>');
+                                              });
+                                            sr++;
                                          });
                                             
                                     });
@@ -70,15 +83,88 @@ app.controller('assetdesignController', function($scope) {
 
                             });
                     });
+                   var RightArray = [];
+                   $("#shiftRight").click(function(){  
+                       if (!$("input[name='selectorLeft']:checked").val()) {
+                                warningmsg("Select the Left Element..!");
+                                 return false;
+                             }
+                             else {                         
+                                var WebId = $("input[name='selectorLeft']:checked").val();
+                                var sr = $("input[name='selectorLeft']:checked").attr("data-id");
+                                var name = $("input[name='selectorLeft']:checked").attr("data-name");
+                                
+                                var RightWebId = $("#elementTemplatesRight").val(); 
+//                                if(RightArray.length ==''){
+                                         if(RightWebId!=='? object:null ?'){
+                                             if(WebId!==RightWebId){
+                                                var Rightsr = $('#elementTemplatesRight option:selected').data("id");
+                                                var Rightname = $('#elementTemplatesRight option:selected').data("name");
+                                                $("#elementListRight").append('<li class="subelemList elemRightList'+sr+'"><input type="radio" id="elemRightList'+sr+'" data-id="'+sr+'" data-name="'+name+'"  value="'+WebId+'" checked="" name="selectorRight"><label class="labelList" for="elemRightList'+sr+'">'+name+' [Child]</label></li>');
+                                                $(".elemList"+sr).remove(); 
+                                                //RightArray.push(sr);
+                                            }else{
+                                                errormsg("Cannot create a circular reference.");
+                                                return false;
+                                            }
+                                         }else{
+                                              warningmsg("Select the Right Element..!");
+                                                return false;
+                                         }
+//                                 }else{
+//                                      warningmsg("Element Already Added..!");
+//                                        return false;
+//                                       selectedList(RightWebId,Rightsr,Rightname);
+//                                 }
+                                selectedList(WebId,sr,name); 
+                            }
+                   });
+                   
+                   /***validation required***/
+                   $("#shiftLeft").click(function(){
+                        if (!$("input[name='selectorRight']:checked").val()) {
+                                warningmsg("Select the Child Element..!");
+                                 return false;
+                             }
+                             else {   
+                                var WebId = $("input[name='selectorRight']:checked").val();
+                                var sr = $("input[name='selectorRight']:checked").attr("data-id");
+                                var name = $("input[name='selectorRight']:checked").attr("data-name");
+                                $(".elemRightList"+sr).remove();
+                                 $("#elementListLeft").append('<li class="elemList elemList'+sr+'"><input type="radio" id="elemList'+sr+'" data-id="'+sr+'" data-name="'+name+'" value="'+WebId+'" name="selectorLeft"><label class="labelList" for="elemList'+sr+'">'+name+'</label></li>');
+                                var RightWebId = $("#elementTemplatesRight").val();
+                                var Rightsr = $('#elementTemplatesRight option:selected').data("id");
+                                var Rightname = $('#elementTemplatesRight option:selected').data("name");
+                                //alert(RightWebId);
+                                RightArray.pop(sr);
+                                selectedList(WebId,sr,name);
+                                selectedList(RightWebId,Rightsr,Rightname);    
+                            }
+                   });
                    
 /***Asset Database***/
-function elemList(){
-    alert('hello');
+function selectedList(WebId,sr,name){
+  console.log(WebId+" "+sr+" "+name);
 }
-
-$(".elemList").click(function(){
-    alert('hello');
+$("#elementTemplatesRight").change(function(){
+     var WebId = $(this).val();
+    var sr = $('#elementTemplatesRight option:selected').data("id");
+    var name = $('#elementTemplatesRight option:selected').data("name");
+     $("#elementListLeft").empty();
+    var elementsItems = (elementdata.responseJSON.Items);
+     var srn= 1;
+    $.each(elementsItems,function(key) {
+        if(WebId===elementsItems[key].WebId){
+            $("#elementListLeft").append('<li class="elemList elemList'+srn+'"><input type="radio" id="elemList'+srn+'" data-id="'+srn+'" data-name="'+elementsItems[key].Name+'" value="'+elementsItems[key].WebId+'" disabled="" name="selectorLeft"><label class="labelList" for="elemList'+srn+'">'+elementsItems[key].Name+'</label></li>');
+        }else{
+            $("#elementListLeft").append('<li class="elemList elemList'+srn+'"><input type="radio" id="elemList'+srn+'" data-id="'+srn+'" data-name="'+elementsItems[key].Name+'" value="'+elementsItems[key].WebId+'" name="selectorLeft"><label class="labelList" for="elemList'+srn+'">'+elementsItems[key].Name+'</label></li>');    
+        }
+        srn++;
+     });
+    $("#elementListRight").empty();   
+    $("#elementListRight").append('<li class="elemRightList elemRightList'+sr+'"><input type="radio" id="elemRightList'+sr+'" data-id="'+sr+'" data-name="'+name+'"  value="'+WebId+'" checked="" name="selectorMainRight"><label class="labelList" for="elemRightList'+sr+'">'+name+' [Parent]</label></li>');
 });
+
 /****Save Allocation***/
 function saveAllocation(srn,dataValues,dateTime){
     var elementWebId = $("#elements"+srn).val();

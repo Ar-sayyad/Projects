@@ -4385,9 +4385,9 @@ form.striped-rows .form-group {
 
 
 [type=checkbox]:checked, [type=checkbox]:not(:checked) {
-    position: absolute;
+    /* position: absolute; */
     left: -9999px;
-    opacity: 0;
+    /* opacity: 0; */
 }
 [type=checkbox]+label {
     font-weight: 400;
@@ -4583,7 +4583,7 @@ form.striped-rows .form-group {
     position: absolute;
     left: 0;
     top: 0;
-    margin: 4px;
+    margin: 10px;
     width: 16px;
     height: 16px;
     z-index: 0;
