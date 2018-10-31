@@ -1,11 +1,6 @@
 app.controller('assetdesignController', function($scope) { 
      var elementdata = '';
      var lastSrl='';
-     var previousList=[];
-     var currentList=[];
-    //var matchedList =[];
-     var addedList = [];
-     var removedList =[];
      var elementsChildListItems ='';
       $(function() {
           var now = new Date();
@@ -173,86 +168,50 @@ $("#elementTemplatesRight").change(function(){
                  });
              });
     /***ElementsListByRightOnchange***/ 
-    
-   $.each(elementsChildListItems,function(key) { 
-       previousList.push(elementsChildListItems[key].WebId);
-   });
-    $.each($("input[name='selectorRight']"), function(){
-        var ChildWebId = $(this).val();
-        currentList.push(ChildWebId);       ;
-      });     
-       // matchedList = previousList.filter(function(n){ return currentList.indexOf(n)>-1?n:false;});
-        addedList = currentList.filter(function(n){ return previousList.indexOf(n)>-1?false:n;});
-        removedList = previousList.filter(function(n){ return currentList.indexOf(n)>-1?false:n;});
 });
 /***Right Drop Down OnChange***/  
 
 /*****buildElementReference*****/
 $("#buildElementReference").click(function(){
+    alert(elementsChildListItems);
   var ParentWebId = $("#elementTemplatesRight").val();
-        $.each($(addedList), function(key){
-            if(ParentWebId!==''){
-                if(ParentWebId!=='? object:null ?'){      
-                          var url = baseServiceUrl+'elements/' + ParentWebId + '/referencedelements?WebId='+ParentWebId+'&referencedElementWebId='+addedList[key]+'&referenceType=Weak+Reference&startIndex=0'; 
-                             var postAjaxEF = processJsonContent(url, 'POST', null);
-                             $.when(postAjaxEF).fail(function () {
-                                errormsg("Cannot Post The Data..!<br>Already Exit as Reference Element..!");
-                                return false;
-                             });
-                             $.when(postAjaxEF).done(function () {
-                                 var response = (JSON.stringify(postAjaxEF.responseText));
-                                 if(response=='""'){
-                                     addedList.pop(removedList[key]);
-                                     successmsg("Element Created Successfully..!");
-                                 }else{
-                                     var failure = postAjaxEF.responseJSON.Items;
-                                      $.each(failure,function(key) {
-                                         warningmsg("Status: "+failure[key].Substatus+" <br> Message: "+failure[key].Message);
-                                         return false;
-                                      });
-                                 }
-                             });
-
-                    }else{        
-                      warningmsg("Parent Element Selection Required..!"); return false;
-                    }
-                }else{        
-                  warningmsg("Element Selection Required..!"); return false;
-                }
-        }); 
-        
-        $.each($(removedList), function(key){
-             if(ParentWebId!==''){
-                if(ParentWebId!=='? object:null ?'){      
-                          var url = baseServiceUrl+'elements/' + ParentWebId + '/referencedelements?WebId='+ParentWebId+'&referencedElementWebId='+removedList[key]; 
-                             var postAjaxEF = processJsonContent(url, 'DELETE', null);
-                             $.when(postAjaxEF).fail(function () {
-                                errormsg("Cannot Post The Data..!<br>Already Exit as Reference Element..!");
-                                return false;
-                             });
-                             $.when(postAjaxEF).done(function () {
-                                 var response = (JSON.stringify(postAjaxEF.responseText));
-                                 if(response=='""'){
-                                     successmsg("Element Removed Successfully..!");
-                                     removedList.pop(removedList[key]);
-                                 }else{
-                                     var failure = postAjaxEF.responseJSON.Items;
-                                      $.each(failure,function(key) {
-                                         warningmsg("Status: "+failure[key].Substatus+" <br> Message: "+failure[key].Message);
-                                         return false;
-                                      });
-                                 }
-                             });
-
-                    }else{        
-                      warningmsg("Parent Element Selection Required..!"); return false;
-                    }
-                }else{        
-                  warningmsg("Element Selection Required..!"); return false;
+  //var Parentname = $('#elementTemplatesRight option:selected').data("name");  
+    $.each($("input[name='selectorRight']"), function(){            
+        var ChildWebId = $(this).val();
+        var Childname = $(this).attr("data-name");
+         $.each(elementsChildListItems,function(key) {
+             if(ChildWebId===elementsChildListItems[key].WebId){
+                        if(ParentWebId!==''){
+                            if(ParentWebId!=='? object:null ?'){ 
+                               if(ChildWebId==null){
+                                    warningmsg("Child Element Selection Required..!"); return false;                
+                                    }else{        
+                                      var url = baseServiceUrl+'elements/' + ParentWebId + '/referencedelements?WebId='+ParentWebId+'&referencedElementWebId='+ChildWebId+'&referenceType=Weak+Reference&startIndex=0'; 
+                                         var postAjaxEF = processJsonContent(url, 'POST', null);
+                                         $.when(postAjaxEF).fail(function () {
+                                             errormsg("Cannot Post The Data..!<br> Be "+Childname+" Already Exit as Reference Element..!");
+                                         });
+                                         $.when(postAjaxEF).done(function () {
+                                             var response = (JSON.stringify(postAjaxEF.responseText));
+                                             if(response=='""'){
+                                               successmsg("Element Created Successfully..!");
+                                             }else{
+                                                 var failure = postAjaxEF.responseJSON.Items;
+                                                  $.each(failure,function(key) {
+                                                     warningmsg("Status: "+failure[key].Substatus+" <br> Message: "+failure[key].Message);
+                                                  });
+                                             }
+                                         });
+                                    }
+                                }else{        
+                                  warningmsg("Parent Element Selection Required..!"); return false;
+                                }
+                            }else{        
+                              warningmsg("Element Selection Required..!"); return false;
+                            }
                 }
         });
-             
-     
+    }); 
 });
 /******buildElementReference******/
 
