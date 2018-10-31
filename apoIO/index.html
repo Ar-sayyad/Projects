@@ -36,15 +36,18 @@
     padding: 1.25rem;
     overflow: auto;
 }
-.cardpadding{    padding-top: 20px;
+.cardpadding{   
+    padding-top: 20px;
     padding-bottom: 20px;
 }
 .assetList{
-    height: 350px;
+    height: 500px;
+    padding: 20px;
+    margin: 2px 0px 2px 0px;
 }
 .splitter{
     width: 80%;
-    margin: 30% 0% 15% 10%;
+    margin: 50% 10% 10% 10%;
     font-size: x-large;
 }
 ul {
@@ -54,40 +57,37 @@ ul {
 li {
   padding-left: 1.3em;
 }
-/*li:before {
-  content: "\f101";  FontAwesome Unicode 
-  font-family: FontAwesome;
-  display: inline-block;
-  margin-left: -1.3em;  same as padding-left set on li 
-  width: 1.3em;  same as padding-left set on li 
-}*/
+.content-wrapper {
+    height: 950px;
+    max-height: 950px;
+}
 .elemList{
-        margin: 10px;
+          margin: 10px;
     padding: 0px;
-    border: 1px solid #6c757d9c;
+    border: 1px solid #007bff;
     border-radius: 0px;
-    box-shadow: 1px 2px 2px 0px #6c757da8;
+    box-shadow: 1px 2px 2px 0px #6c757d;
     cursor: pointer;
     width: 100%;
 }
 .elemRightList {
         margin: 10px;
     padding: 0px;
-    border: 1px solid #6c757d9c;
+    border: 1px solid #28a745;
     border-radius: 0px;
-    box-shadow: 1px 2px 2px 0px #6c757da8;
+    box-shadow: 1px 2px 2px 0px #6c757d;
     cursor: pointer;
     width: 100%;
 }
 
 .subelemList{
-    margin-left: 7.5% !important;
+       margin-left: 7.5% !important;
     width: 94%;
     margin: 10px;
     padding: 0px;
-    border: 1px solid #6c757d94;
+    border: 1px solid #28a745;
     border-radius: 0px;
-    box-shadow: 1px 2px 2px 0px #6c757da3;
+    box-shadow: 1px 2px 2px 0px #6c757d;
     cursor: pointer;
 }
 .labelList{
@@ -97,16 +97,46 @@ li {
     padding-top: 6px;
     text-transform: none;
     margin-bottom: 0px !important;
+    color: black;
+}
+.leftLabel{
+    background-color: #008cff4f;
+}
+.rightLabel{
+    background-color: #15ca207a;
+}
+.childLabel{
+    background-color: #15ca2024;
 }
 input[type=radio]:checked ~ .check::before{
-  background: #0DFF92;
+  background: #223035;
 }
 
 input[type=radio]:checked ~ label{
-  color: #008cff;
+  color: #223035;
   font-weight: 600;
 }
+.scrollbar {
+    float: left;
+}
 
+body::-webkit-scrollbar,#style-1::-webkit-scrollbar,#style-2::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+} 
+body::-webkit-scrollbar-thumb{
+    background-color: #008cffc2;
+}
+#style-1::-webkit-scrollbar-thumb {
+    background-color: #008cffc2;
+}
+#style-2::-webkit-scrollbar-thumb  {
+    background-color: #15ca20ad;
+}
+body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
 </style>
 </head>
 <body ng-app="myApp" ng-controller="summaryController">
@@ -153,36 +183,7 @@ input[type=radio]:checked ~ label{
                   <i class="ti-lock"></i> Logout
               </a>
           </li> 
-      <li>
-        <a href="javaScript:void();" class="waves-effect">
-          <i class="icon-briefcase"></i>
-          <span>UI Elements</span> <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="sidebar-submenu">
-  		  <li><a href="ui-typography.html"><i class="fa fa-circle-o"></i> Typography</a></li>
-  		  <li><a href="ui-buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
-  		  <li><a href="ui-checkbox-radio.html"><i class="fa fa-circle-o"></i> Checkboxes & Radios</a></li>
-  		  <li><a href="ui-nav-tabs.html"><i class="fa fa-circle-o"></i> Nav Tabs</a></li>
-        <li><a href="ui-accordions.html"><i class="fa fa-circle-o"></i> Accordions</a></li>
-  		  <li><a href="ui-modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
-  		  <li><a href="ui-bootstrap-elements.html"><i class="fa fa-circle-o"></i> BS Elements</a></li>
-        <li><a href="ui-pagination.html"><i class="fa fa-circle-o"></i> Pagination</a></li>
-        <li><a href="ui-list-groups.html"><i class="fa fa-circle-o"></i> List Groups</a></li>
-        <li><a href="ui-alerts.html"><i class="fa fa-circle-o"></i> Alerts</a></li>
-  		  <li><a href="ui-progressbars.html"><i class="fa fa-circle-o"></i> Progress Bars</a></li>
-  		  <li><a href="ui-notification.html"><i class="fa fa-circle-o"></i> Notifications</a></li>
-  		  <li><a href="ui-sweet-alert.html"><i class="fa fa-circle-o"></i> Sweet Alerts</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="calendar.html" class="waves-effect">
-          <i class="icon-calendar"></i> <span>Calendar</span>
-          <small class="badge float-right badge-info">New</small>
-        </a>
-      </li>
-	
-	
-
+      
     </ul>
 	 
    </div>  
