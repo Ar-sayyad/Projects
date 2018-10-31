@@ -108,11 +108,11 @@ li {
 .childLabel{
     background-color: #15ca2024;
 }
-input[type=radio]:checked ~ .check::before{
+input[type=radio]:checked ~ .check::before,input[type=checkbox]:checked ~ .check::before{
   background: #223035;
 }
 
-input[type=radio]:checked ~ label{
+input[type=radio]:checked ~ label,input[type=checkbox]:checked ~ label{
   color: #223035;
   font-weight: 600;
 }
@@ -136,6 +136,10 @@ body::-webkit-scrollbar-thumb{
 body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
+}
+[type=checkbox]+label:before, [type=checkbox]:not(.filled-in)+label:after{
+    margin-top: 7px;
+    margin-left: 7px;
 }
 </style>
 </head>

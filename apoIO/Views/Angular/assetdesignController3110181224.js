@@ -92,7 +92,7 @@ app.controller('assetdesignController', function($scope) {
                            var RightWebId = $("#elementTemplatesRight").val(); 
                            if(RightWebId!=='? object:null ?'){
                                if(WebId!==RightWebId){
-                                  $("#elementListRight").append('<li class="subelemList elemRightList'+sr+'"><input type="checkbox" id="elemRightList'+sr+'" data-id="'+sr+'" data-name="'+name+'"  value="'+WebId+'" name="selectorRight"><label class="labelList childLabel" for="elemRightList'+sr+'">'+name+' [Child]</label></li>');
+                                  $("#elementListRight").append('<li class="subelemList elemRightList'+sr+'"><input type="radio" id="elemRightList'+sr+'" data-id="'+sr+'" data-name="'+name+'"  value="'+WebId+'" name="selectorRight"><label class="labelList childLabel" for="elemRightList'+sr+'">'+name+' [Child]</label></li>');
                                   $(".elemList"+sr).remove(); 
                               }else{
                                   errormsg("Cannot create a circular reference.");
@@ -124,13 +124,10 @@ app.controller('assetdesignController', function($scope) {
 
 /***Right Drop Down OnChange***/  
 $("#elementTemplatesRight").change(function(){
-    $("#elementListLeft").empty();    
-    $("#elementListRight").empty();   
     var WebId = $(this).val();
     var sr = $('#elementTemplatesRight option:selected').data("id");
     var name = $('#elementTemplatesRight option:selected').data("name");
-    
-                                    
+    $("#elementListLeft").empty();
     var elementsItems = (elementdata.responseJSON.Items);
     var srn= 1;
     $.each(elementsItems,function(key) {
@@ -141,63 +138,45 @@ $("#elementTemplatesRight").change(function(){
         }
         srn++;
      });
+    $("#elementListRight").empty();   
     $("#elementListRight").append('<li class="elemRightList elemRightList'+sr+'"><input type="radio" id="elemRightList'+sr+'" data-id="'+sr+'" data-name="'+name+'"  value="'+WebId+'" checked="" name="selectorMainRight"><label class="labelList rightLabel" for="elemRightList'+sr+'">'+name+' [Parent]</label></li>');
-     /***ElementsListByRightOnchange***/  
-        var url = baseServiceUrl+'elements/' + WebId + '/elements'; 
-        var rightelementList =  processJsonContent(url, 'GET', null);
-            $.when(rightelementList).fail(function () {
-                warningmsg("Cannot Find the Element On Change.");
-                console.log("Cannot Find the Element.");
-            });
-            $.when(rightelementList).done(function () {  
-                 var elementsItems = (rightelementList.responseJSON.Items);                                         
-                 var srt= 1;
-                 $.each(elementsItems,function(key) {
-                      $("#elementListRight").append('<li class="subelemList elemRightList'+srt+'"><input type="checkbox" id="elemRightList'+srt+'" data-id="'+srt+'" data-name="'+name+'"  value="'+WebId+'" checked="" name="selectorRight"><label class="labelList childLabel" for="elemRightList'+sr+'">'+name+' [Child]</label></li>');
-                    
-                    srt++;
-                 });
-             });
-    /***ElementsListByRightOnchange***/ 
 });
 /***Right Drop Down OnChange***/  
 
 /*****buildElementReference*****/
 $("#buildElementReference").click(function(){
   var ParentWebId = $("#elementTemplatesRight").val();
-  //var Parentname = $('#elementTemplatesRight option:selected').data("name");  
-    $.each($("input[name='selectorRight']:checked"), function(){            
-        var ChildWebId = $(this).val();
-        var Childname = $(this).attr("data-name");
-        if(ParentWebId!==''){
-            if(ParentWebId!=='? object:null ?'){ 
-               if(ChildWebId==null){
-                    warningmsg("Child Element Selection Required..!"); return false;                
-                    }else{        
-                      var url = baseServiceUrl+'elements/' + ParentWebId + '/referencedelements?WebId='+ParentWebId+'&referencedElementWebId='+ChildWebId+'&referenceType=Weak+Reference&startIndex=0'; 
-                         var postAjaxEF = processJsonContent(url, 'POST', null);
-                         $.when(postAjaxEF).fail(function () {
-                             errormsg("Cannot Post The Data..!<br> Be "+Childname+" Already Exit as Reference Element..!");
-                         });
-                         $.when(postAjaxEF).done(function () {
-                             var response = (JSON.stringify(postAjaxEF.responseText));
-                             if(response=='""'){
-                               successmsg("Element Created Successfully..!");
-                             }else{
-                                 var failure = postAjaxEF.responseJSON.Items;
-                                  $.each(failure,function(key) {
-                                     warningmsg("Status: "+failure[key].Substatus+" <br> Message: "+failure[key].Message);
-                                  });
-                             }
-                         });
-                    }
-                }else{        
-                  warningmsg("Parent Element Selection Required..!"); return false;
-                }
+  //var Parentname = $('#elementTemplatesRight option:selected').data("name");
+  var ChildWebId = $("input[name='selectorRight']:checked").val();
+  var Childname = $("input[name='selectorRight']:checked").attr("data-name");
+  if(ParentWebId!==''){
+    if(ParentWebId!=='? object:null ?'){ 
+       if(ChildWebId==null){
+            warningmsg("Child Element Selection Required..!"); return false;                
             }else{        
-              warningmsg("Element Selection Required..!"); return false;
-            } 
-    }); 
+              var url = baseServiceUrl+'elements/' + ParentWebId + '/referencedelements?WebId='+ParentWebId+'&referencedElementWebId='+ChildWebId+'&referenceType=Weak+Reference&startIndex=0'; 
+                 var postAjaxEF = processJsonContent(url, 'POST', null);
+                 $.when(postAjaxEF).fail(function () {
+                     errormsg("Cannot Post The Data..!<br> Be "+Childname+" Already Exit as Reference Element..!");
+                 });
+                 $.when(postAjaxEF).done(function () {
+                     var response = (JSON.stringify(postAjaxEF.responseText));
+                     if(response=='""'){
+                       successmsg("Element Created Successfully..!");
+                     }else{
+                         var failure = postAjaxEF.responseJSON.Items;
+                          $.each(failure,function(key) {
+                             warningmsg("Status: "+failure[key].Substatus+" <br> Message: "+failure[key].Message);
+                          });
+                     }
+                 });
+            }
+        }else{        
+          warningmsg("Parent Element Selection Required..!"); return false;
+        }
+    }else{        
+      warningmsg("Element Selection Required..!"); return false;
+    }    
 });
 /******buildElementReference******/
 

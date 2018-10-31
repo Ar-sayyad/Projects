@@ -4385,7 +4385,7 @@ form.striped-rows .form-group {
 
 
 [type=checkbox]:checked, [type=checkbox]:not(:checked) {
-    /* position: absolute; */
+    position: absolute;
     left: -9999px;
     /* opacity: 0; */
 }
