@@ -1,7 +1,7 @@
-    .canvasjs-chart-credit {
-       display: none;
-    }
-    .card-body {
+.canvasjs-chart-credit {
+    display: none;
+}
+.card-body {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 1.25rem;
@@ -15,6 +15,22 @@
     height: 500px;
     padding: 20px;
     margin: 2px 0px 2px 0px;
+}
+.attributesList{
+    height: 500px;
+    padding: 20px;
+    margin: 2px 0px 2px 0px;
+}
+
+.chartDiv{
+    width: 100%;
+    height: 500px;
+    padding: 20px;
+    margin: 2px 0px 2px 0px;
+}
+.chartContainer{
+    width: 100%;
+    height: 460px;
 }
 .splitter{
     width: 80%;
@@ -73,11 +89,14 @@ input[type=radio]:checked ~ label,input[type=checkbox]:checked ~ label{
     float: left;
 }
 
-body::-webkit-scrollbar,#style-1::-webkit-scrollbar,#style-2::-webkit-scrollbar {
+body::-webkit-scrollbar,#style-1::-webkit-scrollbar,#style-2::-webkit-scrollbar,.content-wrapper::-webkit-scrollbar {
     width: 6px;
     background-color: #F5F5F5;
 } 
 body::-webkit-scrollbar-thumb{
+    background-color: #008cffc2;
+}
+.content-wrapper::-webkit-scrollbar-thumb{
     background-color: #008cffc2;
 }
 #style-1::-webkit-scrollbar-thumb {
@@ -86,13 +105,24 @@ body::-webkit-scrollbar-thumb{
 #style-2::-webkit-scrollbar-thumb  {
     background-color: #15ca20ad;
 }
-body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webkit-scrollbar-track,.content-wrapper::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+#attributesTable::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+} 
+#attributesTable::-webkit-scrollbar-thumb{
+    background-color: #008cffc2;
+}
+#attributesTable::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
 }
 [type=checkbox]+label:before, [type=checkbox]:not(.filled-in)+label:after{
-    margin-top: 7px;
-    margin-left: 7px;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 .slect{
     text-align: center;
@@ -103,6 +133,37 @@ body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webki
 .slectBox{
     text-align: center;
     width: 60%;
+    float: left;
+}
+.slect30{
+   text-align: center;
+    width: 30%;
+    float: left;
+    margin-top: 2%; 
+}
+.slect40{
+    text-align: center;
+    width: 40%;
+    float: left;
+}
+.slect50{
+    text-align: center;
+    width: 50%;
+    float: left;
+}
+.slect60{
+    text-align: center;
+    width: 60%;
+    float: left;
+}
+.slect70{
+     text-align: center;
+    width: 70%;
+    float: left;
+}
+.slectBox70{
+    text-align: center;
+    width: 70%;
     float: left;
 }
 #buildElementReference{
@@ -116,4 +177,20 @@ body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webki
     text-align: center;
     text-transform: uppercase;
 }
-
+.wd100{
+    width:100%;
+}
+.iframeMap{
+    border:1px solid #ccc;
+    width:100%;
+    height:280px;
+}
+.AtName{
+    
+}
+.AtVal{
+    border: 1px solid #f8f9fa;
+}
+.AtTime{
+    border: 1px solid #f8f9fa;
+}

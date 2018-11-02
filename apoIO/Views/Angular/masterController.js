@@ -1,4 +1,24 @@
 app.controller('masterController', function($scope) {
+     $(function() {
+          var now = new Date();
+          var month = (now.getMonth() + 1);               
+          var day = now.getDate();
+          if (month < 10) 
+              month = "0" + month;
+          if (day < 10) 
+              day = "0" + day;
+          var today = month + '/' + day + '/'+now.getFullYear();    
+           $("#dateTime").val(today);
+          $( "#dateTime").datepicker();
+      });
+      $(function(){     
+        var d = new Date(),        
+            h = d.getHours(),
+            m = d.getMinutes();
+        if(h < 10) h = '0' + h; 
+        if(m < 10) m = '0' + m; 
+        $('input[type="time"][name="time"]').attr({'value': h + ':' + m});
+      });
      var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName; 
             var ajaxEF =  processJsonContent(url, 'GET', null);
                 $.when(ajaxEF).fail(function () {
