@@ -5,8 +5,8 @@
       <div class="row">
         <div class="col-12 col-lg-12 col-xl-12">
             <div class="card" style="margin-bottom: 5px;">
-              <div class="card-body" style="padding: 15px;text-align: center;text-transform: uppercase;">
-                  <h4 style="color: #212529;">Asset Design</h4>    
+              <div class="card-body topheader">
+                  <h4>Asset Design</h4>    
                   <h4>{{Attributes}}</h4>
               </div>
           </div>
@@ -14,7 +14,7 @@
       </div>
       
       <div class="row">
-        <div class="col-12 col-lg-6 col-xl-4">
+<!--        <div class="col-12 col-lg-6 col-xl-4">
           <div class="card">
             <div class="card-body">
                 <div class="form-group">                    
@@ -28,15 +28,15 @@
                 
             </div>
           </div>
-        </div>
-          <div class="col-12 col-lg-6 col-xl-4">
+        </div>-->
+          <div class="col-12 col-lg-6 col-xl-6">
           <div class="card">
             <div class="card-body">
                 <div class="form-group">
-                     <span  style="text-align: center;width: 30%;float: left;margin-top: 3%;">
+                     <span class="slect">
                            <label>Select Template :</label>
                       </span>
-                      <span  style="text-align: center;width: 70%;float: left">
+                      <span class="slectBox">
                           <select ng-change="check()" id="elementTemplatesLeft" style="width: 90%;" class="form-control" ng-model="cardSelected">
                               <option value="" selected="" disabled="">---Select Element Template---</option>
                      </select> 
@@ -46,14 +46,15 @@
             </div>
           </div>
         </div>
-          <div class="col-12 col-lg-6 col-xl-4">
+       
+          <div class="col-12 col-lg-6 col-xl-6">
           <div class="card">
             <div class="card-body">
                 <div class="form-group">
-                    <span  style="text-align: center;width: 30%;float: left;margin-top: 3%;">
-                           <label>Select Template :</label>
+                    <span class="slect">
+                           <label>Select Elements :</label>
                       </span>
-                      <span  style="text-align: center;width: 70%;float: left">
+                      <span class="slectBox">
                           <select ng-change="check()" id="elementTemplatesRight" style="width: 90%;" class="form-control" ng-model="cardSelected">
                         <option value="">---Select Elements---</option>
                      </select> 
@@ -89,7 +90,7 @@
           <div class="col-12 col-lg-12 col-xl-12" style="margin-top: -25px;">
           <div class="card">
             <div class="card-body">                
-                <button class="btn btn-primary" id="buildElementReference" style="float: right;height: 55px;font-size: 15px;"><i class="ti-save"></i> Check In</button>
+                <button class="btn btn-primary" id="buildElementReference"><i class="ti-save"></i> Save</button>
             </div>
           </div>
         </div>
