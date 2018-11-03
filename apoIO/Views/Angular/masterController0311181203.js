@@ -23,7 +23,7 @@ app.controller('masterController', function($scope) {
      var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName; 
             var ajaxEF =  processJsonContent(url, 'GET', null);
                 $.when(ajaxEF).fail(function () {
-                    warningmsg("Cannot Find the WebId.");
+                    console.log("Cannot Find the WebId.");
                 });
                 $.when(ajaxEF).done(function () {
                     var WebId = (ajaxEF.responseJSON.WebId); 
@@ -31,57 +31,40 @@ app.controller('masterController', function($scope) {
                     var elementTemplates =  processJsonContent(url, 'GET', null);
                     
                     $.when(elementTemplates).fail(function () {
-                        warningmsg("Cannot Find the Element Templates.");
+                        console.log("Cannot Find the Element Templates.");
                     });
                     $.when(elementTemplates).done(function () {
-                        var elementTemplateItems = (elementTemplates.responseJSON.Items);
-                         var sr= 1;
-                        $.each(elementTemplateItems,function(key) {
-                            $("#elementTemplates").append("<option  data-name="+elementTemplateItems[key].Name+" value="+elementTemplateItems[key].WebId+">"+elementTemplateItems[key].Name+"</option>"); 
-                            sr++;
+                        $scope.List = [];
+                        var Items = (elementTemplates.responseJSON.Items);
+                        $.each(Items,function(key) {
+                            $("#elementTemplates").append("<option label="+Items[key].Name+" value="+Items[key].WebId+">"+Items[key].Name+"</option>");                          
                             }); 
+                            $scope.check = function () {
+                               // $scope.itemList.push($scope.cardSelected);
+                                //console.log('cardSelected', $scope.cardSelected);
+                                var WebId = $scope.cardSelected;
+                                var url = baseServiceUrl+'elementtemplates/' + WebId + '/attributetemplates'; 
+                                    var attributesTemplates =  processJsonContent(url, 'GET', null);
+                                        $.when(attributesTemplates).fail(function () {
+                                            console.log("Cannot Find the Attributes.");
+                                        });
+                                        $.when(attributesTemplates).done(function () {
+                                           $scope.Attributes = [];
+                                             var attributesItems = (attributesTemplates.responseJSON.Items);
+                                             $.each(attributesItems,function(key) {  
+                                              $scope.Attributes.push({
+                                                  id:attributesItems[key].WebId,
+                                                  name:attributesItems[key].Name,
+                                                  Path:attributesItems[key].Path,
+                                                  DefaultValue:attributesItems[key].DefaultValue
+                                              });
+                                              //Attributes.push(attributesItems[key].Name);
+                                            });                                            
+                                             // console.log("Attributes : "+ Attributes);
+                                        });    
+                              };
                         });                       
                     });
-      
-      
-$("#elementTemplates").change(function (){
-    $("#elementListLeft").empty();
-    $(".tableAttributes tbody").empty();
-    var WebId = $("#elementTemplates").val();
-     //console.log("WebId : "+ WebId);
-    var url = baseServiceUrl+'elementtemplates/' + WebId + '/attributetemplates'; 
-        var attributesTemplates =  processJsonContent(url, 'GET', null);
-            $.when(attributesTemplates).fail(function () {
-                console.log("Cannot Find the Attributes.");
-            });
-            $.when(attributesTemplates).done(function () {
-                 var attributesItems = (attributesTemplates.responseJSON.Items);
-                  var cat=1;
-                 $.each(attributesItems,function(key) {  
-                     var category = attributesItems[key].CategoryNames;                    
-                     $.each(category,function(key1) {
-                         if(trendCat===category[key1]){
-                         //Attributes.push({name:attributesItems[key].Name,Cat:category[key1]});
-                         $("#elementListLeft").append('<li class="paramterList paramterList'+cat+'">\n\
-                            <input type="checkbox" id="elemList'+cat+'" data-id="'+cat+'" data-name="'+attributesItems[key].Name+'" class="paraList" value="'+attributesItems[key].WebId+'" name="selectorLeft">\n\
-                            <label class="labelList leftLabel" for="elemList'+cat+'">'+attributesItems[key].Name+'</label>\n\
-                            </li>');                           
-                        }
-                        else if(valueCat===category[key1] || timestampCat===category[key1]){
-                            $(".tableAttributes").append('<tr><td>'+attributesItems[key].Name+'</td><td>'+attributesItems[key].DefaultValue+'</td><td>03-11-2018 11:28AM</td></tr>');
-                        }
-                     });
-                      cat++;
-                  //Attributes.push({id:attributesItems[key].WebId, name:attributesItems[key].Name,Path:attributesItems[key].Path, DefaultValue:attributesItems[key].DefaultValue});
-                  //Attributes.push({name:attributesItems[key].Name, DefaultValue:attributesItems[key].DefaultValue, CategoryName:JSON.stringify(attributesItems[key].CategoryNames)});
-                });                                            
-                 // console.log("Attributes : "+ JSON.stringify(Attributes));
-            });    
-  });
- $(".leftLabel").click(function(){
-     alert($(this).val());
- });     
-      
       
     /*********chart section**********/
     

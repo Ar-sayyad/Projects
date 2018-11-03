@@ -66,7 +66,7 @@ app.controller('assetdesignController', function($scope) {
                                     /***ElementsListByTemplate***/
                                     
                                     /***ElementsListByCategory***/  
-                                 var catName= "asset_design_"+leftTemplate.toLowerCase();
+                                 var catName= catNameGenrate+leftTemplate.toLowerCase();
                                         var url = baseServiceUrl+'assetdatabases/' + WebId + '/elements?categoryName='+catName;
                                          elementdata =  processJsonContent(url, 'GET', null);
                                         $.when(elementdata).fail(function () {

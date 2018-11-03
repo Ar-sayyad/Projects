@@ -21,9 +21,8 @@
                            <label>Select Block :</label>
                       </span>
                       <span class="slectBox70">
-                          <select ng-change="check()" id="elementTemplates" class="form-control" ng-model="cardSelected">
+                          <select id="elementTemplates" class="form-control">
                             <option value="">---Select the Block---</option>
-                             <option ng-value="item.id" ng-repeat="item in List">{{item.name}}</option>
                          </select>                         
                      </span>                        
                 </div>                
@@ -42,7 +41,7 @@
                             <input type="text" class="dateTime form-control" style="width:95%;"  id="dateTime"  placeholder="Date Time">
                         </div>
                          <div class="slect40">
-                                <input type="time" name="time" id="time" style="width:95%;" class="time form-control">
+                                <input type="time" name="time" id="time" style="" class="time form-control">
                         </div>
                     </div>
                 </div>                
@@ -57,7 +56,7 @@
                            <label>Select Block :</label>
                       </span>
                       <span class="slectBox70">
-                          <select ng-change="check()" id="elementTemplates" class="form-control" ng-model="cardSelected">
+                          <select ng-change="check()" id="" class="form-control" ng-model="cardSelected">
                             <option value="">---Select the Block---</option>
                              <option ng-value="item.id" ng-repeat="item in List">{{item.name}}</option>
                          </select>                         
@@ -77,55 +76,22 @@
                 </iframe>
             </div>
           </div>
+            
+            <div class="card attributesTable">
+                <div class="card-body scrollbar" id="style-3">      
+                <table class="table table-bordered table-striped tableAttributes">
+                    <thead>
+                        <tr><th>Name</th><th>Value</th><th>Timestamp</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+          </div>
         </div>
            <div class="col-12 col-lg-6 col-xl-2">
              <div class="card">
             <div class="card-body chartDiv scrollbar" id="style-1">
-                <ul id="elementListLeft">
-                    <li class="elemList elemList">
-                        <input type="checkbox" id="elemList1" data-id="1" data-name="name1" value="1" name="selectorLeft">
-                        <label class="labelList leftLabel btn btn-dark" for="elemList1">
-                            Attributes Name 1
-                        </label>
-                    </li>
-                    <li class="elemList elemList">
-                        <input type="checkbox" id="elemList2" data-id="2" data-name="name2" value="2" name="selectorLeft">
-                        <label class="labelList leftLabel btn btn-dark" for="elemList2">
-                             Attributes Name 1
-                        </label>
-                    </li>
-                    <li class="elemList elemList">
-                        <input type="checkbox" id="elemList3" data-id="3" data-name="name3" value="3" name="selectorLeft">
-                        <label class="labelList leftLabel btn btn-dark" for="elemList3">
-                            Attributes Name 1
-                        </label>
-                    </li>
-                    <li class="elemList elemList">
-                        <input type="checkbox" id="elemList4" data-id="3" data-name="name3" value="3" name="selectorLeft">
-                        <label class="labelList leftLabel btn btn-dark" for="elemList4">
-                             Attributes Name 1
-                        </label>
-                    </li>
-                    <li class="elemList elemList">
-                        <input type="checkbox" id="elemList5" data-id="3" data-name="name3" value="3" name="selectorLeft">
-                        <label class="labelList leftLabel btn btn-dark" for="elemList5">
-                            Attributes Name 1
-                        </label>
-                    </li>
-                    <li class="elemList elemList">
-                        <input type="checkbox" id="elemList6" data-id="3" data-name="name3" value="3" name="selectorLeft">
-                        <label class="labelList leftLabel btn btn-dark" for="elemList6">
-                             Attributes Name 1
-                        </label>
-                    </li>
-                    <li class="elemList elemList">
-                        <input type="checkbox" id="elemList7" data-id="3" data-name="name3" value="3" name="selectorLeft">
-                        <label class="labelList leftLabel btn btn-dark" for="elemList7">
-                             Attributes Name 1
-                        </label>
-                    </li>
-                     
-                </ul> 
+                <ul id="elementListLeft"></ul> 
             </div>
           </div>
         </div>
