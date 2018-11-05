@@ -222,3 +222,6 @@ body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webki
     padding: 0.40rem;
     font-size: 13px;
 }
+.highcharts-credits{
+    display: none;
+}

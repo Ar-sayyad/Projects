@@ -80,72 +80,169 @@ $("#elementTemplates").change(function (){
   });
              
     /*********chart section**********/
-  //updateChart(100);	
+    
+    var dataPoints1 = [];
+    var dataPoints2 = [];
+      $scope.chart = new CanvasJS.Chart("chartContainer", {
+          zoomEnabled: true,
+	title: {
+		text: ""
+	},
+	axisX: {
+		title: ""
+	},
+	axisY:{
+		prefix: "",
+		includeZero: false
+	}, 
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor:"pointer",
+		verticalAlign: "top",
+		fontSize: 22,
+		fontColor: "dimGrey",
+		itemclick : toggleDataSeries
+	},
+		data: [{ 
+		type: "line",
+		xValueType: "dateTime",
+		yValueFormatString: "####.00",
+		xValueFormatString: "hh:mm:ss TT",
+		showInLegend: true,
+		name: "Company A",
+		dataPoints: dataPoints1
+		},
+		{				
+                    type: "line",
+                    xValueType: "dateTime",
+                    yValueFormatString: "####.00",
+                    showInLegend: true,
+                    name: "Company B" ,
+                    dataPoints: dataPoints2
+	}]
+});
+
+function toggleDataSeries(e) {
+	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else {
+		e.dataSeries.visible = true;
+	}
+	$scope.chart.render();
+}
+var updateInterval = 3000;
+// initial value
+var yValue1 = 05; 
+var yValue2 = 05;
+
+var time = new Date;
+// starting at 9.30 am
+time.setHours(time.getHours());
+time.setMinutes(time.getMinutes());
+time.setSeconds(time.getSeconds());
+time.setMilliseconds(time.getMilliseconds());
+
+function updateChart(count) {
+	count = count || 1;
+	var deltaY1, deltaY2;
+	for (var i = 0; i < count; i++) {
+		time.setTime(time.getTime()+ updateInterval);
+		deltaY1 = .5 + Math.random() *(-.5-.5);
+		deltaY2 = .5 + Math.random() *(-.5-.5);
+
+	// adding random value and rounding it to two digits. 
+	yValue1 = Math.round((yValue1 + deltaY1)*100)/100;
+	yValue2 = Math.round((yValue2 + deltaY2)*100)/100;
+
+	// pushing the new values
+	dataPoints1.push({
+		x: time.getTime(),
+		y: yValue1
+	});
+	dataPoints2.push({
+		x: time.getTime(),
+		y: yValue2
+	});
+	}
+
+	// updating legend text with  updated with y Value 
+        $scope.chart.options.data[0].legendText = " A " + yValue1;
+	$scope.chart.options.data[1].legendText = " B " + yValue2; 
+        $scope.chart.render(); //render the chart for the first time    
+    }
+ //updateChart(100);	
 //setInterval(function(){updateChart()}, updateInterval);
 });
 
-function getMap(id){    
-      var data=[];
-      var min=0; 
-      var max=100; 
+
+function getMap(count=100){    
+      var chart = new CanvasJS.Chart("chartContainer", {
+          zoomEnabled: true,
+	title: {
+		text: ""
+	},
+	axisX: {
+		title: ""
+	},
+	axisY:{
+		prefix: "",
+		includeZero: false
+	}, 
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor:"pointer",
+		verticalAlign: "top",
+		fontSize: 22,
+		fontColor: "dimGrey",
+		itemclick : toggleDataSeries
+	},
+		data: data
+});
+
+function toggleDataSeries(e) {
+	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else {
+		e.dataSeries.visible = true;
+	}
+	chart.render();
+}
+
+var time = new Date;
+    
+ var data=[];
+ var key = 0;
  $.each($("input[name='selectorLeft']:checked"), function(){
         var value = $(this).attr("data-value");
         var name = $(this).attr("data-name");
-        var WebId = $(this).val();           
+        var WebId = $(this).val();        
           data.push({
-              name: name,
-              data: [(Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min))]
-          });	
-       // currentList.push({"WebId":WebId,"value:":value}); 
-       
-    }); 
-Highcharts.chart('container', {
-    title: {
-        text: ''
-    },
-
-    subtitle: {
-        text: ''
-    },
-
-    yAxis: {
-        title: {
-            text: 'Element Data'
-        }
-    },
-    legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
-    },
-
-    plotOptions: {
-        series: {
-            label: {
-                connectorAllowed: false
-            },
-            pointStart: 2010
-        }
-    },
-
-    series: data,
-
-    responsive: {
-        rules: [{
-            condition: {
-                maxWidth: 500
-            },
-            chartOptions: {
-                legend: {
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom'
+              type: "line",
+                    xValueType: "dateTime",
+                    yValueFormatString: "####.00",
+                    xValueFormatString: "hh:mm:ss TT",
+                    showInLegend: true,
+                    name: name,
+                    dataPoints: {
+                        x: time.getTime(),
+                        y: value
                 }
-            }
-        }]
-    }
-
-});
-
+          });
+	
+       // currentList.push({"WebId":WebId,"value:":value}); 
+        key++;
+    }); 
   console.log(data);
+
+	// updating legend text with  updated with y Value 
+//        chart.options.data[0].legendText = " A " + yValue1;
+//	chart.options.data[1].legendText = " B " + yValue2; 
+        chart.render();
+
 }
