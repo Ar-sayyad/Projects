@@ -392,8 +392,8 @@ hr {
 }
 
 .logo-icon{
-    margin-left: 40px;
-    width: 40px;
+    margin-left: 0px;
+    width: 100%;
 }
 
 /* SearachBar */
