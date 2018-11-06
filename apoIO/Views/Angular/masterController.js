@@ -91,11 +91,25 @@ function getMap(id){
  $.each($("input[name='selectorLeft']:checked"), function(){
         var value = $(this).attr("data-value");
         var name = $(this).attr("data-name");
+        var WebId = "F1AbEDi3z9dHIi0CwxL3X6F3C0wuM-8RjPU6BGBMEzMaiJeMQtofjRa10ilAPqqkgS3dPbARUNHLURFVi1TRVJWRVJcQUFTSUZfREVWRUxPUE1FTlRcQkxPQ0sxfFBI";
+         var url = baseServiceUrl+'streams/' + WebId + '/interpolated'; 
+        var attributesData =  processJsonContent(url, 'GET', null);
+            $.when(attributesData).fail(function () {
+                console.log("Cannot Find the Attributes.");
+            });
+            $.when(attributesData).done(function () {
+                var data1=[];
+                 var elementTemplateItems = (attributesData.responseJSON.Items);
+                        $.each(elementTemplateItems,function(key) {
+                           data1.push(elementTemplateItems[key].Value);
+                          }); 
+                            data.push({
+                                name: name,
+                                data: data1
+                            });	
+            });
         var WebId = $(this).val();           
-          data.push({
-              name: name,
-              data: [(Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min))]
-          });	
+         
        // currentList.push({"WebId":WebId,"value:":value}); 
        
     }); 
