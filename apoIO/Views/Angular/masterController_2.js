@@ -86,40 +86,16 @@ $("#elementTemplates").change(function (){
 
 function getMap(id){    
       var data=[];
-        var data1=[];
       var min=0; 
       var max=100; 
  $.each($("input[name='selectorLeft']:checked"), function(){
-   
-        //var value = $(this).attr("data-value");
+        var value = $(this).attr("data-value");
         var name = $(this).attr("data-name");
-//       data.push({
-//              name: name,
-//              data: [(Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min))]
-//          });	
-          
-        var WebId = "F1AbEDi3z9dHIi0CwxL3X6F3C0wuM-8RjPU6BGBMEzMaiJeMQtofjRa10ilAPqqkgS3dPbARUNHLURFVi1TRVJWRVJcQUFTSUZfREVWRUxPUE1FTlRcQkxPQ0sxfFBI";
-         var url = baseServiceUrl+'streams/' + WebId + '/interpolated'; 
-        var attributesData =  processJsonContent(url, 'GET', null);
-            $.when(attributesData).fail(function () {
-                console.log("Cannot Find the Attributes.");
-            });
-            $.when(attributesData).done(function () {
-                
-                 var elementTemplateItems = (attributesData.responseJSON.Items);
-                        $.each(elementTemplateItems,function(key) {
-                           data1.push(Math.round(elementTemplateItems[key].Value));
-                          }); 
-                        
-                      
-            });
-              data.push({
-                    name: name,
-                    data: data1.toString()
-                });      
-            	
-       // var WebId = $(this).val();           
-         
+        var WebId = $(this).val();           
+          data.push({
+              name: name,
+              data: [(Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min))]
+          });	
        // currentList.push({"WebId":WebId,"value:":value}); 
        
     }); 
