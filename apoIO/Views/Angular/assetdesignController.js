@@ -48,7 +48,7 @@ app.controller('assetdesignController', function($scope) {
                                 $("#elementListRight").empty();
                                 var leftTemplate = $("#elementTemplatesLeft").val();
                                  /***ElementsListByTemplate***/  
-                                var url = baseServiceUrl+'assetdatabases/' + WebId + '/elements?templateName='+leftTemplate; 
+                                var url = baseServiceUrl+'assetdatabases/' + WebId + '/elements?templateName='+leftTemplate+'&searchFullHierarchy=true'; 
                                 var rightelementdata =  processJsonContent(url, 'GET', null);
                                     $.when(rightelementdata).fail(function () {
                                         warningmsg("Cannot Find the Element.");
@@ -67,7 +67,7 @@ app.controller('assetdesignController', function($scope) {
                                     
                                     /***ElementsListByCategory***/  
                                  var catName= catNameGenrate+leftTemplate.toLowerCase();
-                                        var url = baseServiceUrl+'assetdatabases/' + WebId + '/elements?categoryName='+catName;
+                                        var url = baseServiceUrl+'assetdatabases/' + WebId + '/elements?categoryName='+catName+'&searchFullHierarchy=true';
                                          elementdata =  processJsonContent(url, 'GET', null);
                                         $.when(elementdata).fail(function () {
                                             warningmsg("Cannot Find the Element of this Category");

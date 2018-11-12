@@ -104,14 +104,11 @@ function getMap(id){
             $.when(attributesData).fail(function () {
                 console.log("Cannot Find the Attributes.");
             });
-            $.when(attributesData).done(function () {
-                
+            $.when(attributesData).done(function () {                
                  var elementTemplateItems = (attributesData.responseJSON.Items);
-                        $.each(elementTemplateItems,function(key) {
-                           data1.push(Math.round(elementTemplateItems[key].Value));
-                          }); 
-                        
-                      
+                $.each(elementTemplateItems,function(key) {
+                   data1.push(Math.round(elementTemplateItems[key].Value));
+                  }); 
             });
               data.push({
                     name: name,
