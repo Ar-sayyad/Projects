@@ -4,7 +4,19 @@ app.controller('assetdesignController', function($scope) {
      var lastSrl='';     
      var elementsChildListItems ='';
      var previousList=[];
-  
+             
+      $(function() {
+          var now = new Date();
+          var month = (now.getMonth() + 1);               
+          var day = now.getDate();
+          if (month < 10) 
+              month = "0" + month;
+          if (day < 10) 
+              day = "0" + day;
+          var today = month + '/' + day + '/'+now.getFullYear();    
+           $("#dateTime").val(today);
+          $( "#dateTime").datepicker();
+      });
 /***Asset Database***/
      var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName;       
             var ajaxEF =  processJsonContent(url, 'GET', null);
@@ -14,8 +26,9 @@ app.controller('assetdesignController', function($scope) {
                 });
                 $.when(ajaxEF).done(function () {
                     var WebId = (ajaxEF.responseJSON.WebId);
-                    /***Elements Templates BY Category***/  
+                    /***Elements Templates***/  
                           var url = baseServiceUrl+'assetdatabases/' + WebId + '/elementtemplates?field=Categories&query='+filterCategoryName+'&searchFullHierarchy=true'; 
+                          console.log(url);
                                 var elementTemplatedata =  processJsonContent(url, 'GET', null);
                                     $.when(elementTemplatedata).fail(function () {
                                         warningmsg("Cannot Find the Element Templates.");
@@ -29,7 +42,7 @@ app.controller('assetdesignController', function($scope) {
                                             sr++;
                                           });
                                     });
-                    /***Elements Templates BY Category***/ 
+                    /***Elements Templates***/ 
                             $("#elementTemplatesLeft").change(function(){
                                 $("#elementListLeft").empty();
                                 $("#elementTemplatesRight").empty();

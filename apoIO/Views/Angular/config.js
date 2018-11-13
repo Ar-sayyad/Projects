@@ -1,12 +1,17 @@
-/***CONFIGURATION***/
-var baseServiceUrl = "https://192.168.1.28:1706/piwebapi/";
-var user = "Asif";
-var pass = "ECG@123";
-var afServerName = "ECG-DEV-SERVER";
-var afDatabaseName = "Aasif_Development";
-var EnumerationSets = "CONNECTED_TO_PLANT";
-var templateName = "BLOCK";
-var catNameGenrate = "asset_design_";
-var trendCat = "masterdashboard_trend";
-var valueCat = "masterdashboard_value";
-var timestampCat = "masterdashboard_timestamp";
+/***CONFIGURATION SETTING***/
+
+var baseServiceUrl = "https://192.168.1.28:1706/piwebapi/"; /***PI WEBAPI URL***/
+var user = "Asif";/***USERNAME***/
+var pass = "ECG@123";/***PASSWORD***/
+var afServerName = "ECG-DEV-SERVER";/***AF SERVER NAME***/
+var afDatabaseName = "Aasif_Development";/***DATABASE NAME***/
+var EnumerationSets = "CONNECTED_TO_PLANT";/***ENUMERATION SET NAME***/
+var templateName = "BLOCK";/***DEFAULT TEMPLATE NAME***/
+var catNameGenrate = "asset_design_";/***CATEGORY NAME GENRATION IN CODING NOT REMOVE THIS***/
+var trendCat = "masterdashboard_trend";/***TREND DATA CATEGORY NAME***/
+var valueCat = "masterdashboard_value";/***CATEGORY FOR VALUE***/
+var timestampCat = "masterdashboard_timestamp";/***CATEGORY FOR TIMESTAMP***/
+var filterCategoryName = "asset_design";/****CATEGORY NAME FOR FILTER ELEMENT TEMPLATE****/
+var allocationAttributeName = "PLANT";/****The Plant Attributes Name for save the allocation page data***/
+
+/***CONFIGURATION SETTING***/

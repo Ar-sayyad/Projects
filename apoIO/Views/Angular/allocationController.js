@@ -158,7 +158,7 @@ app.controller('allocationController', function($scope) {
         $.when(attributesElements).done(function() {
             var attributesItems = (attributesElements.responseJSON.Items);
             $.each(attributesItems, function(key) {
-                if (attributesItems[key].Name === 'PLANT') {
+                if (attributesItems[key].Name === allocationAttributeName) {
                     var url = baseServiceUrl + 'streams/' + attributesItems[key].WebId + '/recorded';
                     var data = [{
                         "Timestamp": dateTime,
