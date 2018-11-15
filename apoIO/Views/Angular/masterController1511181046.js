@@ -27,37 +27,35 @@ $(function(){
                 });
                 $.when(ajaxEF).done(function () {
                     var WebId = (ajaxEF.responseJSON.WebId); 
-                    var url = baseServiceUrl + 'assetdatabases/' + WebId + '/elements?templateName=' + templateName+'&searchFullHierarchy=true';
-                    //var url = baseServiceUrl+'assetdatabases/' + WebId + '/elementtemplates?field=Categories&query='+filterCategoryName+'&searchFullHierarchy=true'; 
-                    var elementList =  processJsonContent(url, 'GET', null);
+                    var url = baseServiceUrl+'assetdatabases/' + WebId + '/elementtemplates?field=Categories&query='+filterCategoryName+'&searchFullHierarchy=true'; 
+                    var elementTemplates =  processJsonContent(url, 'GET', null);
                     
-                    $.when(elementList).fail(function () {
+                    $.when(elementTemplates).fail(function () {
                         warningmsg("Cannot Find the Element Templates.");
                     });
-                    $.when(elementList).done(function () {
-                        var elementListItems = (elementList.responseJSON.Items);
+                    $.when(elementTemplates).done(function () {
+                        var elementTemplateItems = (elementTemplates.responseJSON.Items);
                          var sr= 1;
-                        $.each(elementListItems,function(key) {
-                            $("#elementList").append("<option  data-name="+elementListItems[key].Name+" value="+elementListItems[key].WebId+">"+elementListItems[key].Name+"</option>"); 
+                        $.each(elementTemplateItems,function(key) {
+                            $("#elementTemplates").append("<option  data-name="+elementTemplateItems[key].Name+" value="+elementTemplateItems[key].WebId+">"+elementTemplateItems[key].Name+"</option>"); 
                             sr++;
                             }); 
                         });                       
                     });
       
       
-$("#elementList").change(function (){
+$("#elementTemplates").change(function (){
     $("#elementListLeft").empty();
     $(".tableAttributes tbody").empty();
-    var WebId = $("#elementList").val();
+    var WebId = $("#elementTemplates").val();
      //console.log("WebId : "+ WebId);
-     var url = baseServiceUrl + 'elements/' + WebId + '/attributes';
-    //var url = baseServiceUrl+'elementtemplates/' + WebId + '/attributetemplates'; 
-        var attributesList =  processJsonContent(url, 'GET', null);
-            $.when(attributesList).fail(function () {
+    var url = baseServiceUrl+'elementtemplates/' + WebId + '/attributetemplates'; 
+        var attributesTemplates =  processJsonContent(url, 'GET', null);
+            $.when(attributesTemplates).fail(function () {
                 console.log("Cannot Find the Attributes.");
             });
-            $.when(attributesList).done(function () {
-                 var attributesItems = (attributesList.responseJSON.Items);
+            $.when(attributesTemplates).done(function () {
+                 var attributesItems = (attributesTemplates.responseJSON.Items);
                  var cat=1;
                  $.each(attributesItems,function(key) {  
                      var category = attributesItems[key].CategoryNames;                    
