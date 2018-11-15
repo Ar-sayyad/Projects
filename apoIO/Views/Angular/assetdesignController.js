@@ -55,6 +55,7 @@ app.controller('assetdesignController', function($scope) {
                                     
                                     /***ElementsListByCategory***/  
                                  var catName= catNameGenrate+leftTemplate.toLowerCase();
+                                 console.log(catName);
                                         var url = baseServiceUrl+'assetdatabases/' + WebId + '/elements?categoryName='+catName+'&searchFullHierarchy=true';
                                          elementdata =  processJsonContent(url, 'GET', null);
                                         $.when(elementdata).fail(function () {
@@ -170,7 +171,20 @@ $("#elementTemplatesRight").change(function(){
 /***Right Drop Down OnChange***/  
 
 /*****buildElementReference*****/
+function isDoubleClicked(element) {
+    //if already clicked return TRUE to indicate this click is not allowed
+    if (element.data("isclicked")) return true;
+    //mark as clicked for 1 second
+    element.data("isclicked", true);
+    setTimeout(function () {
+        element.removeData("isclicked");
+    }, 1000);
+    //return FALSE to indicate this click was allowed
+    return false;
+}
+
 $("#buildElementReference").click(function(){
+    if (isDoubleClicked($(this))) return;
     var ParentWebId = $("#elementTemplatesRight").val();
     var currentList=[];   
     //var matchedList =[];
@@ -218,20 +232,31 @@ $("#buildElementReference").click(function(){
                   warningmsg("Element Selection Required..!"); return false;
                 }
         }); 
-        
+       var remval=0;
+       var remlen = removedList.length;
         $.each($(removedList), function(key){
              if(ParentWebId!==''){
                 if(ParentWebId!=='? object:null ?'){      
                           var url = baseServiceUrl+'elements/' + ParentWebId + '/referencedelements?WebId='+ParentWebId+'&referencedElementWebId='+removedList[key]; 
                              var postAjaxEF = processJsonContent(url, 'DELETE', null);
                              $.when(postAjaxEF).fail(function () {
-                                errormsg("Cannot Post The Data..!");
-                                return false;
+                                //errormsg("Cannot Post The Data..!");
+//                                console.log("remlen "+remlen); 
+//                                 console.log("remval "+remval); 
+                                if(++remval === remlen) {
+                                       //console.log(remval);
+                                       warningmsg((remval)+" Element Cannot Removed..!<br> Not a Weak Reference");
+                                      }                               
+                                //return false;
                              });
                              $.when(postAjaxEF).done(function () {
                                  var response = (JSON.stringify(postAjaxEF.responseText));
                                  if(response=='""'){
                                      previousList.pop(removedList[key]);
+                                     if(++remval === remlen) {
+                                       //console.log(remval);
+                                       successmsg((remval)+" Element Removed Successfully..!");
+                                      } 
                                  }else{
                                      var failure = postAjaxEF.responseJSON.Items;
                                       $.each(failure,function(key) {
@@ -246,15 +271,16 @@ $("#buildElementReference").click(function(){
                     }
                 }else{        
                   warningmsg("Element Selection Required..!"); return false;
-                }
-        });             
+                }                
+        });        
         if(addedList.length > 0){ 
           successmsg((addedList.length)+" Element Created Successfully..!");
         }
         
-      if(removedList.length > 0){ 
-        successmsg((removedList.length)+" Element Removed Successfully..!");
-      }        
+//      if(removedList.length > 0){ 
+//        //successmsg((removedList.length)+" Element Removed Successfully..!");
+//        console.log("length"+removedList.length);
+//      }        
 });
 /******buildElementReference******/
 });

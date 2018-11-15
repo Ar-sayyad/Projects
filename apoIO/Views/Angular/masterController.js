@@ -89,7 +89,7 @@ function getMap(id){
         var data1=[];
       var min=0; 
       var max=100; 
- $.each($("input[name='selectorLeft']:checked"), function(){
+    $.each($("input[name='selectorLeft']:checked"), function(){
    
         //var value = $(this).attr("data-value");
         var name = $(this).attr("data-name");
@@ -99,7 +99,7 @@ function getMap(id){
 //          });	
           
         var WebId = "F1AbEDi3z9dHIi0CwxL3X6F3C0wuM-8RjPU6BGBMEzMaiJeMQtofjRa10ilAPqqkgS3dPbARUNHLURFVi1TRVJWRVJcQUFTSUZfREVWRUxPUE1FTlRcQkxPQ0sxfFBI";
-         var url = baseServiceUrl+'streams/' + WebId + '/interpolated'; 
+         var url = baseServiceUrl+'streams/' + WebId + '/plot'; 
         var attributesData =  processJsonContent(url, 'GET', null);
             $.when(attributesData).fail(function () {
                 console.log("Cannot Find the Attributes.");
