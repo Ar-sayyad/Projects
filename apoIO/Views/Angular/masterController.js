@@ -46,7 +46,7 @@ $(function(){
       
       
 $("#elementList").change(function (){
-    $("#elementListLeft").empty();
+    $("#attributesListLeft").empty();
     $(".tableAttributes tbody").empty();
     var WebId = $("#elementList").val();
      //console.log("WebId : "+ WebId);
@@ -111,7 +111,62 @@ function getMap(id){
                     color:colors[sr],
                     data: data1
                 });
-                 chartdata(data);   
+                console.log(data);
+                 Highcharts.chart('container', {
+                chart: {
+                zoomType: 'x',
+                 type: 'line'
+            },
+        title: {
+            text: ''
+        },
+
+        subtitle: {
+            text: ''
+        },
+        yAxis: {
+            title: {
+                text: 'Element Data'
+            }
+        },
+        legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+        },
+
+        plotOptions: {
+            series: {
+                 animation: false,
+                  step: false,
+                label: {
+                    connectorAllowed: true
+                },
+                pointStart: 2010
+                //pointEnd:2060
+                 //pointInterval: 24 * 3600 * 1000 // one day
+            }
+        },
+
+        series: data,
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+                 //chartdata(data);   
                   sr++;
             });            
     }); 
