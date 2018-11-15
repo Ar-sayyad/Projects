@@ -88,12 +88,19 @@ $("#elementList").change(function (){
   
 function getMap(id){    
     var data=[];
-    var sr=0;
+    
+      var max=100; 
+      var sr=0;
     $.each($("input[name='selectorLeft']:checked"), function(){            
-        var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'];       
+       var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'];       
         var data1=[];
         var WebId = $(this).val();
         var name = $(this).attr("data-name");
+        //console.log(WebId+" "+name);	
+//       data.push({
+//              name: name,
+//              data: [(Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min))]
+//          });
         var url = baseServiceUrl+'streams/' + WebId + '/plot'; 
         var attributesData =  processJsonContent(url, 'GET', null);
             $.when(attributesData).fail(function () {
@@ -104,7 +111,8 @@ function getMap(id){
                  var attributesDataItems = (attributesData.responseJSON.Items);
                 $.each(attributesDataItems,function(key) {
                    data1.push(Math.round(attributesDataItems[key].Value));
-                  });                    
+                  }); 
+                   //var hue = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
                   data1.pop();
                   data.push({
                     name: name,
@@ -113,63 +121,57 @@ function getMap(id){
                 });
                  chartdata(data);   
                   sr++;
-            });            
+            }); 
+           
     }); 
 }
 
   function chartdata(seriesdata){
            Highcharts.chart('container', {
-                chart: {
-                zoomType: 'x',
-                 type: 'line'
-            },
+    title: {
+        text: ''
+    },
+
+    subtitle: {
+        text: ''
+    },
+
+    yAxis: {
         title: {
-            text: ''
-        },
-
-        subtitle: {
-            text: ''
-        },
-        yAxis: {
-            title: {
-                text: 'Element Data'
-            }
-        },
-        legend: {
-            layout: 'horizontal',
-            align: 'center',
-            verticalAlign: 'bottom'
-        },
-
-        plotOptions: {
-            series: {
-                 animation: false,
-                  step: false,
-                label: {
-                    connectorAllowed: true
-                },
-                pointStart: 2010
-                //pointEnd:2060
-                 //pointInterval: 24 * 3600 * 1000 // one day
-            }
-        },
-
-        series: seriesdata,
-
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
+            text: 'Element Data'
         }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
 
-    });
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 2010
+        }
+    },
+
+    series: seriesdata,
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
 }
