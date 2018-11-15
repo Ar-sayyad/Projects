@@ -95,7 +95,7 @@ function getMap(id){
     var startDate = $('#startDate').val();
     var startTime = $("#startTime").val();
     var startDateTime = (startDate + 'T' + startTime);
-      var endDate = $('#endDate').val();
+    var endDate = $('#endDate').val();
     var endTime = $("#endTime").val();
     var endDateTime = (endDate + 'T' + endTime);
     
@@ -139,7 +139,9 @@ function getMap(id){
             text: ''
         },
          xAxis: {
-        type: 'datetime'
+        type: 'datetime',
+         tickInterval:  36e5, // one week        
+              
     },
         yAxis: {
             title: {
@@ -161,7 +163,11 @@ function getMap(id){
                 },
                 pointStart: Date.UTC(2018, 10, 14),
                 pointEnd:Date.UTC(2018, 10, 15),
-               //pointInterval: 36e5
+                //pointInterval: 24 * 3600 * 1000 * 31 ,
+                 //pointIntervalUnit: 'month'
+//                pointStart: Date.UTC(2018, 10, 14,18,51,00),
+//                pointEnd:Date.UTC(2018, 10, 15,18,51,00),
+               pointInterval: 36e5
                 //pointInterval: 3600 //* 1000 //* 31 // one Month
             }
         },
