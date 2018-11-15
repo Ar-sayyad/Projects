@@ -100,7 +100,8 @@ function getMap(id){
 //              name: name,
 //              data: [(Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min)), (Math.floor((Math.random() * (+max - +min)) + +min))]
 //          });
-                   var url = baseServiceUrl+'streams/' + WebId + '/plot'; 
+          
+         var url = baseServiceUrl+'streams/' + WebId + '/plot'; 
         var attributesData =  processJsonContent(url, 'GET', null);
             $.when(attributesData).fail(function () {
                 console.log("Cannot Find the Attributes.");
