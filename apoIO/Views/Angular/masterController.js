@@ -7,9 +7,11 @@ app.controller('masterController', function($scope) {
         month = "0" + month;
     if (day < 10) 
         day = "0" + day;
-    var today = month + '/' + day + '/'+now.getFullYear();    
-     $("#dateTime").val(today);
-    $( "#dateTime").datepicker();
+    var today = now.getFullYear()+'-'+month + '-' + day;    
+     $("#startDate").val(today);
+    $( "#startDate").datepicker({dateFormat: 'yy-mm-dd'});
+     $("#endDate").val(today);
+    $( "#endDate").datepicker({dateFormat: 'yy-mm-dd'});
 });
 $(function(){     
   var d = new Date(),        
@@ -46,6 +48,7 @@ $(function(){
       
       
 $("#elementList").change(function (){
+    $("#container").empty();
     $("#attributesListLeft").empty();
     $(".tableAttributes tbody").empty();
     var WebId = $("#elementList").val();
@@ -89,21 +92,32 @@ $("#elementList").change(function (){
 function getMap(id){    
     var data=[];
     var sr=0;
+    var startDate = $('#startDate').val();
+    var startTime = $("#startTime").val();
+    var startDateTime = (startDate + 'T' + startTime);
+      var endDate = $('#endDate').val();
+    var endTime = $("#endTime").val();
+    var endDateTime = (endDate + 'T' + endTime);
+    
     $.each($("input[name='selectorLeft']:checked"), function(){            
         var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'];       
         var data1=[];
         var WebId = $(this).val();
         var name = $(this).attr("data-name");
-        var url = baseServiceUrl+'streams/' + WebId + '/plot'; 
+        var url = baseServiceUrl+'streams/' + WebId + '/recorded?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
+        console.log(url);
         var attributesData =  processJsonContent(url, 'GET', null);
             $.when(attributesData).fail(function () {
                 console.log("Cannot Find the Attributes.");
             });
-            $.when(attributesData).done(function () { 
-                
+            $.when(attributesData).done(function () {                 
                  var attributesDataItems = (attributesData.responseJSON.Items);
+                 //console.log(JSON.stringify(attributesDataItems));
                 $.each(attributesDataItems,function(key) {
-                   data1.push(Math.round(attributesDataItems[key].Value));
+                    //var val = Math.round(attributesDataItems[key].Value);
+                    //if(isNaN(val)){
+                        data1.push(Math.round(attributesDataItems[key].Value));
+                   // }
                   });                    
                   data1.pop();
                   data.push({
@@ -124,6 +138,9 @@ function getMap(id){
         subtitle: {
             text: ''
         },
+         xAxis: {
+        type: 'datetime'
+    },
         yAxis: {
             title: {
                 text: 'Element Data'
@@ -138,13 +155,14 @@ function getMap(id){
         plotOptions: {
             series: {
                  animation: false,
-                  step: false,
+                 step: false,
                 label: {
                     connectorAllowed: true
                 },
-                pointStart: 2010
-                //pointEnd:2060
-                 //pointInterval: 24 * 3600 * 1000 // one day
+                pointStart: Date.UTC(2018, 10, 14),
+                pointEnd:Date.UTC(2018, 10, 15),
+               //pointInterval: 36e5
+                //pointInterval: 3600 //* 1000 //* 31 // one Month
             }
         },
 
