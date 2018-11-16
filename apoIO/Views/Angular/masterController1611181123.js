@@ -93,16 +93,16 @@ $("#elementList").change(function (){
   
 function getMap(id){    
     var data=[];
-    var yAxisData=[];
     var sr=0;
     var startDate = $('#startDate').val();
     var startTime = $("#startTime").val();
     var startDateTime = (startDate + 'T' + startTime);
     var endDate = $('#endDate').val();
     var endTime = $("#endTime").val();
-    var endDateTime = (endDate + 'T' + endTime); 
-     var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'];    
-    $.each($("input[name='selectorLeft']:checked"), function(){ 
+    var endDateTime = (endDate + 'T' + endTime);
+    
+    $.each($("input[name='selectorLeft']:checked"), function(){            
+        var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'];       
         var data1=[];
         var WebId = $(this).val();
         var name = $(this).attr("data-name");
@@ -114,70 +114,223 @@ function getMap(id){
             });
             $.when(attributesData).done(function () {                 
                  var attributesDataItems = (attributesData.responseJSON.Items);
-                 var unit = '';
                  //console.log(JSON.stringify(attributesDataItems));
                 $.each(attributesDataItems,function(key) {
                     //var val = Math.round(attributesDataItems[key].Value);
                     //if(isNaN(val)){
                         data1.push(Math.round(attributesDataItems[key].Value));
                    // }
-                   unit = attributesDataItems[key].UnitsAbbreviation;
                   });                    
-                  data1.pop();                    
+                  data1.pop();
                   data.push({
                     name: name,
-                    type: 'spline',
-                    yAxis: sr,
                     color:colors[sr],
-                    data: data1,
-                    tooltip: { valueSuffix: unit}
-                });                
-                yAxisData.push({ 
-                    title: {text: ''},
-                    labels: {format: '{value}'+unit,
-                        style: {color: colors[sr]}
-                    }
+                    data: data1
                 });
-                             
-                Highcharts.chart('container', {
-                        chart: {
-                            zoomType: 'xy'
-                        },
-                        title: {
-                            text: ''
-                        },
-                        subtitle: {
-                            text: ''
-                        },
+                console.log(data);
+                
+                
+                Highcharts.chart('container1', {
+    chart: {
+        zoomType: 'xy'
+    },
+    title: {
+        text: ''
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: [{
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        crosshair: true
+    }],
+    yAxis: [{ // Primary yAxis
+        labels: {
+            format: '{value}°C',
+            style: {
+                color: Highcharts.getOptions().colors[2]
+            }
+        },
+        title: {
+            text: 'Temperature',
+            style: {
+                color: Highcharts.getOptions().colors[2]
+            }
+        },
+        opposite: true
 
-                        yAxis: yAxisData,
-                        tooltip: {
-                            shared: true
-                        },
-                        legend: {
-                            layout: 'vetical',
-                            align: 'right',
-                            x: 0,
-                            verticalAlign: 'top',
-                            y: 40,
-                            floating: true,
-                            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)'
-                        },
-                        plotOptions: {
-                                series: {
-                                     animation: true,
-                                     step: false,
-                                    label: {
-                                        connectorAllowed: true
-                                    },
-                                    pointStart:  2010,
-                                    pointEnd: 2018,
-                                    pointInterval: 1
-                                }
-                            },
-                    series: data
-                });           
-                sr++;
+    },
+    
+    { // Secondary yAxis
+        gridLineWidth: 0,
+        title: {
+            text: 'Rainfall',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        labels: {
+            format: '{value} mm',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        }
+
+    }, { // Tertiary yAxis
+        gridLineWidth: 0,
+        title: {
+            text: 'Sea-Level Pressure',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        },
+        labels: {
+            format: '{value} mb',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        },
+        opposite: true
+    },
+{ // Asif yAxis
+        gridLineWidth: 0,
+        title: {
+            text: 'asif',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        },
+        labels: {
+            format: '{value} k',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        }
+
+    }],
+    tooltip: {
+        shared: true
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'left',
+        x: 80,
+        verticalAlign: 'top',
+        y: 55,
+        floating: true,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)'
+    },
+    series: [{
+        name: 'Rainfall',
+        type: 'spline',
+        yAxis: 1,
+        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+        tooltip: {
+            valueSuffix: ' mm'
+        }
+
+    },  {
+        name: 'Sea-Level Pressure',
+        type: 'spline',
+        yAxis: 2,
+        data: [1016, 1016, 1015.9, 1015.5, 1012.3, 1009.5, 1009.6, 1010.2, 1013.1, 1016.9, 1018.2, 1016.7],
+        marker: {
+            enabled: false
+        },
+        dashStyle: 'shortdot',
+        tooltip: {
+            valueSuffix: ' mb'
+        }
+
+    }, {
+        name: 'Temperature',
+        type: 'spline',
+        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+        tooltip: {
+            valueSuffix: ' °C'
+        }
+    },
+{
+        name: 'asif',
+        type: 'spline',
+        yAxis: 3,
+        data: [45.9, 75.5, 15.4, 15.2, 145.0, 156.0, 155.6, 158.5, 156.4, 94.1, 97.6, 44.4],
+        tooltip: {
+            valueSuffix: ' k'
+        }
+
+    }]
+});
+
+
+
+//                 Highcharts.chart('container', {
+//                chart: {
+//                zoomType: 'x',
+//                 type: 'line'
+//            },
+//        title: {
+//            text: ''
+//        },
+//
+//        subtitle: {
+//            text: ''
+//        },
+//         xAxis: {
+//        type: 'datetime',
+//         tickInterval:  36e5, // one week        
+//              
+//    },
+//        yAxis: {
+//            title: {
+//                text: 'Element Data'
+//            }
+//        },
+//        legend: {
+//            layout: 'horizontal',
+//            align: 'center',
+//            verticalAlign: 'bottom'
+//        },
+//
+//        plotOptions: {
+//            series: {
+//                 animation: false,
+//                 step: false,
+//                label: {
+//                    connectorAllowed: true
+//                },
+//                pointStart: Date.UTC(2018, 10, 14),
+//                pointEnd:Date.UTC(2018, 10, 15),
+//                //pointInterval: 24 * 3600 * 1000 * 31 ,
+//                 //pointIntervalUnit: 'month'
+////                pointStart: Date.UTC(2018, 10, 14,18,51,00),
+////                pointEnd:Date.UTC(2018, 10, 15,18,51,00),
+//               pointInterval: 36e5
+//                //pointInterval: 3600 //* 1000 //* 31 // one Month
+//            }
+//        },
+//
+//        series: data,
+//
+//        responsive: {
+//            rules: [{
+//                condition: {
+//                    maxWidth: 500
+//                },
+//                chartOptions: {
+//                    legend: {
+//                        layout: 'horizontal',
+//                        align: 'center',
+//                        verticalAlign: 'bottom'
+//                    }
+//                }
+//            }]
+//        }
+//
+//    });
+                 //chartdata(data);   
+                  sr++;
             });            
     }); 
     

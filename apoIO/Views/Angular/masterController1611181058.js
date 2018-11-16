@@ -87,22 +87,20 @@ $("#elementList").change(function (){
     /*********chart section**********/
   //updateChart(100);	
 //setInterval(function(){updateChart()}, updateInterval);
- 
-
 });
   
 function getMap(id){    
     var data=[];
-    var yAxisData=[];
     var sr=0;
     var startDate = $('#startDate').val();
     var startTime = $("#startTime").val();
     var startDateTime = (startDate + 'T' + startTime);
     var endDate = $('#endDate').val();
     var endTime = $("#endTime").val();
-    var endDateTime = (endDate + 'T' + endTime); 
-     var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'];    
-    $.each($("input[name='selectorLeft']:checked"), function(){ 
+    var endDateTime = (endDate + 'T' + endTime);
+    
+    $.each($("input[name='selectorLeft']:checked"), function(){            
+        var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'];       
         var data1=[];
         var WebId = $(this).val();
         var name = $(this).attr("data-name");
@@ -114,77 +112,143 @@ function getMap(id){
             });
             $.when(attributesData).done(function () {                 
                  var attributesDataItems = (attributesData.responseJSON.Items);
-                 var unit = '';
                  //console.log(JSON.stringify(attributesDataItems));
                 $.each(attributesDataItems,function(key) {
                     //var val = Math.round(attributesDataItems[key].Value);
                     //if(isNaN(val)){
                         data1.push(Math.round(attributesDataItems[key].Value));
                    // }
-                   unit = attributesDataItems[key].UnitsAbbreviation;
                   });                    
-                  data1.pop();                    
+                  data1.pop();
                   data.push({
                     name: name,
-                    type: 'spline',
-                    yAxis: sr,
                     color:colors[sr],
-                    data: data1,
-                    tooltip: { valueSuffix: unit}
-                });                
-                yAxisData.push({ 
-                    title: {text: ''},
-                    labels: {format: '{value}'+unit,
-                        style: {color: colors[sr]}
-                    }
+                    data: data1
                 });
-                             
-                Highcharts.chart('container', {
-                        chart: {
-                            zoomType: 'xy'
-                        },
-                        title: {
-                            text: ''
-                        },
-                        subtitle: {
-                            text: ''
-                        },
+                console.log(data);
+                 Highcharts.chart('container', {
+                chart: {
+                zoomType: 'x',
+                 type: 'line'
+            },
+        title: {
+            text: ''
+        },
 
-                        yAxis: yAxisData,
-                        tooltip: {
-                            shared: true
-                        },
-                        legend: {
-                            layout: 'vetical',
-                            align: 'right',
-                            x: 0,
-                            verticalAlign: 'top',
-                            y: 40,
-                            floating: true,
-                            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)'
-                        },
-                        plotOptions: {
-                                series: {
-                                     animation: true,
-                                     step: false,
-                                    label: {
-                                        connectorAllowed: true
-                                    },
-                                    pointStart:  2010,
-                                    pointEnd: 2018,
-                                    pointInterval: 1
-                                }
-                            },
-                    series: data
-                });           
-                sr++;
+        subtitle: {
+            text: ''
+        },
+         xAxis: {
+        type: 'datetime',
+         tickInterval:  36e5, // one week        
+              
+    },
+        yAxis: {
+            title: {
+                text: 'Element Data'
+            }
+        },
+        legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+        },
+
+        plotOptions: {
+            series: {
+                 animation: false,
+                 step: false,
+                label: {
+                    connectorAllowed: true
+                },
+                pointStart: Date.UTC(2018, 10, 14),
+                pointEnd:Date.UTC(2018, 10, 15),
+                //pointInterval: 24 * 3600 * 1000 * 31 ,
+                 //pointIntervalUnit: 'month'
+//                pointStart: Date.UTC(2018, 10, 14,18,51,00),
+//                pointEnd:Date.UTC(2018, 10, 15,18,51,00),
+               pointInterval: 36e5
+                //pointInterval: 3600 //* 1000 //* 31 // one Month
+            }
+        },
+
+        series: data,
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+                 //chartdata(data);   
+                  sr++;
             });            
     }); 
-    
-   
 }
 
-  
+  function chartdata(seriesdata){
+           Highcharts.chart('container', {
+                chart: {
+                zoomType: 'x',
+                 type: 'line'
+            },
+        title: {
+            text: ''
+        },
 
+        subtitle: {
+            text: ''
+        },
+        yAxis: {
+            title: {
+                text: 'Element Data'
+            }
+        },
+        legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+        },
 
+        plotOptions: {
+            series: {
+                 animation: false,
+                  step: false,
+                label: {
+                    connectorAllowed: true
+                },
+                pointStart: 2010
+                //pointEnd:2060
+                 //pointInterval: 24 * 3600 * 1000 // one day
+            }
+        },
 
+        series: seriesdata,
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+}
