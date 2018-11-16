@@ -1,18 +1,16 @@
 app.controller('masterController', function($scope) {
  $(function() {
     var now = new Date();
-    var month = (now.getMonth() + 1);  
-    var emonth = (now.getMonth());
+    var month = (now.getMonth() + 1);               
     var day = now.getDate();
     if (month < 10) 
         month = "0" + month;
     if (day < 10) 
         day = "0" + day;
-    var start = now.getFullYear()+'-'+emonth + '-' + day;
-    var end = now.getFullYear()+'-'+month + '-' + day;
-     $("#startDate").val(start);
+    var today = now.getFullYear()+'-'+month + '-' + day;    
+     $("#startDate").val(today);
     $( "#startDate").datepicker({dateFormat: 'yy-mm-dd',maxDate : '0'});
-     $("#endDate").val(end);
+     $("#endDate").val(today);
     $( "#endDate").datepicker({dateFormat: 'yy-mm-dd',maxDate : '0'});
 });
 $(function(){     
@@ -100,14 +98,12 @@ function getMap(id){
     var max= '';
     var sr=0;
     var startDate = $('#startDate').val();
-    var nstartDate = startDate.split('-');//for chart start point
     var startTime = $("#startTime").val();
     var startDateTime = (startDate + 'T' + startTime);
     var endDate = $('#endDate').val();
-    var nendDate = endDate.split('-');//for chart end point
     var endTime = $("#endTime").val();
     var endDateTime = (endDate + 'T' + endTime); 
-    var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']; 
+     var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']; 
      
     $.each($("input[name='selectorLeft']:checked"), function(){ 
         var data1=[];
@@ -151,7 +147,8 @@ function getMap(id){
                     labels: {format: '{value}'+unit,
                         style: {color: colors[sr]}
                     }
-                });                             
+                });
+                             
                 Highcharts.chart('container', {
                         chart: {
                             zoomType: 'xy'
@@ -162,12 +159,15 @@ function getMap(id){
                         subtitle: {
                             text: ''
                         },
-                        xAxis:{ 
-                            type: 'datetime',
-                            tickInterval: 24 * 3600 * 1000, //one day
-                            labels:{rotation : 0},
-                        },
-                        yAxis: yAxisData, //Y AXIS RANGE DATA
+                        xAxis      : { 
+                            type           : 'datetime',
+                            tickInterval   : 24 * 3600 * 1000, //one day
+                            labels         : {
+                                rotation : 0
+                            },
+             //categories : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+        },
+                        yAxis: yAxisData,
                         tooltip: {
                             shared: true
                         },
@@ -178,7 +178,7 @@ function getMap(id){
                             verticalAlign: 'top',
                             y: 40,
                             floating: true,
-                            backgroundColor: 'rgba(255,255,255,0.25'
+                            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)'
                         },
                         plotOptions: {
                                 series: {
@@ -187,18 +187,19 @@ function getMap(id){
                                     label: {
                                         connectorAllowed: true
                                     },
-                                    pointStart:Date.UTC(nstartDate[0],nstartDate[1]-1,nstartDate[2]),
-                                    pointEnd: Date.UTC(nendDate[0],nendDate[1]-1,nendDate[2]),
+                                    pointStart:Date.UTC(2018,10,14),
+                                    pointEnd: Date.UTC(2018,10,16),
                                     pointInterval: 36e5 //one hour
                                    // pointInterval   : 24 * 3600 * 1000 //one day
                                    // pointInterval   : 24 * 3600 * 1000 * 31//one month
                                 }
                             },
-                    series: data //PI ATTRIBUTES RECORDED DATA
+                    series: data
                 });           
                 sr++;
             });            
     }); 
+    
    
 }
 
