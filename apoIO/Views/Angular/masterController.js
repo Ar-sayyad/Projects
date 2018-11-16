@@ -71,7 +71,7 @@ $("#elementList").change(function (){
                         }
                         else if(category[key1]===valueCat){
                             var url = baseServiceUrl + 'attributes/' + attributesItems[key].WebId + '/value';
-                            console.log(url);
+                            console.log(url+" "+attributesItems[key].Name);
                             var attributesValue =  processJsonContent(url, 'GET', null);
                              $.when(attributesValue).fail(function () {
                                     console.log("Cannot Find the Attributes Values.");
@@ -118,8 +118,8 @@ function getMap(id){
         var data1=[];
         var WebId = $(this).val();
         var name = $(this).attr("data-name");
-        var url = baseServiceUrl+'streams/' + WebId + '/interpolated?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
-        //console.log(url);
+        var url = baseServiceUrl+'streams/' + WebId + '/recorded?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
+        console.log(url);
         var attributesData =  processJsonContent(url, 'GET', null);
             $.when(attributesData).fail(function () {
                 console.log("Cannot Find the Attributes.");
