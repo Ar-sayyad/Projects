@@ -225,3 +225,10 @@ body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webki
 .highcharts-credits{
     display: none;
 }
+.attributeData{
+    float:left;
+    width:25%;
+}
+.attributeData h6{
+    font-size: 13px;
+}
