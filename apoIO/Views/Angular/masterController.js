@@ -50,7 +50,7 @@ var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDa
 $("#elementList").change(function (){
     $("#container").empty();
     $("#attributesListLeft").empty();
-    $(".tableAttributes tbody").empty();
+    $(".tableAttributes").empty();
     var WebId = $("#elementList").val();
      var url = baseServiceUrl + 'elements/' + WebId + '/attributes';
         var attributesList =  processJsonContent(url, 'GET', null);
@@ -69,25 +69,25 @@ $("#elementList").change(function (){
                             <label class="labelList leftLabel" for="elemList'+cat+'">'+attributesItems[key].Name+'</label>\n\
                             </li>');  
                         }
-                        else if(category[key1]===valueCat){
-                            var url = baseServiceUrl + 'attributes/' + attributesItems[key].WebId + '/value';
+                        
+                        else if(timestampCat===category[key1] || valueCat===category[key1]){
+                            var url = baseServiceUrl + 'streams/' + attributesItems[key].WebId + '/value';
                             console.log(url+" "+attributesItems[key].Name);
                             var attributesValue =  processJsonContent(url, 'GET', null);
                              $.when(attributesValue).fail(function () {
                                     console.log("Cannot Find the Attributes Values.");
                                 });
                              $.when(attributesValue).done(function () {
-                                 var Value = (attributesValue.Value);
-                                 var Timestamp = (attributesValue.Timestamp);
-                                  console.log(Value);
-                                 console.log(Timestamp);
-                             }); 
+                                 var Value = Math.round(attributesValue.responseJSON.Value);
+                                 var Timestamp = (attributesValue.responseJSON.Timestamp).substring(0,10);
+                                 $(".tableAttributes").append('<div class="attributeData"><h6>'+attributesItems[key].Name+'</h6><h6>'+Value+'</h6><h6>'+Timestamp+'</h6></div>');
+                                 }); 
                         }
-                        if(category[key1]===valueCat && category[key1]===timestampCat){
-                            
-                            $(".tableAttributes").append('<div class="col-12 tableAttributes"><div class="attributeData"><h6>'+attributesItems[key].Name+'</h6><h6>99</h6><h6>2018-11-15T11:50:00Z</h6></div></div>');
-                            //$(".tableAttributes").append('<tr><td>'+attributesItems[key].Name+'</td><td>'+attributesItems[key].DefaultValue+'</td><td>03-11-2018 11:28AM</td></tr>');
-                        }
+//                        if(category[key1]===valueCat && category[key1]===timestampCat){
+//                            
+//                            $(".tableAttributes").append('<div class="col-12 tableAttributes"><div class="attributeData"><h6>'+attributesItems[key].Name+'</h6><h6>99</h6><h6>2018-11-15T11:50:00Z</h6></div></div>');
+//                            //$(".tableAttributes").append('<tr><td>'+attributesItems[key].Name+'</td><td>'+attributesItems[key].DefaultValue+'</td><td>03-11-2018 11:28AM</td></tr>');
+//                        }
                      });
                     cat++;
                  });                                            
