@@ -55,7 +55,7 @@ $("#elementList").change(function (){
      var url = baseServiceUrl + 'elements/' + WebId + '/attributes';
         var attributesList =  processJsonContent(url, 'GET', null);
             $.when(attributesList).fail(function () {
-                console.log("Cannot Find the Attributes.");
+                warningmsg("Cannot Find the Attributes.");
             });
             $.when(attributesList).done(function () {
                  var attributesItems = (attributesList.responseJSON.Items);
@@ -69,8 +69,24 @@ $("#elementList").change(function (){
                             <label class="labelList leftLabel" for="elemList'+cat+'">'+attributesItems[key].Name+'</label>\n\
                             </li>');  
                         }
-                        else if(valueCat===category[key1] || timestampCat===category[key1]){
-                            $(".tableAttributes").append('<tr><td>'+attributesItems[key].Name+'</td><td>'+attributesItems[key].DefaultValue+'</td><td>03-11-2018 11:28AM</td></tr>');
+                        else if(category[key1]===valueCat){
+                            var url = baseServiceUrl + 'attributes/' + attributesItems[key].WebId + '/value';
+                            console.log(url);
+                            var attributesValue =  processJsonContent(url, 'GET', null);
+                             $.when(attributesValue).fail(function () {
+                                    console.log("Cannot Find the Attributes Values.");
+                                });
+                             $.when(attributesValue).done(function () {
+                                 var Value = (attributesValue.Value);
+                                 var Timestamp = (attributesValue.Timestamp);
+                                  console.log(Value);
+                                 console.log(Timestamp);
+                             }); 
+                        }
+                        if(category[key1]===valueCat && category[key1]===timestampCat){
+                            
+                            $(".tableAttributes").append('<div class="col-12 tableAttributes"><div class="attributeData"><h6>'+attributesItems[key].Name+'</h6><h6>99</h6><h6>2018-11-15T11:50:00Z</h6></div></div>');
+                            //$(".tableAttributes").append('<tr><td>'+attributesItems[key].Name+'</td><td>'+attributesItems[key].DefaultValue+'</td><td>03-11-2018 11:28AM</td></tr>');
                         }
                      });
                     cat++;
