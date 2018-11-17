@@ -1,6 +1,6 @@
 app.controller('masterController', function($scope) {
- $(function() {
-    var now = new Date();
+     var now = new Date();
+ $(function() {   
     var month = (now.getMonth() + 1);  
     var emonth = (now.getMonth());
     var day = now.getDate();
@@ -99,11 +99,9 @@ $("#elementList").change(function (){
             
             /*****LOAD EVENT FRAME DATA START****/
                 var startDate = $('#startDate').val();
-                var nstartDate = startDate.split('-');//for chart start point
                 var startTime = $("#startTime").val();
                 var startDateTime = (startDate + 'T' + startTime);
                 var endDate = $('#endDate').val();
-                var nendDate = endDate.split('-');//for chart end point
                 var endTime = $("#endTime").val();
                 var endDateTime = (endDate + 'T' + endTime); 
                 var eventFrameList=[];
@@ -114,6 +112,7 @@ $("#elementList").change(function (){
                 var etime ='';
                 var y=0;
                 var url = baseServiceUrl + 'elements/' + WebId + '/eventframes?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
+               // console.log(url);
                 var eventFrameData =  processJsonContent(url, 'GET', null);
                     $.when(eventFrameData).fail(function () {
                         console.log("Cannot Find the Event Frames.");
@@ -136,12 +135,15 @@ $("#elementList").change(function (){
                                 stime = stime.split(':');//start time split array
                                 edate = edate.split('-');//end date split array
                                 etime = etime.split(':');//end time split array
+                                if(edate[0]==='9999'){var edyr=sdate[0]; var edmnth = now.getMonth();var eddt=now.getDate();var h = now.getHours();var m = now.getMinutes();var s = now.getSeconds(); eventFrameEndTime="Running";}
+                                else{var edyr=edate[0]; var edmnth = edate[1]-1; var eddt=edate[2];var h = etime[0];var m = etime[1];var s =etime[2];} //if event is Runnig Stage
+                                //console.log(edyr+" "+edmnth+" "+eddt+" "+h+" "+m+" "+s+" "+eventFrameEndTime);
                              data.push({
                                 nm:eventFrameName,
                                 sd:eventFrameStartTime,
                                 ed:eventFrameEndTime,
                                 x: Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]),
-                                x2: Date.UTC(edate[0], edate[1]-1, edate[2],etime[0],etime[1],etime[2]),
+                                x2: Date.UTC(edyr, edmnth, eddt,h,m,etime[2]),
                                 y: y,
                               });   
                               y++;
@@ -261,7 +263,7 @@ function getMap(id){
                     /***This part will be dynamic later By JSON array***/
                     if(name==='BALANCE'){min=0;max= 200;}
                     else if(name==='U'){min=0;max= 250;}
-                    else if(name==='KU'){min=0;max= 10;}
+                    else if(name==='KU'){min=0;max= 200;}
                      /***This part will be dynamic later By JSON array***/
                 yAxisData.push({
                     min:min,
