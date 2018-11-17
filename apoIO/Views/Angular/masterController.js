@@ -116,7 +116,7 @@ $("#elementList").change(function (){
                     });
                      $.when(eventFrameData).done(function () {
                           var eventFrames = (eventFrameData.responseJSON.Items);
-                          console.log(eventFrames);
+                          //console.log(eventFrames);
                             $.each(eventFrames,function(key) {  
                                  var eventFrameName = eventFrames[key].Name;
                                 eventFrameList.push(eventFrameName);                               
@@ -134,6 +134,8 @@ $("#elementList").change(function (){
                                 etime = etime.split(':');//end time split array
                              data.push({
                                 nm:eventFrameName,
+                                sd:eventFrameStartTime,
+                                ed:eventFrameEndTime,
                                 x: Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]),
                                 x2: Date.UTC(edate[0], edate[1]-1, edate[2],etime[0],etime[1],etime[2]),
                                 y: y,
@@ -152,17 +154,30 @@ $("#elementList").change(function (){
                                 xAxis: {
                                   type: 'datetime'
                                 },
+                               tooltip: {
+                                    shared: true,
+                                    useHTML: true,
+                                    headerFormat:'<table>',
+                                    pointFormat: '<tr><th colspan="2" style="text-align: center;font-size:10px;"><b>{point.nm} </b></th></tr>' +
+                                        '<tr><td style="font-size:10px;">Start: {point.sd} - End: {point.ed}</td></tr>',
+                                    footerFormat: '</table>',
+                                    valueDecimals: 2
+                                },
                                 yAxis: {
                                   title: {
                                     text: ''
                                   },
                                   categories: eventFrameList,
-                                  reversed: true
+                                  reversed: true,
+                                  labels: {
+                                        enabled: false
+                                    }
                                 },
                                 series: [{
+                                     showInLegend: false, 
                                   name: 'Event Frames',
-                                  // pointPadding: 0,
-                                  // groupPadding: 0,
+                                   pointPadding: 0,
+                                   groupPadding: 0,
                                   borderColor: 'gray',
                                   pointWidth: 20,
                                   data: data,
