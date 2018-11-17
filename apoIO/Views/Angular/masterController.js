@@ -98,10 +98,14 @@ $("#elementList").change(function (){
             /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES END****/
             
             /*****LOAD EVENT FRAME DATA START****/
-                // var startDate = $('#startDate').val();
-//            var nstartDate = startDate.split('-');//for chart start point
-            //var endDate = $('#endDate').val();
-//            var nendDate = endDate.split('-');//for chart end point
+                var startDate = $('#startDate').val();
+                var nstartDate = startDate.split('-');//for chart start point
+                var startTime = $("#startTime").val();
+                var startDateTime = (startDate + 'T' + startTime);
+                var endDate = $('#endDate').val();
+                var nendDate = endDate.split('-');//for chart end point
+                var endTime = $("#endTime").val();
+                var endDateTime = (endDate + 'T' + endTime); 
                 var eventFrameList=[];
                 var data=[];
                 var sdate ='';
@@ -109,7 +113,7 @@ $("#elementList").change(function (){
                 var edate ='';
                 var etime ='';
                 var y=0;
-                var url = baseServiceUrl + 'elements/' + WebId + '/eventframes';
+                var url = baseServiceUrl + 'elements/' + WebId + '/eventframes?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
                 var eventFrameData =  processJsonContent(url, 'GET', null);
                     $.when(eventFrameData).fail(function () {
                         console.log("Cannot Find the Event Frames.");
@@ -146,7 +150,8 @@ $("#elementList").change(function (){
                                //console.log(data);
                          Highcharts.chart('eventFrame', {
                                 chart: {
-                                  type: 'xrange'
+                                  type: 'xrange',
+                                   zoomType: 'xy'
                                 },
                                 title: {
                                   text: ''
@@ -175,15 +180,20 @@ $("#elementList").change(function (){
                                 },
                                 series: [{
                                      showInLegend: false, 
-                                  name: 'Event Frames',
+                                    name: 'Event Frames',
                                    pointPadding: 0,
                                    groupPadding: 0,
                                   borderColor: 'gray',
-                                  pointWidth: 20,
+                                  pointWidth: 12,
+                                  borderRadius:0,
                                   data: data,
                                   dataLabels: {
                                       format:'{point.nm}',
-                                    enabled: true
+                                    enabled: true,
+                                    style: {
+                                        fontSize: '9',
+                                        fontWeight:''
+                                    }
                                   }
                                 }]
 
@@ -225,7 +235,7 @@ function getMap(id){
         var data1=[];
         var WebId = $(this).val();
         var name = $(this).attr("data-name");
-        var url = baseServiceUrl+'streams/' + WebId + '/recorded?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
+        var url = baseServiceUrl+'streams/' + WebId + '/interpolated?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
        // console.log(url);
         var attributesData =  processJsonContent(url, 'GET', null);
             $.when(attributesData).fail(function () {
