@@ -51,37 +51,43 @@ $("#elementList").change(function (){
     $("#container").empty();
     $("#attributesListLeft").empty();
     $(".tableAttributes").empty();
+    $(".tableAttributes").append('<div class="attributeData"><div class="attrHead attrName">NAME</div><div class="attrHead">VALUE<BR><span>(Timestamp)</span></div></div>');
     var WebId = $("#elementList").val();
      var url = baseServiceUrl + 'elements/' + WebId + '/attributes';
         var attributesList =  processJsonContent(url, 'GET', null);
             $.when(attributesList).fail(function () {
                 warningmsg("Cannot Find the Attributes.");
-            });
+            });            
             $.when(attributesList).done(function () {
                  var attributesItems = (attributesList.responseJSON.Items);
                  var cat=1;
+                 var WebIdVal='';
                  $.each(attributesItems,function(key) {  
                      var category = attributesItems[key].CategoryNames;                    
                      $.each(category,function(key1) {
                          if(trendCat===category[key1]){
                          $("#attributesListLeft").append('<li class="paramterList paramterList'+cat+'">\n\
-                            <input type="checkbox" id="elemList'+cat+'" data-id="'+cat+'" data-value="'+attributesItems[key].DefaultValue+'" data-name="'+attributesItems[key].Name+'" onchange="getMap('+cat+');" class="paraList" value="'+attributesItems[key].WebId+'" name="selectorLeft">\n\
+                            <input type="checkbox" id="elemList'+cat+'" data-id="'+cat+'"  data-name="'+attributesItems[key].Name+'" onchange="getMap('+cat+');" class="paraList" value="'+attributesItems[key].WebId+'" name="selectorLeft">\n\
                             <label class="labelList leftLabel" for="elemList'+cat+'">'+attributesItems[key].Name+'</label>\n\
                             </li>');  
                         }
                         
                         else if(timestampCat===category[key1] || valueCat===category[key1]){
+                            if(WebIdVal==='' || WebIdVal!==attributesItems[key].WebId){
                             var url = baseServiceUrl + 'streams/' + attributesItems[key].WebId + '/value';
-                            console.log(url+" "+attributesItems[key].Name);
+                           // console.log(url+" "+attributesItems[key].Name);
                             var attributesValue =  processJsonContent(url, 'GET', null);
-                             $.when(attributesValue).fail(function () {
+                                $.when(attributesValue).fail(function () {
                                     console.log("Cannot Find the Attributes Values.");
                                 });
-                             $.when(attributesValue).done(function () {
-                                 var Value = Math.round(attributesValue.responseJSON.Value);
-                                 var Timestamp = (attributesValue.responseJSON.Timestamp).substring(0,10);
-                                 $(".tableAttributes").append('<div class="attributeData"><h6>'+attributesItems[key].Name+'</h6><h6>'+Value+'</h6><h6>'+Timestamp+'</h6></div>');
+                                $.when(attributesValue).done(function () {
+                                    var Value = Math.round(attributesValue.responseJSON.Value);
+                                     var Units = (attributesValue.responseJSON.UnitsAbbreviation);
+                                    var Timestamp = (attributesValue.responseJSON.Timestamp).substring(0,10);
+                                 $(".tableAttributes").append('<div class="attributeData"><div class="attrName">'+attributesItems[key].Name+'</div><div>'+Value+' <b>'+Units+'</b><br><span>('+Timestamp+')</span></div></div>');
                                  }); 
+                                 WebIdVal=attributesItems[key].WebId;
+                             }
                         }
 //                        if(category[key1]===valueCat && category[key1]===timestampCat){
 //                            
@@ -119,7 +125,7 @@ function getMap(id){
         var WebId = $(this).val();
         var name = $(this).attr("data-name");
         var url = baseServiceUrl+'streams/' + WebId + '/recorded?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
-        console.log(url);
+       // console.log(url);
         var attributesData =  processJsonContent(url, 'GET', null);
             $.when(attributesData).fail(function () {
                 console.log("Cannot Find the Attributes.");

@@ -225,10 +225,31 @@ body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webki
 .highcharts-credits{
     display: none;
 }
-.attributeData{
+.attributeData, .attributeData1{
     float:left;
-    width:25%;
+    width: 24%;
+    padding: 0px;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #223035;
+    margin-right: 4px;
+    box-shadow: 1px 1px 1px 0px #6c757d, 0 0px 6px 0 #f8f9fa;
 }
-.attributeData h6{
+.attributeData1 div,.attributeData div{
     font-size: 13px;
+    border: 1px solid #495057;
+}
+.attributeData span{
+        font-size: 12px;
+}
+.attrHead{
+    font-weight: 600;
+}
+.map{
+    margin-top: -3px;
+}
+.attrName{
+    height: 40px;
+    font-weight: 600;
 }
