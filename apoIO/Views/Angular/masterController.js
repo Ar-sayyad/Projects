@@ -98,14 +98,16 @@ $("#elementList").change(function (){
             /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES END****/
             
             /*****LOAD EVENT FRAME DATA START****/
-//                 var startDate = $('#startDate').val();
+                // var startDate = $('#startDate').val();
 //            var nstartDate = startDate.split('-');//for chart start point
-//            var endDate = $('#endDate').val();
+            //var endDate = $('#endDate').val();
 //            var nendDate = endDate.split('-');//for chart end point
                 var eventFrameList=[];
                 var data=[];
                 var sdate ='';
+                var stime ='';
                 var edate ='';
+                var etime ='';
                 var y=0;
                 var url = baseServiceUrl + 'elements/' + WebId + '/eventframes';
                 var eventFrameData =  processJsonContent(url, 'GET', null);
@@ -114,24 +116,32 @@ $("#elementList").change(function (){
                     });
                      $.when(eventFrameData).done(function () {
                           var eventFrames = (eventFrameData.responseJSON.Items);
+                          console.log(eventFrames);
                             $.each(eventFrames,function(key) {  
                                  var eventFrameName = eventFrames[key].Name;
                                 eventFrameList.push(eventFrameName);                               
                                 var eventFrameStartTime = eventFrames[key].StartTime;
                                 var eventFrameEndTime = eventFrames[key].EndTime;
-                                     sdate = eventFrameStartTime.substring(0,10);
-                                     edate = eventFrameEndTime.substring(0,10);
+                                     sdate = eventFrameStartTime.substring(0,10);//start date
+                                     stime = eventFrameStartTime.substring(11,19);//start time
+                                     edate = eventFrameEndTime.substring(0,10);//end date
+                                     etime = eventFrameEndTime.substring(11,19);//end time
+                                     
                               //  console.log("Event Frame Name: "+eventFrameName+" Started: "+ eventFrameStartTime+" "+date+" Ended: "+eventFrameEndTime);
-                                
-                            }); 
-                            sdate = sdate.split('-');
-                            edate = edate.split('-');
+                                sdate = sdate.split('-');//start date split array
+                                stime = stime.split(':');//start time split array
+                                edate = edate.split('-');//end date split array
+                                etime = etime.split(':');//end time split array
                              data.push({
-                                x: Date.UTC(sdate[0], sdate[1]-1, sdate[2]),
-                                x2: Date.UTC(edate[0], edate[1]-1, edate[2]),
+                                nm:eventFrameName,
+                                x: Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]),
+                                x2: Date.UTC(edate[0], edate[1]-1, edate[2],etime[0],etime[1],etime[2]),
                                 y: y,
                               });   
-                               
+                              y++;
+                            }); 
+                           //console.log(eventFrameList);
+                               //console.log(data);
                          Highcharts.chart('eventFrame', {
                                 chart: {
                                   type: 'xrange'
@@ -150,20 +160,20 @@ $("#elementList").change(function (){
                                   reversed: true
                                 },
                                 series: [{
-                                  name: '',
+                                  name: 'Event Frames',
                                   // pointPadding: 0,
                                   // groupPadding: 0,
                                   borderColor: 'gray',
                                   pointWidth: 20,
                                   data: data,
                                   dataLabels: {
+                                      format:'{point.nm}',
                                     enabled: true
                                   }
                                 }]
 
                               });
                         
-                        y++;
                   
                      });
                                
