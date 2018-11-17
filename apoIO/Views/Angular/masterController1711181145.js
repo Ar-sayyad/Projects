@@ -53,8 +53,6 @@ $("#elementList").change(function (){
     $(".tableAttributes").empty();
     $(".tableAttributes").append('<div class="attributeData"><div class="attrHead attrName">NAME</div><div class="attrHead">VALUE<BR><span>(Timestamp)</span></div></div>');
     var WebId = $("#elementList").val();
-    
-    /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES START****/
      var url = baseServiceUrl + 'elements/' + WebId + '/attributes';
         var attributesList =  processJsonContent(url, 'GET', null);
             $.when(attributesList).fail(function () {
@@ -91,95 +89,21 @@ $("#elementList").change(function (){
                                  WebIdVal=attributesItems[key].WebId;
                              }
                         }
+//                        if(category[key1]===valueCat && category[key1]===timestampCat){
+//                            
+//                            $(".tableAttributes").append('<div class="col-12 tableAttributes"><div class="attributeData"><h6>'+attributesItems[key].Name+'</h6><h6>99</h6><h6>2018-11-15T11:50:00Z</h6></div></div>');
+//                            //$(".tableAttributes").append('<tr><td>'+attributesItems[key].Name+'</td><td>'+attributesItems[key].DefaultValue+'</td><td>03-11-2018 11:28AM</td></tr>');
+//                        }
                      });
                     cat++;
                  });                                            
-            });  
-            /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES END****/
-            
-            /*****LOAD EVENT FRAME DATA START****/
-//                 var startDate = $('#startDate').val();
-//            var nstartDate = startDate.split('-');//for chart start point
-//            var endDate = $('#endDate').val();
-//            var nendDate = endDate.split('-');//for chart end point
-                var eventFrameList=[];
-                var data=[];
-                var sdate ='';
-                var edate ='';
-                var y=0;
-                var url = baseServiceUrl + 'elements/' + WebId + '/eventframes';
-                var eventFrameData =  processJsonContent(url, 'GET', null);
-                    $.when(eventFrameData).fail(function () {
-                        console.log("Cannot Find the Event Frames.");
-                    });
-                     $.when(eventFrameData).done(function () {
-                          var eventFrames = (eventFrameData.responseJSON.Items);
-                            $.each(eventFrames,function(key) {  
-                                 var eventFrameName = eventFrames[key].Name;
-                                eventFrameList.push(eventFrameName);                               
-                                var eventFrameStartTime = eventFrames[key].StartTime;
-                                var eventFrameEndTime = eventFrames[key].EndTime;
-                                     sdate = eventFrameStartTime.substring(0,10);
-                                     edate = eventFrameEndTime.substring(0,10);
-                              //  console.log("Event Frame Name: "+eventFrameName+" Started: "+ eventFrameStartTime+" "+date+" Ended: "+eventFrameEndTime);
-                                
-                            }); 
-                            sdate = sdate.split('-');
-                            edate = edate.split('-');
-                             data.push({
-                                x: Date.UTC(sdate[0], sdate[1]-1, sdate[2]),
-                                x2: Date.UTC(edate[0], edate[1]-1, edate[2]),
-                                y: y,
-                              });   
-                               
-                         Highcharts.chart('eventFrame', {
-                                chart: {
-                                  type: 'xrange'
-                                },
-                                title: {
-                                  text: ''
-                                },
-                                xAxis: {
-                                  type: 'datetime'
-                                },
-                                yAxis: {
-                                  title: {
-                                    text: ''
-                                  },
-                                  categories: eventFrameList,
-                                  reversed: true
-                                },
-                                series: [{
-                                  name: '',
-                                  // pointPadding: 0,
-                                  // groupPadding: 0,
-                                  borderColor: 'gray',
-                                  pointWidth: 20,
-                                  data: data,
-                                  dataLabels: {
-                                    enabled: true
-                                  }
-                                }]
-
-                              });
-                        
-                        y++;
-                  
-                     });
-                               
-//       
-           
-          
-
-             /*****LOAD EVENT FRAME DATA END****/
-            
-  }); 
-  
+            });    
+  });       
 });
 
   /*********chart section start**********/
   
-function getMap(id){   
+function getMap(id){    
     var data=[];
     var yAxisData=[];
     var xAxis=[];
@@ -290,7 +214,6 @@ function getMap(id){
             });            
     });    
 }
-
 
 /*********chart section end**********/
 
