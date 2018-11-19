@@ -270,73 +270,73 @@ var now = new Date();
                         
             
             
-//            var url = baseServiceUrl+'streams/' + WebId + '/recorded?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
-//           // console.log(url);
-//            var attributesData =  processJsonContent(url, 'GET', null);
-//            $.when(attributesData).fail(function () {
-//                console.log("Cannot Find the Attributes.");
-//            });
-//            $.when(attributesData).done(function () { 
-//             var attributesDataItems = (attributesData.responseJSON.Items);
-//                 var unit = '';
-//                $.each(attributesDataItems,function(key) {
-//                        data1.push(Math.round(attributesDataItems[key].Value));
-//                        xAxis.push(attributesDataItems[key].Timestamp);
-//                        unit = attributesDataItems[key].UnitsAbbreviation;
-//                  });                    
-//                  data1.pop();                    
-//                  data.push({
-//                    name: name,
-//                    type: 'spline',
-//                    yAxis: sr,
-//                    color:colors[sr],
-//                    data: data1,
-//                    tooltip: { valueSuffix: unit}
-//                });  
-//                    /***This part will be dynamic later By JSON array***/
-//                    if(name==='BALANCE'){min=0;max= 200;}
-//                    else if(name==='U'){min=0;max= 250;}
-//                    else if(name==='KU'){min=0;max= 200;}
-//                     /***This part will be dynamic later By JSON array***/
-//                yAxisData.push({
-//                    min:min,
-//                    max:max,
-//                    title: {text: ''},
-//                    labels: {format: '{value}'+unit,
-//                        style: {color: colors[sr]}
-//                    }
-//                });                             
-//                Highcharts.chart('container', {
-//                        chart: {
-//                            zoomType: 'xy'
-//                        },
-//                        title: {
-//                            text: ''
-//                        },
-//                        subtitle: {
-//                            text: ''
-//                        },
-//                         xAxis: [{
-//                                categories: xAxis,
-//                                crosshair: true
-//                            }],
-//                        yAxis: yAxisData, //Y AXIS RANGE DATA
-//                        tooltip: {
-//                            shared: true
-//                        },
-//                        legend: {
-//                            layout: 'vetical',
-//                            align: 'right',
-//                            x: 0,
-//                            verticalAlign: 'top',
-//                            y: 40,
-//                            floating: true,
-//                            backgroundColor: 'rgba(255,255,255,0.25'
-//                        },
-//                    series: data //PI ATTRIBUTES RECORDED DATA
-//                });           
-//                sr++;
-//            }); 
+            var url = baseServiceUrl+'streams/' + WebId + '/recorded?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
+           // console.log(url);
+            var attributesData =  processJsonContent(url, 'GET', null);
+            $.when(attributesData).fail(function () {
+                console.log("Cannot Find the Attributes.");
+            });
+            $.when(attributesData).done(function () { 
+             var attributesDataItems = (attributesData.responseJSON.Items);
+                 var unit = '';
+                $.each(attributesDataItems,function(key) {
+                        data1.push(Math.round(attributesDataItems[key].Value));
+                        xAxis.push(attributesDataItems[key].Timestamp);
+                        unit = attributesDataItems[key].UnitsAbbreviation;
+                  });                    
+                  data1.pop();                    
+                  data.push({
+                    name: name,
+                    type: 'spline',
+                    yAxis: sr,
+                    color:colors[sr],
+                    data: data1,
+                    tooltip: { valueSuffix: unit}
+                });  
+                    /***This part will be dynamic later By JSON array***/
+                    if(name==='BALANCE'){min=0;max= 200;}
+                    else if(name==='U'){min=0;max= 250;}
+                    else if(name==='KU'){min=0;max= 200;}
+                     /***This part will be dynamic later By JSON array***/
+                yAxisData.push({
+                    min:min,
+                    max:max,
+                    title: {text: ''},
+                    labels: {format: '{value}'+unit,
+                        style: {color: colors[sr]}
+                    }
+                });                             
+                Highcharts.chart('container', {
+                        chart: {
+                            zoomType: 'xy'
+                        },
+                        title: {
+                            text: ''
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                         xAxis: [{
+                                categories: xAxis,
+                                crosshair: true
+                            }],
+                        yAxis: yAxisData, //Y AXIS RANGE DATA
+                        tooltip: {
+                            shared: true
+                        },
+                        legend: {
+                            layout: 'vetical',
+                            align: 'right',
+                            x: 0,
+                            verticalAlign: 'top',
+                            y: 40,
+                            floating: true,
+                            backgroundColor: 'rgba(255,255,255,0.25'
+                        },
+                    series: data //PI ATTRIBUTES RECORDED DATA
+                });           
+                sr++;
+            }); 
         }
      });
     /****ADD CELL GRAPH END****/ 
