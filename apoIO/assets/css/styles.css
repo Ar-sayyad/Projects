@@ -113,7 +113,7 @@ input[type=checkbox]:checked ~ label{
     float: left;
 }
 
-body::-webkit-scrollbar,#style-1::-webkit-scrollbar,#style-2::-webkit-scrollbar,#style-3::-webkit-scrollbar,.content-wrapper::-webkit-scrollbar {
+body::-webkit-scrollbar,.style-1::-webkit-scrollbar,#style-1::-webkit-scrollbar,#style-2::-webkit-scrollbar,#style-3::-webkit-scrollbar,.content-wrapper::-webkit-scrollbar {
     width: 6px;
     background-color: #F5F5F5;
 } 
@@ -126,6 +126,9 @@ body::-webkit-scrollbar-thumb{
 #style-1::-webkit-scrollbar-thumb {
     background-color: #008cffc2;
 }
+.style-1::-webkit-scrollbar-thumb {
+    background-color: #008cffc2;
+}
 #style-2::-webkit-scrollbar-thumb  {
     background-color: #15ca20ad;
 }
@@ -135,7 +138,7 @@ body::-webkit-scrollbar-thumb{
 #style-3::-webkit-scrollbar-thumb  {
     background-color: #008cffc2;
 }
-body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webkit-scrollbar-track,#style-3::-webkit-scrollbar-track,.content-wrapper::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track,.style-1::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webkit-scrollbar-track,#style-3::-webkit-scrollbar-track,.content-wrapper::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
 }
@@ -261,7 +264,7 @@ body::-webkit-scrollbar-track,#style-1::-webkit-scrollbar-track,#style-2::-webki
     font-weight: 600;
 }
 .childGraph{
-    height: 360px;
+    height: 450px;
 }
 .tableAttributes{
     padding-right: 0px;

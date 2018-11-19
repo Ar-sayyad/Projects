@@ -26,12 +26,7 @@ var now = new Date();
     });
     
     /***Date Time Declaration Start****/
-    var startDate = $('#startDate').val();
-    var startTime = $("#startTime").val();
-    var startDateTime = (startDate + 'T' + startTime+'Z');
-    var endDate = $('#endDate').val();
-    var endTime = $("#endTime").val();
-    var endDateTime = (endDate + 'T' + endTime+'Z'); 
+   
     var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']; //for chart color
     /***Date Time Declaration End****/
     
@@ -134,7 +129,13 @@ var now = new Date();
             });  
             /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES END****/
             
-            /*****LOAD EVENT FRAME DATA START****/                
+            /*****LOAD EVENT FRAME DATA START****/ 
+                var startDate = $('#startDate').val();
+                var startTime = $("#startTime").val();
+                var startDateTime = (startDate + 'T' + startTime+'Z');
+                var endDate = $('#endDate').val();
+                var endTime = $("#endTime").val();
+                var endDateTime = (endDate + 'T' + endTime+'Z'); 
                 var eventFrameList=[];
                 var data=[];
                 var sdate ='',stime ='',edate ='',etime ='',y=0;
@@ -229,19 +230,25 @@ var now = new Date();
     /*****BLOCK ELEMENT ONCHNAGE END****/
     
     /****ADD CELL GRAPH START****/
-     $("#addCellGraph").click(function(){ 
-        var data=[];
-        var yAxisData=[];
-        var xAxis=[];
-        var min=''; //chart y axis min value
-        var max= '';//chart y axis max value
-        var sr=0;
+     $("#addCellGraph").click(function(){
+//       $("#cellGraphList").append('<div class="col-12 col-lg-6 col-xl-3">\n\
+//                                                <div class="card">\n\
+//                                                    <div class="card-body childGraph style-1">\n\
+//                                                        <ul id="cellgraph'+maincell+'"></ul>\n\
+//                                                    </div>\n\
+//                                                </div>\n\
+//                                            </div>\n\
+//                                            <div class="col-12 col-lg-6 col-xl-9">\n\
+//                                                <div class="card">\n\
+//                                                    <div class="card-body childGraph" id="cellgraph'+maincell+'"></div>\n\
+//                                                </div>\n\
+//                                            </div>');
         if (!$("#elementChildList option:selected").val()) {
             warningmsg("No Element Selected..!");
             return false;
         }
-        else{
-            var data1=[];
+        else{  
+            
             var childName = $("#elementChildList option:selected").attr("data-name");//childElementName
             var ChildWebId = $("#elementChildList").val();
             //console.log(childElementName+" "+WebId+" "+startDate);
@@ -252,94 +259,117 @@ var now = new Date();
             $.when(childParaData).fail(function () {
                 console.log("Cannot Find the child Parameters.");
             });
-            $.when(childParaData).done(function () {
+            $.when(childParaData).done(function () {                    
                  var childAttributesItems = (childParaData.responseJSON.Items);
                  var cat=1;
                  $.each(childAttributesItems,function(key) {  
                      var category = childAttributesItems[key].CategoryNames;                    
                      $.each(category,function(key1) {
                          if(trendCat===category[key1]){
-                         $("#cell1graph").append('<li class="paramterList paramterList'+cat+'">\n\
-                            <input type="checkbox" id="elemList'+cat+'" data-id="'+cat+'"  data-name="'+childAttributesItems[key].Name+'" onchange="getMap('+cat+');" class="paraList" value="'+childAttributesItems[key].WebId+'" name="selectorLeft">\n\
+                         $("#cellgraph1").append('<li class="paramterList paramterList'+cat+'">\n\
+                            <input type="checkbox" id="elemList'+cat+'" data-id="'+cat+'"  data-name="'+childAttributesItems[key].Name+'" class="paraList getChildChart" value="'+childAttributesItems[key].WebId+'" name="selectorChild">\n\
                             <label class="labelList leftLabel" for="elemList'+cat+'">'+childAttributesItems[key].Name+'</label>\n\
                             </li>');  
                         }
                     });
+                     $("#elemList"+cat).click(function(){
+                        var startDate = $('#startDate').val();
+                        var startTime = $("#startTime").val();
+                        var startDateTime = (startDate + 'T' + startTime+'Z');
+                        var endDate = $('#endDate').val();
+                        var endTime = $("#endTime").val();
+                        var endDateTime = (endDate + 'T' + endTime+'Z'); 
+                        var data=[];
+                        var yAxisData=[];
+                        var xAxis=[];
+                        var min=''; //chart y axis min value
+                        var max= '';//chart y axis max value
+                        var sr=0;
+            $.each($("input[name='selectorChild']:checked"), function(){ 
+                var data1=[];
+                var WebId = $(this).val();
+                var name = $(this).attr("data-name");
+                var url = baseServiceUrl+'streams/' + WebId + '/interpolated?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
+                console.log(url);
+            var attributesData =  processJsonContent(url, 'GET', null);
+            $.when(attributesData).fail(function () {
+                console.log("Cannot Find the Attributes.");
+            });
+            $.when(attributesData).done(function () {                 
+                 var attributesDataItems = (attributesData.responseJSON.Items);
+                 var unit = '';
+                $.each(attributesDataItems,function(key) {
+                        data1.push(Math.round(attributesDataItems[key].Value));
+                        xAxis.push(attributesDataItems[key].Timestamp);
+                        unit = attributesDataItems[key].UnitsAbbreviation;
+                  });                    
+                  data1.pop();                    
+                  data.push({
+                    name: name,
+                    type: 'spline',
+                    yAxis: sr,
+                    color:colors[sr],
+                    data: data1,
+                    tooltip: { valueSuffix: unit}
+                });  
+                    /***This part will be dynamic later By JSON array***/
+                    if(name==='BALANCE'){min=0;max= 200;}
+                    else if(name==='U'){min=0;max= 250;}
+                    else if(name==='KU'){min=0;max= 200;}
+                    else if(name==='PH'){min=0;max= 200;}
+                    else if(name==='PR'){min=0;max= 300;}
+                    else if(name==='VR'){min=0;max= 250;}
+                     /***This part will be dynamic later By JSON array***/
+                yAxisData.push({
+                    min:min,
+                    max:max,
+                    title: {text: ''},
+                    labels: {format: '{value}'+unit,
+                        style: {color: colors[sr]}
+                    }
+                }); 
+                console.log(cat);
+                Highcharts.chart('cellgraphChart1', {
+                        chart: {
+                            zoomType: 'xy'
+                        },
+                        title: {
+                            text: ''
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                         xAxis: [{
+                                categories: xAxis,
+                                crosshair: true
+                            }],
+                        yAxis: yAxisData, //Y AXIS RANGE DATA
+                        tooltip: {
+                            shared: true
+                        },
+                        legend: {
+                            layout: 'vetical',
+                            align: 'right',
+                            x: 0,
+                            verticalAlign: 'top',
+                            y: 40,
+                            floating: true,
+                            backgroundColor: 'rgba(255,255,255,0.25'
+                        },
+                    series: data //PI ATTRIBUTES RECORDED DATA
+                });           
+                sr++;
+            });            
+    });  
+        });
+                    cat++;
                 });
             });
-                        
-            
-            
-//            var url = baseServiceUrl+'streams/' + WebId + '/recorded?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
-//           // console.log(url);
-//            var attributesData =  processJsonContent(url, 'GET', null);
-//            $.when(attributesData).fail(function () {
-//                console.log("Cannot Find the Attributes.");
-//            });
-//            $.when(attributesData).done(function () { 
-//             var attributesDataItems = (attributesData.responseJSON.Items);
-//                 var unit = '';
-//                $.each(attributesDataItems,function(key) {
-//                        data1.push(Math.round(attributesDataItems[key].Value));
-//                        xAxis.push(attributesDataItems[key].Timestamp);
-//                        unit = attributesDataItems[key].UnitsAbbreviation;
-//                  });                    
-//                  data1.pop();                    
-//                  data.push({
-//                    name: name,
-//                    type: 'spline',
-//                    yAxis: sr,
-//                    color:colors[sr],
-//                    data: data1,
-//                    tooltip: { valueSuffix: unit}
-//                });  
-//                    /***This part will be dynamic later By JSON array***/
-//                    if(name==='BALANCE'){min=0;max= 200;}
-//                    else if(name==='U'){min=0;max= 250;}
-//                    else if(name==='KU'){min=0;max= 200;}
-//                     /***This part will be dynamic later By JSON array***/
-//                yAxisData.push({
-//                    min:min,
-//                    max:max,
-//                    title: {text: ''},
-//                    labels: {format: '{value}'+unit,
-//                        style: {color: colors[sr]}
-//                    }
-//                });                             
-//                Highcharts.chart('container', {
-//                        chart: {
-//                            zoomType: 'xy'
-//                        },
-//                        title: {
-//                            text: ''
-//                        },
-//                        subtitle: {
-//                            text: ''
-//                        },
-//                         xAxis: [{
-//                                categories: xAxis,
-//                                crosshair: true
-//                            }],
-//                        yAxis: yAxisData, //Y AXIS RANGE DATA
-//                        tooltip: {
-//                            shared: true
-//                        },
-//                        legend: {
-//                            layout: 'vetical',
-//                            align: 'right',
-//                            x: 0,
-//                            verticalAlign: 'top',
-//                            y: 40,
-//                            floating: true,
-//                            backgroundColor: 'rgba(255,255,255,0.25'
-//                        },
-//                    series: data //PI ATTRIBUTES RECORDED DATA
-//                });           
-//                sr++;
-//            }); 
         }
+           
      });
-    /****ADD CELL GRAPH END****/ 
+    /****ADD CELL GRAPH END****/     
+    
 });
 
   /*********chart section start**********/
