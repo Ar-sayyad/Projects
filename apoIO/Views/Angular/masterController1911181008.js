@@ -16,50 +16,46 @@ var now = new Date();
        $( "#endDate").datepicker({dateFormat: 'yy-mm-dd',maxDate : '0'});
    });
     $(function(){     
-      var h = now.getHours(),
-          m = now.getMinutes();
+      var d = new Date(),        
+          h = d.getHours(),
+          m = d.getMinutes();
       if(h < 10) h = '0' + h; 
       if(m < 10) m = '0' + m; 
       $('input[type="time"][name="time"]').attr({'value': h + ':' + m});
     });
-    
-    var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName; 
+
+var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName; 
        var ajaxEF =  processJsonContent(url, 'GET', null);
            $.when(ajaxEF).fail(function () {
                warningmsg("Cannot Find the WebId.");
            });
-            $.when(ajaxEF).done(function () {
+           $.when(ajaxEF).done(function () {
                var WebId = (ajaxEF.responseJSON.WebId); 
-               
-                /****TEMPLATE ELEMENT SEARCH BY TEMPLATE NAME START****/
-                var url = baseServiceUrl + 'assetdatabases/' + WebId + '/elements?templateName=' + templateName+'&searchFullHierarchy=true';
-                    var elementList =  processJsonContent(url, 'GET', null);                    
-                    $.when(elementList).fail(function () {
-                        warningmsg("Cannot Find the Element Templates.");
-                    });
-                    $.when(elementList).done(function () {
-                     var elementListItems = (elementList.responseJSON.Items);
-                     var sr= 1;
-                        $.each(elementListItems,function(key) {
-                            $("#elementList").append("<option  data-name="+elementListItems[key].Name+" value="+elementListItems[key].WebId+">"+elementListItems[key].Name+"</option>"); 
-                            sr++;
-                        }); 
-                    });  
-                    /****TEMPLATE ELEMENT SEARCH BY TEMPLATE NAME END****/ 
+               var url = baseServiceUrl + 'assetdatabases/' + WebId + '/elements?templateName=' + templateName+'&searchFullHierarchy=true';
+               var elementList =  processJsonContent(url, 'GET', null);                    
+               $.when(elementList).fail(function () {
+                   warningmsg("Cannot Find the Element Templates.");
                });
+               $.when(elementList).done(function () {
+                   var elementListItems = (elementList.responseJSON.Items);
+                    var sr= 1;
+                   $.each(elementListItems,function(key) {
+                       $("#elementList").append("<option  data-name="+elementListItems[key].Name+" value="+elementListItems[key].WebId+">"+elementListItems[key].Name+"</option>"); 
+                       sr++;
+                       }); 
+                   });                       
+               });
+      
+      /*****BLOCK ELEMENT ONCHNAGE START****/
+$("#elementList").change(function (){
+    $("#container").empty();
+    $("#attributesListLeft").empty();
+    $(".tableAttributes").empty();
+    $(".tableAttributes").append('<div class="attributeData"><div class="attrHead attrName">NAME</div><div class="attrHead">VALUE<BR><span>(Timestamp)</span></div></div>');
+    var WebId = $("#elementList").val();
     
-    /*****BLOCK ELEMENT ONCHNAGE START****/
-    $("#elementList").change(function (){
-        var elementName = $("#elementList option:selected").attr("data-name");//BLOCK ELEMENT NAME FOR IFRAME GRAPH GENERATION
-        //console.log(elementName);
-        $("#container").empty();
-        $("#attributesListLeft").empty();
-        $(".tableAttributes").empty();
-        $(".tableAttributes").append('<div class="attributeData"><div class="attrHead attrName">NAME</div><div class="attrHead">VALUE<BR><span>(Timestamp)</span></div></div>');
-        var WebId = $("#elementList").val();
-   
     /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES START****/
-        var url = baseServiceUrl + 'elements/' + WebId + '/attributes';
+     var url = baseServiceUrl + 'elements/' + WebId + '/attributes';
         var attributesList =  processJsonContent(url, 'GET', null);
             $.when(attributesList).fail(function () {
                 warningmsg("Cannot Find the Attributes.");
@@ -129,26 +125,31 @@ var now = new Date();
                                 eventFrameList.push(eventFrameName);                               
                                 var eventFrameStartTime = eventFrames[key].StartTime;
                                 var eventFrameEndTime = eventFrames[key].EndTime;
-                                    sdate = eventFrameStartTime.substring(0,10);//start date
-                                    stime = eventFrameStartTime.substring(11,19);//start time
-                                    edate = eventFrameEndTime.substring(0,10);//end date
-                                    etime = eventFrameEndTime.substring(11,19);//end time                                     
-                                    sdate = sdate.split('-');//start date split array
-                                    stime = stime.split(':');//start time split array
-                                    edate = edate.split('-');//end date split array
-                                    etime = etime.split(':');//end time split array
+                                     sdate = eventFrameStartTime.substring(0,10);//start date
+                                     stime = eventFrameStartTime.substring(11,19);//start time
+                                     edate = eventFrameEndTime.substring(0,10);//end date
+                                     etime = eventFrameEndTime.substring(11,19);//end time
+                                     
+                              //  console.log("Event Frame Name: "+eventFrameName+" Started: "+ eventFrameStartTime+" "+date+" Ended: "+eventFrameEndTime);
+                                sdate = sdate.split('-');//start date split array
+                                stime = stime.split(':');//start time split array
+                                edate = edate.split('-');//end date split array
+                                etime = etime.split(':');//end time split array
                                 if(edate[0]==='9999'){var edyr=sdate[0]; var edmnth = now.getMonth();var eddt=now.getDate();var h = now.getHours();var m = now.getMinutes();var s = now.getSeconds(); eventFrameEndTime="Running";}
-                                else{var edyr=edate[0]; var edmnth = edate[1]-1; var eddt=edate[2];var h = etime[0];var m = etime[1];var s =etime[2];} //if Event Frame is Runnig Stage                              
-                            data.push({
+                                else{var edyr=edate[0]; var edmnth = edate[1]-1; var eddt=edate[2];var h = etime[0];var m = etime[1];var s =etime[2];} //if event is Runnig Stage
+                                //console.log(edyr+" "+edmnth+" "+eddt+" "+h+" "+m+" "+s+" "+eventFrameEndTime);
+                             data.push({
                                 nm:eventFrameName,
                                 sd:eventFrameStartTime,
                                 ed:eventFrameEndTime,
                                 x: Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]),
-                                x2: Date.UTC(edyr, edmnth, eddt,h,m,s),
+                                x2: Date.UTC(edyr, edmnth, eddt,h,m,etime[2]),
                                 y: y,
-                            });   
-                              y++; //AXIS INCREAMENT
+                              });   
+                              y++;
                             }); 
+                           //console.log(eventFrameList);
+                               //console.log(data);
                          Highcharts.chart('eventFrame', {
                                 chart: {
                                   type: 'xrange',

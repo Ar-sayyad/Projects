@@ -138,17 +138,20 @@ var now = new Date();
                                     edate = edate.split('-');//end date split array
                                     etime = etime.split(':');//end time split array
                                 if(edate[0]==='9999'){var edyr=sdate[0]; var edmnth = now.getMonth();var eddt=now.getDate();var h = now.getHours();var m = now.getMinutes();var s = now.getSeconds(); eventFrameEndTime="Running";}
-                                else{var edyr=edate[0]; var edmnth = edate[1]-1; var eddt=edate[2];var h = etime[0];var m = etime[1];var s =etime[2];} //if Event Frame is Runnig Stage                              
+                                else{var edyr=edate[0]; var edmnth = edate[1]-1; var eddt=edate[2];var h = etime[0];var m = etime[1];var s =etime[2];} //if event is Runnig Stage
+                                //console.log(edyr+" "+edmnth+" "+eddt+" "+h+" "+m+" "+s+" "+eventFrameEndTime);
                             data.push({
                                 nm:eventFrameName,
                                 sd:eventFrameStartTime,
                                 ed:eventFrameEndTime,
                                 x: Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]),
-                                x2: Date.UTC(edyr, edmnth, eddt,h,m,s),
+                                x2: Date.UTC(edyr, edmnth, eddt,h,m,etime[2]),
                                 y: y,
                             });   
                               y++; //AXIS INCREAMENT
                             }); 
+                           //console.log(eventFrameList);
+                               //console.log(data);
                          Highcharts.chart('eventFrame', {
                                 chart: {
                                   type: 'xrange',
