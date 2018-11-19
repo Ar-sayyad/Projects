@@ -13,5 +13,6 @@ var valueCat = "masterdashboard_value";/***CATEGORY FOR VALUE***/
 var timestampCat = "masterdashboard_timestamp";/***CATEGORY FOR TIMESTAMP***/
 var filterCategoryName = "asset_design";/****CATEGORY NAME FOR FILTER ELEMENT TEMPLATE****/
 var allocationAttributeName = "PLANT";/****The Plant Attributes Name for save the allocation page data***/
+var iframeConfigUrl = "http://www.google.com"; //IFRAME URL 
 
 /***CONFIGURATION SETTING***/

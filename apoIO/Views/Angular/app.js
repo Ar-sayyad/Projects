@@ -11,7 +11,7 @@ app.config(function($routeProvider){
 var processJsonContent=function(url,type,data){
     return $.ajax({
         url:encodeURI(url),
-        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        headers: { 'X-Requested-With': 'XMLHttpRequest'},
         type:type,
         data:data,
         contentType:"application/json; charset=UTF-8",

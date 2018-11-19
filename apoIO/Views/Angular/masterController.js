@@ -17,10 +17,12 @@ var now = new Date();
    });
     $(function(){     
       var h = now.getHours(),
-          m = now.getMinutes();
+          m = now.getMinutes(),
+          s = now.getSeconds();
       if(h < 10) h = '0' + h; 
       if(m < 10) m = '0' + m; 
-      $('input[type="time"][name="time"]').attr({'value': h + ':' + m});
+      if(s < 10) s = '0' + s;
+      $('input[type="time"][name="time"]').attr({'value': h + ':' + m + ':' + s });
     });
     
     var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName; 
@@ -51,13 +53,35 @@ var now = new Date();
     /*****BLOCK ELEMENT ONCHNAGE START****/
     $("#elementList").change(function (){
         var elementName = $("#elementList option:selected").attr("data-name");//BLOCK ELEMENT NAME FOR IFRAME GRAPH GENERATION
-        //console.log(elementName);
+        var iframeUrl= iframeConfigUrl+'?name='+elementName; //IFRAME URL 
+        //$scope.url = iframeUrl;
+        //var frame = '<iframe class="iframeMap" src="'+iframeUrl+'"  allowfullscreen="true" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>';
+        $('.iframeMap').attr('src', iframeUrl);  
+       // $("#iframeLoad").html(frame);
+        console.log(iframeUrl);
         $("#container").empty();
         $("#attributesListLeft").empty();
         $(".tableAttributes").empty();
-        $(".tableAttributes").append('<div class="attributeData"><div class="attrHead attrName">NAME</div><div class="attrHead">VALUE<BR><span>(Timestamp)</span></div></div>');
+        $("#elementChildList").empty();
+        $(".tableAttributes").append('<div class="attributeData"><div class="attrHead">NAME<BR>VALUE<BR><span>(Timestamp)</span></div></div>');
         var WebId = $("#elementList").val();
    
+    /***GET CHILD ELEMENTS OF SELECTED BLOCK ELEMENT START***/  
+        var url = baseServiceUrl+'elements/' + WebId + '/elements'; 
+        var childElementList =  processJsonContent(url, 'GET', null);
+            $.when(childElementList).fail(function () {
+                //warningmsg("Cannot Find the Child Element On Change.");
+                console.log("Cannot Find the child Element.");
+            });
+            $.when(childElementList).done(function () {  
+                $("#elementChildList").append("<option value='' selected disabled>---Select Elements---</option>");
+                 var elementsChildListItems = (childElementList.responseJSON.Items);     
+                 $.each(elementsChildListItems,function(key) {
+                      $("#elementChildList").append("<option data-name="+elementsChildListItems[key].Name+" value="+elementsChildListItems[key].WebId+">"+elementsChildListItems[key].Name+"</option>"); 
+                    });
+            });
+    /***GET CHILD ELEMENTS OF SELECTED BLOCK ELEMENT END***/   
+    
     /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES START****/
         var url = baseServiceUrl + 'elements/' + WebId + '/attributes';
         var attributesList =  processJsonContent(url, 'GET', null);
@@ -76,8 +100,7 @@ var now = new Date();
                             <input type="checkbox" id="elemList'+cat+'" data-id="'+cat+'"  data-name="'+attributesItems[key].Name+'" onchange="getMap('+cat+');" class="paraList" value="'+attributesItems[key].WebId+'" name="selectorLeft">\n\
                             <label class="labelList leftLabel" for="elemList'+cat+'">'+attributesItems[key].Name+'</label>\n\
                             </li>');  
-                        }
-                        
+                        }                        
                         else if(timestampCat===category[key1] || valueCat===category[key1]){
                             if(WebIdVal==='' || WebIdVal!==attributesItems[key].WebId){
                             var url = baseServiceUrl + 'streams/' + attributesItems[key].WebId + '/value';
@@ -88,9 +111,9 @@ var now = new Date();
                                 });
                                 $.when(attributesValue).done(function () {
                                     var Value = Math.round(attributesValue.responseJSON.Value);
-                                     var Units = (attributesValue.responseJSON.UnitsAbbreviation);
+                                    var Units = (attributesValue.responseJSON.UnitsAbbreviation);
                                     var Timestamp = (attributesValue.responseJSON.Timestamp).substring(0,10);
-                                 $(".tableAttributes").append('<div class="attributeData"><div class="attrName">'+attributesItems[key].Name+'</div><div>'+Value+' <b>'+Units+'</b><br><span>('+Timestamp+')</span></div></div>');
+                                 $(".tableAttributes").append('<div class="attributeData"><div class="attrHead">'+attributesItems[key].Name+'<br>'+Value+' <b>'+Units+'</b><br><span>('+Timestamp+')</span></div></div>');
                                  }); 
                                  WebIdVal=attributesItems[key].WebId;
                              }
@@ -104,10 +127,10 @@ var now = new Date();
             /*****LOAD EVENT FRAME DATA START****/
                 var startDate = $('#startDate').val();
                 var startTime = $("#startTime").val();
-                var startDateTime = (startDate + 'T' + startTime);
+                var startDateTime = (startDate + 'T' + startTime+'Z');
                 var endDate = $('#endDate').val();
                 var endTime = $("#endTime").val();
-                var endDateTime = (endDate + 'T' + endTime); 
+                var endDateTime = (endDate + 'T' + endTime+'Z'); 
                 var eventFrameList=[];
                 var data=[];
                 var sdate ='';
@@ -116,7 +139,7 @@ var now = new Date();
                 var etime ='';
                 var y=0;
                 var url = baseServiceUrl + 'elements/' + WebId + '/eventframes?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
-               // console.log(url);
+                console.log(url);
                 var eventFrameData =  processJsonContent(url, 'GET', null);
                     $.when(eventFrameData).fail(function () {
                         console.log("Cannot Find the Event Frames.");
@@ -198,19 +221,16 @@ var now = new Date();
                                   }
                                 }]
 
-                              });
-                        
-                  
+                              });   
                      });
-                               
-//       
-           
-          
-
              /*****LOAD EVENT FRAME DATA END****/
             
   }); 
     /*****BLOCK ELEMENT ONCHNAGE END****/
+    
+     $("#elementChildList").change(function(){
+        console.log("hello"); 
+     });
 });
 
   /*********chart section start**********/
@@ -225,11 +245,11 @@ function getMap(id){
     var startDate = $('#startDate').val();
     var nstartDate = startDate.split('-');//for chart start point
     var startTime = $("#startTime").val();
-    var startDateTime = (startDate + 'T' + startTime);
+    var startDateTime = (startDate + 'T' + startTime+'Z');
     var endDate = $('#endDate').val();
     var nendDate = endDate.split('-');//for chart end point
     var endTime = $("#endTime").val();
-    var endDateTime = (endDate + 'T' + endTime); 
+    var endDateTime = (endDate + 'T' + endTime+'Z'); 
     var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']; //for chart color
      
     $.each($("input[name='selectorLeft']:checked"), function(){ 

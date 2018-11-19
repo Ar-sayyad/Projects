@@ -35,11 +35,11 @@
                               <label>Start Time :</label>
                          </div>
                        <div class="slect70">
-                           <div class="slect60">
+                           <div class="slect50">
                                <input type="text" class="dateTime form-control" data-date-format='yy-mm-dd' style="width:95%;"  id="startDate"  placeholder="Date Time">
                            </div>
-                            <div class="slect40">
-                                   <input type="time" name="time" id="startTime" style="" class="time form-control">
+                            <div class="slect50">
+                                   <input type="time" name="time" id="startTime" step="2" style="" class="time form-control">
                            </div>
                        </div>
                    </div>                
@@ -54,11 +54,11 @@
                                  <label>End Time :</label>
                             </div>
                           <div class="slect70">
-                              <div class="slect60">
+                              <div class="slect50">
                                   <input type="text" class="dateTime form-control" data-date-format='yy-mm-dd' style="width:95%;"  id="endDate"  placeholder="Date Time">
                               </div>
-                               <div class="slect40">
-                                      <input type="time" name="time" id="endTime" style="" class="time form-control">
+                               <div class="slect50">
+                                      <input type="time" name="time" id="endTime" step="2" style="" class="time form-control">
                               </div>
                           </div>
                       </div>                   
@@ -72,18 +72,32 @@
                     <div class="card-body scrollbar" id="style-3">      
                         <div class="col-12 tableAttributes">                    
                             <div class="attributeData"> 
-                                <div class="attrHead attrName">NAME</div>
-                                <div class="attrHead">VALUE<BR><span>(Timestamp)</span></div>
+                                <div class="attrHead">NAME<BR>VALUE<BR><span>(Timestamp)</span></div>
                             </div>                     
                         </div>
                     </div>
                 </div>
                 <div class="card map">
-                    <div class="card-body">      
+                    <div class="card-body" id="iframeLoad">      
                         <iframe class="iframeMap" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d167998.10803373056!2d2.206977064368058!3d48.858774103123785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C+France!5e0!3m2!1sen!2sin!4v1542603994587"  allowfullscreen="">
                         </iframe>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-body">
+                         <div class="form-group">                         
+                          <span class="slect60">
+                              <select id="elementChildList" class="form-control">
+                                <option value="">---Select Elements---</option>
+                             </select>                         
+                         </span>  
+                          <span class="slect40">
+                                 <button class="btn btn-primary">Add Cell</button>
+                          </span>
+                    </div>  
+                    </div>
+                </div>
+           
             </div>
             <div class="col-12 col-lg-6 col-xl-2">
                 <div class="card">
@@ -105,32 +119,32 @@
     <!--End Dashboard Content-->
     </div>
     <!-- End container-fluid-->
-    <div class="container-fluid" style="margin-top: 0px;">
+    <div class="container-fluid">
          <div class="row">
             <div class="col-12 col-lg-6 col-xl-6">
-                <div class="card" style="margin-bottom: 5px;">
-                    <div class="card-body topheader">
-                        <h4>Graph Cell 1</h4>  
+                 <div class="card">
+                    <div class="card-body childGraph">
+                         <h4>Graph Cell 1</h4>  
                     </div>
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-xl-6">
-                <div class="card" style="margin-bottom: 5px;">
-                    <div class="card-body topheader">
+                <div class="card">
+                    <div class="card-body childGraph">
                          <h4>Graph Cell 2</h4>  
                     </div>
                 </div>
             </div>
              <div class="col-12 col-lg-6 col-xl-6">
-                <div class="card" style="margin-bottom: 5px;">
-                    <div class="card-body topheader">
+                <div class="card">
+                    <div class="card-body childGraph">
                          <h4>Graph Cell 3</h4>  
                     </div>
                 </div>
             </div>
              <div class="col-12 col-lg-6 col-xl-6">
-                <div class="card" style="margin-bottom: 5px;">
-                    <div class="card-body topheader">
+                <div class="card">
+                    <div class="card-body childGraph">
                          <h4>Graph Cell 4</h4>  
                     </div>
                 </div>
