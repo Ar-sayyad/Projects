@@ -15,4 +15,33 @@ var filterCategoryName = "asset_design";/****CATEGORY NAME FOR FILTER ELEMENT TE
 var allocationAttributeName = "PLANT";/****The Plant Attributes Name for save the allocation page data***/
 var iframeConfigUrl = "http://www.google.com"; //IFRAME URL 
 
+var eventsColorsData = [
+    {
+        "name":"BALANCE","color":"#058DC7","min":0,"max":250 
+    },
+    {
+        "name":"U","color":"#50B432","min":0,"max":200 
+    },
+    { 
+        "name":"KU","color":"#ED561B","min":0,"max":250 
+    },
+    { 
+        "name":"PH","color":"#DDDF00", "min":0, "max":300 
+    },
+    { 
+        "name":"PR","color":"#24CBE5",  "min":0, "max":250
+    },
+    {
+        "name":"VR","color":"#64E572","min":0,"max":250 
+    },
+    { 
+        "name":"ACIDIFICATION","color":"#FF9655","min":0,"max":200
+    },
+    { 
+        "name":"PLANT","color":"#FFF263","min":0,"max":200
+    },
+    { 
+        "name":"STATUS","color":"#6AF9C4","min":0,"max":200
+    }
+]; ///CHART ELEMENT ATTRIBUTES JSON ARRAY KEEP MIN=0 AND ALL ATTRIBUTES SHOULD IN PROPER FORMAT
 /***CONFIGURATION SETTING***/

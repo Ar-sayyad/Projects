@@ -317,6 +317,7 @@ function removeDiv(id){
                         var min=''; //chart y axis min value
                         var max= '';//chart y axis max value
                         var sr=0;
+                        var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']; //for chart color
             $.each($("input[name='selectorChild"+maincell+"']:checked"), function(){ 
                 var data1=[];
                 var WebId = $(this).val();
@@ -337,28 +338,31 @@ function removeDiv(id){
                         
                   });   
                   //console.log(data1);
-                  data1.pop();   
-                   $.each(eventsColorsData,function(key) {
-                       if(name===eventsColorsData[key].name){
-                             data.push({
-                                name: name,
-                                type: 'spline',
-                                yAxis: sr,
-                                color:eventsColorsData[key].color,
-                                data: data1,
-                                tooltip: { valueSuffix: unit}
-                            });  
-                            yAxisData.push({
-                                min:eventsColorsData[key].min,
-                                max:eventsColorsData[key].max,
-                                title: {text: ''},
-                                labels: {format: '{value}'+unit,
-                                    style: {color: eventsColorsData[key].color}
-                                }
-                            }); 
-                       }
-                   });         
-                  
+                  data1.pop();                    
+                  data.push({
+                    name: name,
+                    type: 'spline',
+                    yAxis: sr,
+                    color:colors[sr],
+                    data: data1,
+                    tooltip: { valueSuffix: unit}
+                });  
+                    /***This part will be dynamic later By JSON array***/
+                    if(name==='BALANCE'){min=0;max= 200;}
+                    else if(name==='U'){min=0;max= 250;}
+                    else if(name==='KU'){min=0;max= 200;}
+                    else if(name==='PH'){min=0;max= 200;}
+                    else if(name==='PR'){min=0;max= 300;}
+                    else if(name==='VR'){min=0;max= 250;}
+                     /***This part will be dynamic later By JSON array***/
+                yAxisData.push({
+                    min:min,
+                    max:max,
+                    title: {text: ''},
+                    labels: {format: '{value}'+unit,
+                        style: {color: colors[sr]}
+                    }
+                }); 
                 //console.log(cat);
                 Highcharts.chart('cellgraphChart'+maincell, {
                         chart: {
@@ -411,7 +415,7 @@ function getMap(){
     var nendDate = endDate.split('-');//for chart end point
     var endTime = $("#endTime").val();
     var endDateTime = (endDate + 'T' + endTime+'Z'); 
-   // console.log(eventsColorsData);
+    var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']; //for chart color
      
     $.each($("input[name='selectorLeft']:checked"), function(){ 
         var data1=[];
@@ -432,27 +436,28 @@ function getMap(){
                         unit = attributesDataItems[key].UnitsAbbreviation;
                   });  
                   //console.log(data1);
-                   data1.pop(); 
-                   $.each(eventsColorsData,function(key) {
-                       if(name===eventsColorsData[key].name){
-                             data.push({
-                                name: name,
-                                type: 'spline',
-                                yAxis: sr,
-                                color:eventsColorsData[key].color,
-                                data: data1,
-                                tooltip: { valueSuffix: unit}
-                            });  
-                            yAxisData.push({
-                                min:eventsColorsData[key].min,
-                                max:eventsColorsData[key].max,
-                                title: {text: ''},
-                                labels: {format: '{value}'+unit,
-                                    style: {color: eventsColorsData[key].color}
-                                }
-                            }); 
-                       }
-                   });                            
+                  data1.pop();                    
+                  data.push({
+                    name: name,
+                    type: 'spline',
+                    yAxis: sr,
+                    color:colors[sr],
+                    data: data1,
+                    tooltip: { valueSuffix: unit}
+                });  
+                    /***This part will be dynamic later By JSON array***/
+                    if(name==='BALANCE'){min=0;max= 200;}
+                    else if(name==='U'){min=0;max= 250;}
+                    else if(name==='KU'){min=0;max= 200;}
+                     /***This part will be dynamic later By JSON array***/
+                yAxisData.push({
+                    min:min,
+                    max:max,
+                    title: {text: ''},
+                    labels: {format: '{value}'+unit,
+                        style: {color: colors[sr]}
+                    }
+                });                             
                 Highcharts.chart('container', {
                         chart: {
                             //zoomType: 'xy'
