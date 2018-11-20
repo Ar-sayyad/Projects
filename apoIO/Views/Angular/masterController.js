@@ -63,7 +63,7 @@ var now = new Date();
         $("#attributesListLeft").empty();
         $(".tableAttributes").empty();
         $("#elementChildList").empty();
-         $("#cellGraphList").hide();        
+         $("#cellGraphList").empty();        
         $(".tableAttributes").append('<div class="attributeData"><div class="attrHead">NAME<BR>VALUE<BR><span>(Timestamp)</span></div></div>');
         var WebId = $("#elementList").val();
    
