@@ -22,7 +22,8 @@ var now = new Date();
       if(h < 10) h = '0' + h; 
       if(m < 10) m = '0' + m; 
       if(s < 10) s = '0' + s;
-      $('input[type="time"][name="time"]').attr({'value': h + ':' + m + ':' + s });
+      $('input[type="time"][name="starttime"]').attr({'value':'00:00:00' });
+       $('input[type="time"][name="endtime"]').attr({'value': h + ':' + m + ':' + s });
     });
     
     var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName; 
@@ -124,7 +125,7 @@ var now = new Date();
                  });                                            
             });  
             /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES END****/
-            loadEventFrame();
+            loadEventFrame();//Loading Event Frames
   }); 
     /*****BLOCK ELEMENT ONCHNAGE END****/
    
