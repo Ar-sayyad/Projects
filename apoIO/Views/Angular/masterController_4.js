@@ -68,7 +68,6 @@ var now = new Date();
         $("#attributesListLeft").empty();
         $(".tableAttributes").empty();
         $("#elementChildList").empty();
-         $("#cellGraphList").hide();        
         $(".tableAttributes").append('<div class="attributeData"><div class="attrHead">NAME<BR>VALUE<BR><span>(Timestamp)</span></div></div>');
         var WebId = $("#elementList").val();
    
@@ -129,84 +128,8 @@ var now = new Date();
                  });                                            
             });  
             /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES END****/
-            loadEventFrame();
-  }); 
-    /*****BLOCK ELEMENT ONCHNAGE END****/
-    
-    /****ADD CELL GRAPH START****/
-      var maincell=1;
-     $("#addCellGraph").click(function(){       
-        if (!$("#elementChildList option:selected").val()) {
-            warningmsg("No Element Selected..!");
-            return false;
-        }
-        else{  
-            $("#cellGraphList").append('<div class="col-12 col-lg-6 col-xl-1 childListDiv'+maincell+'">\n\
-                                <div class="card">\n\
-                                    <div class="card-body childGraph style-1">\n\
-                                        <ul id="cellgraph'+maincell+'"></ul>\n\
-                                    </div>\n\
-                                </div>\n\
-                            </div>\n\
-                            <div class="col-12 col-lg-6 col-xl-5 childListDiv'+maincell+'">\n\
-\n\<button  type="button" onclick="removeDiv('+maincell+');" class="btn btn-sm btn-danger childChartClose"><i class="fa fa-close"></i></button>\n\
-                                <div class="card">\n\
-                                    <div class="card-body childGraph" id="cellgraphChart'+maincell+'">\n\
-                                        </div>\n\
-                                </div>\n\
-                            </div></div>');               
-        $("#cellGraphList").show();  
-             var inc = maincell;
-            var childName = $("#elementChildList option:selected").attr("data-name");//childElementName
-            var ChildWebId = $("#elementChildList").val();
-            //console.log(childElementName+" "+WebId+" "+startDate);
-          
-           var url = baseServiceUrl+'elements/' + ChildWebId + '/attributes'; 
-           // console.log(url);
-            var childParaData =  processJsonContent(url, 'GET', null);
-            $.when(childParaData).fail(function () {
-                console.log("Cannot Find the child Parameters.");
-            });
-            $.when(childParaData).done(function () {
-                //console.log('done: '+inc);
-                $("#cellgraph"+inc).append('<h6>'+childName+'</h6>');
-                 var childAttributesItems = (childParaData.responseJSON.Items);
-                 var cat=1;
-                 $.each(childAttributesItems,function(key) {  
-                     var category = childAttributesItems[key].CategoryNames;                    
-                     $.each(category,function(key1) {
-                         if(trendCat===category[key1]){
-                        $("#cellgraph"+inc).append('<li class="paramterListChild paramterList'+cat+'">\n\
-                            <input type="checkbox" id="elemList'+inc+cat+'" data-id="'+cat+'"  data-name="'+childAttributesItems[key].Name+'" onchange="getChildMap('+inc+');" class="paraList getChildChart" value="'+childAttributesItems[key].WebId+'" name="selectorChild'+inc+'">\n\
-                            <label class="labelListChild leftLabel" for="elemList'+inc+cat+'">'+childAttributesItems[key].Name+'</label>\n\
-                            </li>');  
-                        }
-                    });                    
-                    cat++;
-                });
-            });
-             maincell++; 
-             $('#elementChildList option:selected').remove();   ///Remove List Items   
-        }        
-     });
-    /****ADD CELL GRAPH END****/     
-    
-});
-
-function getCharts(){   
-    getMap();
-    loadEventFrame();
-    //for(var i=0;i<maincell;i++)
-    getChildMap();
-}
-function removeDiv(id){
-    console.log(id);
-    $(".childListDiv"+id).remove();
-}
- /*****LOAD EVENT FRAME DATA START****/ 
- function loadEventFrame(){
-                var now = new Date();
-                var WebId = $("#elementList").val();
+            
+            /*****LOAD EVENT FRAME DATA START****/ 
                 var startDate = $('#startDate').val();
                 var startTime = $("#startTime").val();
                 var startDateTime = (startDate + 'T' + startTime+'Z');
@@ -301,11 +224,55 @@ function removeDiv(id){
 
                               });   
                      });
-                 }
              /*****LOAD EVENT FRAME DATA END****/
-             
-/****child graph****/
- function getChildMap(maincell){
+            
+  }); 
+    /*****BLOCK ELEMENT ONCHNAGE END****/
+    
+    /****ADD CELL GRAPH START****/
+     $("#addCellGraph").click(function(){
+//       $("#cellGraphList").append('<div class="col-12 col-lg-6 col-xl-3">\n\
+//                                                <div class="card">\n\
+//                                                    <div class="card-body childGraph style-1">\n\
+//                                                        <ul id="cellgraph'+maincell+'"></ul>\n\
+//                                                    </div>\n\
+//                                                </div>\n\
+//                                            </div>\n\
+//                                            <div class="col-12 col-lg-6 col-xl-9">\n\
+//                                                <div class="card">\n\
+//                                                    <div class="card-body childGraph" id="cellgraph'+maincell+'"></div>\n\
+//                                                </div>\n\
+//                                            </div>');
+        if (!$("#elementChildList option:selected").val()) {
+            warningmsg("No Element Selected..!");
+            return false;
+        }
+        else{  
+            
+            var childName = $("#elementChildList option:selected").attr("data-name");//childElementName
+            var ChildWebId = $("#elementChildList").val();
+            //console.log(childElementName+" "+WebId+" "+startDate);
+           // $('#elementChildList option:selected').remove();   ///Remove List Items   
+           var url = baseServiceUrl+'elements/' + ChildWebId + '/attributes'; 
+           // console.log(url);
+            var childParaData =  processJsonContent(url, 'GET', null);
+            $.when(childParaData).fail(function () {
+                console.log("Cannot Find the child Parameters.");
+            });
+            $.when(childParaData).done(function () {                    
+                 var childAttributesItems = (childParaData.responseJSON.Items);
+                 var cat=1;
+                 $.each(childAttributesItems,function(key) {  
+                     var category = childAttributesItems[key].CategoryNames;                    
+                     $.each(category,function(key1) {
+                         if(trendCat===category[key1]){
+                         $("#cellgraph1").append('<li class="paramterList paramterList'+cat+'">\n\
+                            <input type="checkbox" id="elemList'+cat+'" data-id="'+cat+'"  data-name="'+childAttributesItems[key].Name+'" onchange="getChildMap();" class="paraList getChildChart" value="'+childAttributesItems[key].WebId+'" name="selectorChild">\n\
+                            <label class="labelList leftLabel" for="elemList'+cat+'">'+childAttributesItems[key].Name+'</label>\n\
+                            </li>');  
+                        }
+                    });
+                     $("#elemList"+cat).click(function(){
                         var startDate = $('#startDate').val();
                         var startTime = $("#startTime").val();
                         var startDateTime = (startDate + 'T' + startTime+'Z');
@@ -318,8 +285,7 @@ function removeDiv(id){
                         var min=''; //chart y axis min value
                         var max= '';//chart y axis max value
                         var sr=0;
-                          var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']; //for chart color
-            $.each($("input[name='selectorChild"+maincell+"']:checked"), function(){ 
+            $.each($("input[name='selectorChild']:checked"), function(){ 
                 var data1=[];
                 var WebId = $(this).val();
                 var name = $(this).attr("data-name");
@@ -364,8 +330,8 @@ function removeDiv(id){
                         style: {color: colors[sr]}
                     }
                 }); 
-                //console.log(cat);
-                Highcharts.chart('cellgraphChart'+maincell, {
+                console.log(cat);
+                Highcharts.chart('cellgraphChart1', {
                         chart: {
                             zoomType: 'xy'
                         },
@@ -397,8 +363,17 @@ function removeDiv(id){
                 sr++;
             });            
     });  
+        });
+                    cat++;
+                });
+            });
         }
-/****child graph****/
+           
+     });
+    /****ADD CELL GRAPH END****/     
+    
+});
+
   /*********chart section start**********/
   
 function getMap(){   

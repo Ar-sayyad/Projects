@@ -265,8 +265,81 @@ body::-webkit-scrollbar-track,.style-1::-webkit-scrollbar-track,#style-1::-webki
 }
 .childGraph{
     height: 450px;
+    padding: 5px;
 }
 .tableAttributes{
     padding-right: 0px;
     padding-left: 0px;
+}
+.labelListChild{
+        width: 100%;
+    height: 41px !important;
+    font-size: 11px;
+    text-align: left;
+    padding: 7px 0px 0px 45px !important;
+    text-transform: none;
+    margin-bottom: 5px !important;
+}
+.childGraph [type=checkbox]+label {
+    font-weight: 400;
+    position: relative;
+    padding-left: 27px !important;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    line-height: 15px;
+}
+.childGraph [type=checkbox]+label:before, [type=checkbox]:not(.filled-in)+label:after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: -3px;
+    width: 15px;
+    height: 15px;
+    z-index: 0;
+    border: 2px solid #212529;
+    border-radius: 1px;
+    margin-top: 2px;
+    -webkit-transition: .2s;
+    -o-transition: .2s;
+    transition: .2s;
+}
+.paramterListChild {
+    padding: 0px;
+    width: 100%;
+    height: 30px;
+    margin: 0px 0px 10px 0px;
+    box-shadow: 1px 1px 1px 0px #6c757d;
+    background-color: #dee2e6;
+}
+.childGraph [type=checkbox]:checked+label:before {
+    top: 0px;
+    left: -8px;
+    width: 11px;
+    height: 22px;
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-right: 2px solid #212529;
+    border-bottom: 3px solid #212529;
+    -webkit-transform: rotate(40deg);
+    -ms-transform: rotate(40deg);
+    transform: rotate(40deg);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+}
+.childChartClose{
+        float: right !important;
+        margin-left: 93%;
+        margin-top: 5px;
+        position: absolute;
+        z-index: 9999999;
+        height: 34px;
+        width: 34px;
+        padding: 0px;
+        font-size: 20px;
+        text-align: center;
+        border-radius: 30px;
 }
