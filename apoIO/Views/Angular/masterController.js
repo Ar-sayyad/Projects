@@ -51,15 +51,12 @@ var now = new Date();
                     /****TEMPLATE ELEMENT SEARCH BY TEMPLATE NAME END****/ 
                });
     
-    /*****BLOCK ELEMENT ONCHNAGE START****/
+/*****BLOCK ELEMENT ONCHNAGE START****/
     $("#elementList").change(function (){
         var elementName = $("#elementList option:selected").attr("data-name");//BLOCK ELEMENT NAME FOR IFRAME GRAPH GENERATION
         var iframeUrl= iframeConfigUrl+'?name='+elementName; //IFRAME URL 
-        //$scope.url = iframeUrl;
-        //var frame = '<iframe class="iframeMap" src="'+iframeUrl+'"  allowfullscreen="true" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>';
-        $('.iframeMap').attr('src', iframeUrl);  
-       // $("#iframeLoad").html(frame);
-        console.log(iframeUrl);
+        $('.iframeMap').attr('src', iframeUrl);
+        console.log(iframeUrl);//IFRAME URL DISPLAY IN CONSOLE.LOG
         $("#container").empty();
         $("#attributesListLeft").empty();
         $(".tableAttributes").empty();
@@ -68,71 +65,71 @@ var now = new Date();
         $(".tableAttributes").append('<div class="attributeData"><div class="attrHead">NAME<BR>VALUE<BR><span>(Timestamp)</span></div></div>');
         var WebId = $("#elementList").val();
    
-    /***GET CHILD ELEMENTS OF SELECTED BLOCK ELEMENT START***/  
-        var url = baseServiceUrl+'elements/' + WebId + '/elements'; 
-        var childElementList =  processJsonContent(url, 'GET', null);
-            $.when(childElementList).fail(function () {
-                //warningmsg("Cannot Find the Child Element On Change.");
-                console.log("Cannot Find the child Element.");
-            });
-            $.when(childElementList).done(function () {  
-                $("#elementChildList").append("<option value='' selected disabled>---Select Elements---</option>");
-                 var elementsChildListItems = (childElementList.responseJSON.Items);     
-                 $.each(elementsChildListItems,function(key) {
-                      $("#elementChildList").append("<option data-name="+elementsChildListItems[key].Name+" value="+elementsChildListItems[key].WebId+">"+elementsChildListItems[key].Name+"</option>"); 
-                    });
-            });
-    /***GET CHILD ELEMENTS OF SELECTED BLOCK ELEMENT END***/   
+        /***GET CHILD ELEMENTS OF SELECTED BLOCK ELEMENT START***/  
+            var url = baseServiceUrl+'elements/' + WebId + '/elements'; 
+            var childElementList =  processJsonContent(url, 'GET', null);
+                $.when(childElementList).fail(function () {
+                    //warningmsg("Cannot Find the Child Element On Change.");
+                    console.log("Cannot Find the child Element.");
+                });
+                $.when(childElementList).done(function () {  
+                    $("#elementChildList").append("<option value='' selected disabled>---Select Elements---</option>");
+                     var elementsChildListItems = (childElementList.responseJSON.Items);     
+                     $.each(elementsChildListItems,function(key) {
+                          $("#elementChildList").append("<option data-name="+elementsChildListItems[key].Name+" value="+elementsChildListItems[key].WebId+">"+elementsChildListItems[key].Name+"</option>"); 
+                        });
+                });
+        /***GET CHILD ELEMENTS OF SELECTED BLOCK ELEMENT END***/   
     
-    /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES START****/
-        var url = baseServiceUrl + 'elements/' + WebId + '/attributes';
-        var attributesList =  processJsonContent(url, 'GET', null);
-            $.when(attributesList).fail(function () {
-                warningmsg("Cannot Find the Attributes.");
-            });            
-            $.when(attributesList).done(function () {
-                 var attributesItems = (attributesList.responseJSON.Items);
-                 var cat=1;
-                 var WebIdVal='';
-                 $.each(attributesItems,function(key) {  
-                     var category = attributesItems[key].CategoryNames;                    
-                     $.each(category,function(key1) {
-                         if(trendCat===category[key1]){
-                         $("#attributesListLeft").append('<li class="paramterList paramterList'+cat+'">\n\
-                            <input type="checkbox" id="elemList'+cat+'" data-id="'+cat+'"  data-name="'+attributesItems[key].Name+'" onchange="getMap();" class="paraList" value="'+attributesItems[key].WebId+'" name="selectorLeft">\n\
-                            <label class="labelList leftLabel" for="elemList'+cat+'">'+attributesItems[key].Name+'</label>\n\
-                            </li>');  
-                        }                        
-                        else if(timestampCat===category[key1] || valueCat===category[key1]){
-                            if(WebIdVal==='' || WebIdVal!==attributesItems[key].WebId){
-                            var url = baseServiceUrl + 'streams/' + attributesItems[key].WebId + '/value';
-                           // console.log(url+" "+attributesItems[key].Name);
-                            var attributesValue =  processJsonContent(url, 'GET', null);
-                                $.when(attributesValue).fail(function () {
-                                    console.log("Cannot Find the Attributes Values.");
-                                });
-                                $.when(attributesValue).done(function () {
-                                    var Value = (Math.round(attributesValue.responseJSON.Value * 100) / 100);
-                                    var Units = (attributesValue.responseJSON.UnitsAbbreviation);
-                                    var Timestamp = (attributesValue.responseJSON.Timestamp).substring(0,10);
-                                 $(".tableAttributes").append('<div class="attributeData"><div class="attrHead">'+attributesItems[key].Name+'<br>'+Value+' <b>'+Units+'</b><br><span>('+Timestamp+')</span></div></div>');
-                                 }); 
-                                 WebIdVal=attributesItems[key].WebId;
-                             }
-                        }
-                     });
-                    cat++;
-                 });                                            
-            });  
-            /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES END****/
-            loadEventFrame();//Loading Event Frames
-  }); 
-    /*****BLOCK ELEMENT ONCHNAGE END****/
+        /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES START****/
+            var url = baseServiceUrl + 'elements/' + WebId + '/attributes';
+            var attributesList =  processJsonContent(url, 'GET', null);
+                $.when(attributesList).fail(function () {
+                    warningmsg("Cannot Find the Attributes.");
+                });            
+                $.when(attributesList).done(function () {
+                     var attributesItems = (attributesList.responseJSON.Items);
+                     var cat=1;
+                     var WebIdVal='';
+                     $.each(attributesItems,function(key) {  
+                         var category = attributesItems[key].CategoryNames;                    
+                         $.each(category,function(key1) {
+                             if(trendCat===category[key1]){
+                             $("#attributesListLeft").append('<li class="paramterList paramterList'+cat+'">\n\
+                                <input type="checkbox" id="elemList'+cat+'" data-id="'+cat+'"  data-name="'+attributesItems[key].Name+'" onchange="getMap();" class="paraList" value="'+attributesItems[key].WebId+'" name="selectorLeft">\n\
+                                <label class="labelList leftLabel" for="elemList'+cat+'">'+attributesItems[key].Name+'</label>\n\
+                                </li>');  
+                            }                        
+                            else if(timestampCat===category[key1] || valueCat===category[key1]){
+                                if(WebIdVal==='' || WebIdVal!==attributesItems[key].WebId){
+                                var url = baseServiceUrl + 'streams/' + attributesItems[key].WebId + '/value';
+                               // console.log(url+" "+attributesItems[key].Name);
+                                var attributesValue =  processJsonContent(url, 'GET', null);
+                                    $.when(attributesValue).fail(function () {
+                                        console.log("Cannot Find the Attributes Values.");
+                                    });
+                                    $.when(attributesValue).done(function () {
+                                        var Value = (Math.round(attributesValue.responseJSON.Value * 100) / 100);
+                                        var Units = (attributesValue.responseJSON.UnitsAbbreviation);
+                                        var Timestamp = (attributesValue.responseJSON.Timestamp).substring(0,10);
+                                     $(".tableAttributes").append('<div class="attributeData"><div class="attrHead">'+attributesItems[key].Name+'<br>'+Value+' <b>'+Units+'</b><br><span>('+Timestamp+')</span></div></div>');
+                                     }); 
+                                     WebIdVal=attributesItems[key].WebId;
+                                 }
+                            }
+                         });
+                        cat++;
+                     });                                            
+                });  
+        /*****GET CHART DATA AND VALUE AND TIMESTAMP ATTRIBUTES END****/        
+        loadEventFrame();//Loading Event Frames
+    }); 
+/*****BLOCK ELEMENT ONCHNAGE END****/
    
 });
 
 /****ADD CELL GRAPH START****/
-   var maincell=1;
+   var maincell=1; //Child Chart Value Declaration
    function addCell(){       
         if (!$("#elementChildList option:selected").val()) {
             warningmsg("No Element Selected..!");
@@ -147,7 +144,7 @@ var now = new Date();
                                 </div>\n\
                             </div>\n\
                             <div class="col-12 col-lg-6 col-xl-5 childListDiv'+maincell+'">\n\
-\n\<button  type="button" onclick="removeDiv('+maincell+');" class="btn btn-sm btn-danger childChartClose"><i class="fa fa-close"></i></button>\n\
+                                <button  type="button" onclick="removeDiv('+maincell+');" class="btn btn-sm btn-danger childChartClose"><i class="fa fa-close"></i></button>\n\
                                 <div class="card">\n\
                                     <div class="card-body childGraph" id="cellgraphChart'+maincell+'">\n\
                                         </div>\n\
@@ -157,6 +154,7 @@ var now = new Date();
             var inc = maincell;
             var childName = $("#elementChildList option:selected").attr("data-name");//childElementName
             var ChildWebId = $("#elementChildList").val();         //childWebId 
+            /*****CHILD ATTRIBUTES LOAD START*****/
             var url = baseServiceUrl+'elements/' + ChildWebId + '/attributes'; 
             var childParaData =  processJsonContent(url, 'GET', null);
             $.when(childParaData).fail(function () {
@@ -180,12 +178,14 @@ var now = new Date();
                     cat++;
                 });
             });
+             /*****CHILD ATTRIBUTES LOAD END*****/
             maincell++; 
             $('#elementChildList option:selected').remove();   ///Remove List Items   
         }        
      }
     /****ADD CELL GRAPH END****/ 
-    /***LOAD ALL CHARTS ON DATE OR TIME CHANGE***/
+    
+/***LOAD ALL CHARTS ON DATE OR TIME CHANGE***/
 function getCharts(){   
     getMap();
     loadEventFrame();
@@ -193,19 +193,19 @@ function getCharts(){
     getChildMap(i);
     }
 }
- /***LOAD ALL CHARTS ON DATE OR TIME CHANGE***/
+/***LOAD ALL CHARTS ON DATE OR TIME CHANGE***/
  
-  /***CLOSE CHILD CHART DIV***/
+/***CLOSE CHILD CHART DIV***/
 function removeDiv(id){
     var name= $("#childName"+id).val();
     var WebId= $("#childId"+id).val();
     $(".childListDiv"+id).remove();
      $("#elementChildList").append("<option data-name="+name+" value="+WebId+">"+name+"</option>"); 
 }
- /***CLOSE CHILD CHART DIV***/
+/***CLOSE CHILD CHART DIV***/
  
- /*****LOAD EVENT FRAME DATA START****/ 
- function loadEventFrame(){
+/*****LOAD EVENT FRAME DATA START****/ 
+function loadEventFrame(){
                 var now = new Date();
                 var WebId = $("#elementList").val();
                 var startDate = $('#startDate').val();
@@ -305,21 +305,21 @@ function removeDiv(id){
              
 /****LOAD CHILD ATTRIBUTES CHARTS****/
  function getChildMap(maincell){
-                        var startDate = $('#startDate').val();
-                        var startTime = $("#startTime").val();
-                        var startDateTime = (startDate + 'T' + startTime+'Z');
-                        var endDate = $('#endDate').val();
-                        var endTime = $("#endTime").val();
-                        var endDateTime = (endDate + 'T' + endTime+'Z'); 
-                        var data=[];
-                        var yAxisData=[];
-                        var xAxis=[];
-                        var sr=0;
-            $.each($("input[name='selectorChild"+maincell+"']:checked"), function(){ 
-                var data1=[];
-                var WebId = $(this).val();
-                var name = $(this).attr("data-name");
-                var url = baseServiceUrl+'streams/' + WebId + '/interpolated?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
+        var startDate = $('#startDate').val();
+        var startTime = $("#startTime").val();
+        var startDateTime = (startDate + 'T' + startTime+'Z');
+        var endDate = $('#endDate').val();
+        var endTime = $("#endTime").val();
+        var endDateTime = (endDate + 'T' + endTime+'Z'); 
+        var data=[];
+        var yAxisData=[];
+        var xAxis=[];
+        var sr=0;
+        $.each($("input[name='selectorChild"+maincell+"']:checked"), function(){ 
+            var data1=[];
+            var WebId = $(this).val();
+            var name = $(this).attr("data-name");
+            var url = baseServiceUrl+'streams/' + WebId + '/interpolated?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
                 //console.log(url);
             var attributesData =  processJsonContent(url, 'GET', null);
             $.when(attributesData).fail(function () {
@@ -331,8 +331,7 @@ function removeDiv(id){
                 $.each(attributesDataItems,function(key) {
                         data1.push(Math.round(attributesDataItems[key].Value * 100) / 100);
                         xAxis.push(attributesDataItems[key].Timestamp);
-                        unit = attributesDataItems[key].UnitsAbbreviation;
-                        
+                        unit = attributesDataItems[key].UnitsAbbreviation;                        
                   });   
                   //console.log(data1);
                   data1.pop();   
@@ -391,18 +390,16 @@ function removeDiv(id){
         }
 /****LOAD CHILD ATTRIBUTES CHARTS****/
 
-  /*********MAIN CHARTS SECTION START**********/  
+/*********MAIN CHARTS SECTION START**********/  
 function getMap(){   
     var data=[];
     var yAxisData=[];
     var xAxis=[];
     var sr=0;
     var startDate = $('#startDate').val();
-    var nstartDate = startDate.split('-');//for chart start point
     var startTime = $("#startTime").val();
     var startDateTime = (startDate + 'T' + startTime+'Z');
     var endDate = $('#endDate').val();
-    var nendDate = endDate.split('-');//for chart end point
     var endTime = $("#endTime").val();
     var endDateTime = (endDate + 'T' + endTime+'Z');      
     $.each($("input[name='selectorLeft']:checked"), function(){ 
@@ -479,7 +476,6 @@ function getMap(){
     });    
 }
 
-
-/*********chart section end**********/
+  /*********MAIN CHARTS SECTION END**********/  
 
   
