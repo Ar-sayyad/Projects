@@ -25,11 +25,6 @@ var now = new Date();
       $('input[type="time"][name="time"]').attr({'value': h + ':' + m + ':' + s });
     });
     
-    /***Date Time Declaration Start****/
-   
-    var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']; //for chart color
-    /***Date Time Declaration End****/
-    
     var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName; 
        var ajaxEF =  processJsonContent(url, 'GET', null);
            $.when(ajaxEF).fail(function () {
@@ -132,10 +127,12 @@ var now = new Date();
             loadEventFrame();
   }); 
     /*****BLOCK ELEMENT ONCHNAGE END****/
-    
-    /****ADD CELL GRAPH START****/
+   
+});
+
+/****ADD CELL GRAPH START****/
       var maincell=1;
-     $("#addCellGraph").click(function(){       
+   function addCell(){       
         if (!$("#elementChildList option:selected").val()) {
             warningmsg("No Element Selected..!");
             return false;
@@ -169,7 +166,8 @@ var now = new Date();
             });
             $.when(childParaData).done(function () {
                 //console.log('done: '+inc);
-                $("#cellgraph"+inc).append('<h6>'+childName+'</h6>');
+                $(".childGraph").append('<input type="hidden" id="childId'+inc+'" value="'+ChildWebId+'"><input type="hidden" id="childName'+inc+'" value="'+childName+'">');
+                $("#cellgraph"+inc).append('<h6 sty>'+childName+'</h6>');
                  var childAttributesItems = (childParaData.responseJSON.Items);
                  var cat=1;
                  $.each(childAttributesItems,function(key) {  
@@ -188,20 +186,20 @@ var now = new Date();
              maincell++; 
              $('#elementChildList option:selected').remove();   ///Remove List Items   
         }        
-     });
-    /****ADD CELL GRAPH END****/     
-    
-});
-
+     }
+    /****ADD CELL GRAPH END****/ 
 function getCharts(){   
     getMap();
     loadEventFrame();
-    //for(var i=0;i<maincell;i++)
-    getChildMap();
+    for(var i=1;i<maincell;i++){
+    getChildMap(i);
+    }
 }
 function removeDiv(id){
-    console.log(id);
+    var name= $("#childName"+id).val();
+    var WebId= $("#childId"+id).val();
     $(".childListDiv"+id).remove();
+     $("#elementChildList").append("<option data-name="+name+" value="+WebId+">"+name+"</option>"); 
 }
  /*****LOAD EVENT FRAME DATA START****/ 
  function loadEventFrame(){
@@ -252,8 +250,8 @@ function removeDiv(id){
                             }); 
                          Highcharts.chart('eventFrame', {
                                 chart: {
-                                  type: 'xrange',
-                                   zoomType: 'xy'
+                                  type: 'xrange'
+                                  // zoomType: 'xy'
                                 },
                                 title: {
                                   text: ''
@@ -318,7 +316,7 @@ function removeDiv(id){
                         var min=''; //chart y axis min value
                         var max= '';//chart y axis max value
                         var sr=0;
-                          var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']; //for chart color
+                        var colors =['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']; //for chart color
             $.each($("input[name='selectorChild"+maincell+"']:checked"), function(){ 
                 var data1=[];
                 var WebId = $(this).val();
@@ -367,7 +365,7 @@ function removeDiv(id){
                 //console.log(cat);
                 Highcharts.chart('cellgraphChart'+maincell, {
                         chart: {
-                            zoomType: 'xy'
+                            //zoomType: 'xy'
                         },
                         title: {
                             text: ''
@@ -436,7 +434,7 @@ function getMap(){
                         xAxis.push(attributesDataItems[key].Timestamp);
                         unit = attributesDataItems[key].UnitsAbbreviation;
                   });  
-                  console.log(data1);
+                  //console.log(data1);
                   data1.pop();                    
                   data.push({
                     name: name,
@@ -461,7 +459,7 @@ function getMap(){
                 });                             
                 Highcharts.chart('container', {
                         chart: {
-                            zoomType: 'xy'
+                            //zoomType: 'xy'
                         },
                         title: {
                             text: ''

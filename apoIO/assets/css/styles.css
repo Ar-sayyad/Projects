@@ -330,6 +330,10 @@ body::-webkit-scrollbar-track,.style-1::-webkit-scrollbar-track,#style-1::-webki
     -ms-transform-origin: 100% 100%;
     transform-origin: 100% 100%;
 }
+.childGraph h6{
+    text-align: center;
+    font-size: 12px;
+}
 .childChartClose{
         float: right !important;
         margin-left: 93%;
