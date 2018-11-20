@@ -381,7 +381,7 @@ function removeDiv(id){
                             verticalAlign: 'top',
                             y: 40,
                             floating: true,
-                            backgroundColor: 'rgba(255,255,255,0.25)'
+                            backgroundColor: 'rgba(255,255,255,0.25'
                         },
                     series: data //PI ATTRIBUTES RECORDED DATA
                 });           
@@ -459,6 +459,11 @@ function getMap(){
                                 categories: xAxis,
                                 crosshair: true
                             }],
+//                        xAxis:{ 
+//                            type: 'datetime',
+//                            tickInterval: 24 * 3600 * 1000, //one day
+//                            labels:{rotation : 0},
+//                        },
                         yAxis: yAxisData, //Y AXIS RANGE DATA
                         tooltip: {
                             shared: true
@@ -470,8 +475,24 @@ function getMap(){
                             verticalAlign: 'top',
                             y: 40,
                             floating: true,
-                            backgroundColor: 'rgba(255,255,255,0.25)'
+                            backgroundColor: 'rgba(255,255,255,0.25'
                         },
+//                        plotOptions: {
+//                                series: {
+//                                     animation: true,
+//                                     step: false,
+//                                    label: {
+//                                        connectorAllowed: true
+//                                    },
+//                                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+//                                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+//                                   // pointStart:Date.UTC(nstartDate[0],nstartDate[1]-1,nstartDate[2]),
+//                                   // pointEnd: Date.UTC(nendDate[0],nendDate[1]-1,nendDate[2]),
+//                                    //pointInterval: 36e5 //one hour
+//                                    //pointInterval   : 24 * 3600 * 1000 //one day
+//                                   // pointInterval   : 24 * 3600 * 1000 * 31//one month
+//                                }
+//                            },
                     series: data //PI ATTRIBUTES RECORDED DATA
                 });           
                 sr++;
