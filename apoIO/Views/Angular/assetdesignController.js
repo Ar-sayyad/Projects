@@ -1,4 +1,5 @@
 app.controller('assetdesignController', function($scope) { 
+    $scope.pagename="Asset Design";
     /***GLOBAL VARIABLES***/
      var elementdata = '';
      var lastSrl='';     

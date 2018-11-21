@@ -1,4 +1,5 @@
 app.controller('allocationController', function($scope) {
+    $scope.pagename="Allocation";
     var url = baseServiceUrl + 'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName;
     var ajaxEF = processJsonContent(url, 'GET', null);
     $.when(ajaxEF).fail(function() {

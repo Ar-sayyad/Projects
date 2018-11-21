@@ -4363,7 +4363,7 @@ form.striped-rows .form-group {
 [type=checkbox]+label {
     font-weight: 400;
     position: relative;
-    padding-left: 35px !important;
+    padding-left: 25px !important;
     cursor: pointer;
     display: inline-block;
     height: 20px;
@@ -4378,8 +4378,8 @@ form.striped-rows .form-group {
     position: absolute;
     top: 0;
     left: 0;
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
     z-index: 0;
     border: 2px solid #212529;
     border-radius: 1px;
@@ -4409,10 +4409,10 @@ form.striped-rows .form-group {
     background-color: rgba(0, 0, 0, .1);
 }
 [type=checkbox]:checked+label:before {
-    top: -4px;
+    top: -3px;
     left: -5px;
-    width: 12px;
-    height: 22px;
+    width: 10px;
+    height: 20px;
     border-top: 2px solid transparent;
     border-left: 2px solid transparent;
     border-right: 2px solid #212529;

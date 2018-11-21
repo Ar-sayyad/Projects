@@ -1,5 +1,4 @@
-app.controller('masterController', function($scope) {
-    $scope.pagename = "Master Dashboard";
+app.controller('masterController', function($scope) {     
 var now = new Date();
     $(function() {   
        var month = (now.getMonth() + 1);  
@@ -63,7 +62,7 @@ var now = new Date();
         $(".tableAttributes").empty();
         $("#elementChildList").empty();
          $("#cellGraphList").empty();        
-        //$(".tableAttributes").append('<div class="attributeData"><div class="attrHead">NAME<BR>VALUE<BR><span>(Timestamp)</span></div></div>');
+        $(".tableAttributes").append('<div class="attributeData"><div class="attrHead">NAME<BR>VALUE<BR><span>(Timestamp)</span></div></div>');
         var WebId = $("#elementList").val();
    
         /***GET CHILD ELEMENTS OF SELECTED BLOCK ELEMENT START***/  
@@ -96,9 +95,9 @@ var now = new Date();
                          var category = attributesItems[key].CategoryNames;                    
                          $.each(category,function(key1) {
                              if(trendCat===category[key1]){
-                             $("#attributesListLeft").append('<li class="paramterListChild paramterList'+cat+'">\n\
+                             $("#attributesListLeft").append('<li class="paramterList paramterList'+cat+'">\n\
                                 <input type="checkbox" id="elemList'+cat+'" data-id="'+cat+'"  data-name="'+attributesItems[key].Name+'" onchange="getMap();" class="paraList" value="'+attributesItems[key].WebId+'" name="selectorLeft">\n\
-                                <label class="labelListChild  leftLabel" for="elemList'+cat+'">'+attributesItems[key].Name+'</label>\n\
+                                <label class="labelList leftLabel" for="elemList'+cat+'">'+attributesItems[key].Name+'</label>\n\
                                 </li>');  
                             }                        
                             else if(timestampCat===category[key1] || valueCat===category[key1]){
@@ -240,21 +239,14 @@ function loadEventFrame(){
                                     etime = etime.split(':');//end time split array
                                 if(edate[0]==='9999'){var edyr=sdate[0]; var edmnth = now.getMonth();var eddt=now.getDate();var h = now.getHours();var m = now.getMinutes();var s = now.getSeconds(); eventFrameEndTime="Running";}
                                 else{var edyr=edate[0]; var edmnth = edate[1]-1; var eddt=edate[2];var h = etime[0];var m = etime[1];var s =etime[2];} //if Event Frame is Runnig Stage                              
-                             
-                                $.each(EFData,function(key) {
-                                    if(eventFrameName===EFData[key].efName){
-                                        data.push({
-                                             nm:eventFrameName,
-                                             sd:eventFrameStartTime,
-                                             ed:eventFrameEndTime,
-                                             color:EFData[key].color,
-                                             x: Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]),
-                                             x2: Date.UTC(edyr, edmnth, eddt,h,m,s),
-                                             y: y,
-                                         }); 
-                                     }
-                                });
-                             
+                            data.push({
+                                nm:eventFrameName,
+                                sd:eventFrameStartTime,
+                                ed:eventFrameEndTime,
+                                x: Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]),
+                                x2: Date.UTC(edyr, edmnth, eddt,h,m,s),
+                                y: y,
+                            });   
                               y++; //AXIS INCREAMENT
                             }); 
                          Highcharts.chart('eventFrame', {
@@ -266,11 +258,13 @@ function loadEventFrame(){
                                   text: ''
                                 },
                                 xAxis: {
-                                  type: 'datetime'
+                                  type: 'datetime',
+                                  
+                                    //categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                                 },
                                  plotOptions: {
                                     series: {
-                                    //pointInterval: 24 * 3600 * 1000, // one day,                              
+                                    shadow: false,                                        
                                     pointStart: Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]),
                                     pointEnd: Date.UTC(edate[0], edate[1]-1, edate[2],etime[0],etime[1],etime[2]),
                                     },
@@ -288,10 +282,6 @@ function loadEventFrame(){
                                     valueDecimals: 2
                                 },
                                 yAxis: {
-                                    gridLineColor: '#FFFFFF',
-                                    minorGridLineWidth: 0,
-                                    lineColor: '#FFFFFF',
-                                    gridLineWidth: 0,
                                   title: {
                                     text: ''
                                   },
