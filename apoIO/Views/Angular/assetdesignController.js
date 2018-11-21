@@ -66,9 +66,13 @@ app.controller('assetdesignController', function($scope) {
                                         $.when(elementdata).done(function () {
                                              var elementsCatItems = (elementdata.responseJSON.Items);
                                               var csr= 1;
+                                               var listItemName='';
                                             $.each(elementsCatItems,function(key) {
+                                                if(listItemName==='' || listItemName!==elementsCatItems[key].Name){
                                                 $("#elementListLeft").append('<li class="elemList elemList'+csr+'"><input type="radio" id="elemList'+csr+'" data-id="'+csr+'" data-name="'+elementsCatItems[key].Name+'" value="'+elementsCatItems[key].WebId+'" name="selectorLeft"><label class="labelList leftLabel btn btn-primary" for="elemList'+csr+'">'+elementsCatItems[key].Name+'</label></li>');
-                                              csr++;  
+                                                csr++; 
+                                                listItemName = elementsCatItems[key].Name;
+                                              }
                                             });
                                             lastSrl=csr;
                                         });

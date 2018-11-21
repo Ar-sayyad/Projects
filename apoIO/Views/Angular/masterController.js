@@ -12,9 +12,9 @@ var now = new Date();
        var start = now.getFullYear()+'-'+emonth + '-' + day;
        var end = now.getFullYear()+'-'+month + '-' + day;
         $("#startDate").val(start);
-       $( "#startDate").datepicker({dateFormat: 'yy-mm-dd',maxDate : '0'});
+        $("#startDate").datepicker({dateFormat: 'yy-mm-dd',maxDate : '0'});
         $("#endDate").val(end);
-       $( "#endDate").datepicker({dateFormat: 'yy-mm-dd',maxDate : '0'});
+        $("#endDate").datepicker({dateFormat: 'yy-mm-dd',maxDate : '0'});
    });
     $(function(){     
       var h = now.getHours(),
@@ -24,7 +24,7 @@ var now = new Date();
       if(m < 10) m = '0' + m; 
       if(s < 10) s = '0' + s;
       $('input[type="time"][name="starttime"]').attr({'value':'00:00:00' });
-       $('input[type="time"][name="endtime"]').attr({'value': h + ':' + m + ':' + s });
+      $('input[type="time"][name="endtime"]').attr({'value': h + ':' + m + ':' + s });
     });
     
     var url = baseServiceUrl+'assetdatabases?path=\\\\' + afServerName + '\\' + afDatabaseName; 
@@ -268,16 +268,6 @@ function loadEventFrame(){
                                 xAxis: {
                                   type: 'datetime'
                                 },
-                                 plotOptions: {
-                                    series: {
-                                    //pointInterval: 24 * 3600 * 1000, // one day,                              
-                                    pointStart: Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]),
-                                    pointEnd: Date.UTC(edate[0], edate[1]-1, edate[2],etime[0],etime[1],etime[2]),
-                                    },
-                                    candlestick: {
-                                        lineColor: '#404048'
-                                    }
-                                },
                                tooltip: {
                                     shared: true,
                                     useHTML: true,
@@ -351,9 +341,14 @@ function loadEventFrame(){
                  var attributesDataItems = (attributesData.responseJSON.Items);
                  var unit = '';
                 $.each(attributesDataItems,function(key) {
-                        data1.push(Math.round(attributesDataItems[key].Value * 100) / 100);
-                        xAxis.push(attributesDataItems[key].Timestamp);
-                        unit = attributesDataItems[key].UnitsAbbreviation;                        
+                        var val = (Math.round((attributesDataItems[key].Value) * 100) / 100);                         
+                        if(isNaN(val)){
+                           // console.log(val);//Skipping NaN Values
+                        }else{
+                            data1.push((Math.round((attributesDataItems[key].Value) * 100) / 100));
+                            xAxis.push(attributesDataItems[key].Timestamp);
+                            unit = attributesDataItems[key].UnitsAbbreviation;
+                        }                        
                   });   
                   //console.log(data1);
                   data1.pop();   
@@ -401,8 +396,7 @@ function loadEventFrame(){
                             x: 0,
                             verticalAlign: 'top',
                             y: 40,
-                            floating: true,
-                            backgroundColor: 'rgba(255,255,255,0.25)'
+                            floating: true
                         },
                     series: data //PI ATTRIBUTES RECORDED DATA
                 });           
@@ -438,12 +432,17 @@ function getMap(){
                  var attributesDataItems = (attributesData.responseJSON.Items);
                  var unit = '';
                 $.each(attributesDataItems,function(key) {
-                        data1.push((Math.round((attributesDataItems[key].Value) * 100) / 100));
-                        xAxis.push(attributesDataItems[key].Timestamp);
-                        unit = attributesDataItems[key].UnitsAbbreviation;
+                        var val = (Math.round((attributesDataItems[key].Value) * 100) / 100);                         
+                        if(isNaN(val)){
+                           // console.log(val);////Skipping NaN Values
+                        }else{
+                            data1.push((Math.round((attributesDataItems[key].Value) * 100) / 100));
+                            xAxis.push(attributesDataItems[key].Timestamp);
+                            unit = attributesDataItems[key].UnitsAbbreviation;
+                        }
                   });  
-                  //console.log(data1);
-                   data1.pop(); 
+                 // console.log(data1);
+                   //data1.pop(); 
                    $.each(eventsColorsData,function(key) {
                        if(name===eventsColorsData[key].name){
                              data.push({
@@ -466,7 +465,7 @@ function getMap(){
                    });                            
                 Highcharts.chart('container', {
                         chart: {
-                            //zoomType: 'xy'
+                           // zoomType: 'xy'
                         },
                         title: {
                             text: ''
@@ -489,7 +488,6 @@ function getMap(){
                             verticalAlign: 'top',
                             y: 40,
                             floating: true,
-                            backgroundColor: 'rgba(255,255,255,0.25)'
                         },
                     series: data //PI ATTRIBUTES RECORDED DATA
                 });           
