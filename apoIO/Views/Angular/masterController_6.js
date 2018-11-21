@@ -57,7 +57,7 @@ var now = new Date();
         var elementName = $("#elementList option:selected").attr("data-name");//BLOCK ELEMENT NAME FOR IFRAME GRAPH GENERATION
         var iframeUrl= iframeConfigUrl+'?name='+elementName; //IFRAME URL 
         $('.iframeMap').attr('src', iframeUrl);
-       // console.log(iframeUrl);//IFRAME URL DISPLAY IN CONSOLE.LOG
+        console.log(iframeUrl);//IFRAME URL DISPLAY IN CONSOLE.LOG
         $("#container").empty();
         $("#attributesListLeft").empty();
         $(".tableAttributes").empty();
@@ -257,7 +257,7 @@ function loadEventFrame(){
                              
                               y++; //AXIS INCREAMENT
                             }); 
-                    var charts =  Highcharts.chart('eventFrame', {
+                         Highcharts.chart('eventFrame', {
                                 chart: {
                                   type: 'xrange'
                                   // zoomType: 'xy'
@@ -267,15 +267,7 @@ function loadEventFrame(){
                                 },
                                 xAxis: {
                                   type: 'datetime'
-                                  //setExtremes:(Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]), Date.UTC(edate[0], edate[1]-1, edate[2],etime[0],etime[1],etime[2]))
                                 },
-                                plotOptions: {
-                                      series: {
-                                          pointStart: Date.UTC(sdate[0], sdate[1]-1, sdate[2]),
-                                          pointEnd:Date.UTC(edate[0], edate[1]-1, edate[2]),
-                                          pointInterval: 24 * 3600 * 1000 // one day
-                                      }
-                                  },
                                tooltip: {
                                     shared: true,
                                     useHTML: true,
@@ -318,9 +310,7 @@ function loadEventFrame(){
                                   }
                                 }]
 
-                              }); 
-                              
-                         // charts.xAxis[0].setExtremes(Date.UTC(sdate[0], sdate[1]-1, sdate[2]), Date.UTC(edate[0], edate[1]-1, edate[2]));
+                              });   
                      });
                  }
              /*****LOAD EVENT FRAME DATA END****/
@@ -337,12 +327,10 @@ function loadEventFrame(){
         var yAxisData=[];
         var xAxis=[];
         var sr=0;
-        var chkArray=[];
         $.each($("input[name='selectorChild"+maincell+"']:checked"), function(){ 
             var data1=[];
             var WebId = $(this).val();
             var name = $(this).attr("data-name");
-             chkArray.push(WebId); 
             var url = baseServiceUrl+'streams/' + WebId + '/interpolated?startTime='+startDateTime+'&endTime='+endDateTime+'&searchFullHierarchy=true'; 
                 //console.log(url);
             var attributesData =  processJsonContent(url, 'GET', null);
@@ -363,7 +351,7 @@ function loadEventFrame(){
                         }                        
                   });   
                   //console.log(data1);
-                  //data1.pop();   
+                  data1.pop();   
                    $.each(eventsColorsData,function(key) {
                        if(name===eventsColorsData[key].name){
                              data.push({
@@ -415,11 +403,6 @@ function loadEventFrame(){
                 sr++;
             });            
     });  
-     if(chkArray.length === 0){
-        $("#cellgraphChart"+maincell).empty(); //Empty current chart Div  
-    }else{
-     //console.log(chkArray);
-    }
         }
 /****LOAD CHILD ATTRIBUTES CHARTS****/
 
@@ -513,11 +496,15 @@ function getMap(){
                 sr++;
             });         
     });
-    if(chkArray.length === 0){
-        $("#container").empty(); //Empty chart Div  
-    }else{
-     //console.log(chkArray);
-    }
+//    $("input[name='selectorLeft']:checked").each(function() {
+//		chkArray.push($(this).val());                
+//	});
+        if(chkArray.length === 0){
+            $("#container").empty();
+            //console.log('empty');   
+                }else{
+             //console.log(chkArray);
+                }
 }
 
   /*********MAIN CHARTS SECTION END**********/  
