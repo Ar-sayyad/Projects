@@ -319,8 +319,11 @@ function loadEventFrame(){
                                   }
                                 }]
                               }); 
-                        startDate = startDate.split('-');
+                        startDate = startDate.split('-');                        
                         endDate = endDate.split('-');
+//                        startTime = startTime.split(':');
+//                        endTime  = endTime.split(':');
+//                        chart.xAxis[0].setExtremes(Date.UTC(startDate[0],(startDate[1]-1),startDate[2],startTime[0],startTime[1],startTime[2]), Date.UTC(endDate[0],(endDate[1]-1),endDate[2],endTime[0],endTime[1],endTime[2]));//EXTREME POINTS
                         chart.xAxis[0].setExtremes(Date.UTC(startDate[0],(startDate[1]-1),startDate[2]), Date.UTC(endDate[0],(endDate[1]-1),endDate[2]));//EXTREME POINTS
                      });
                  }
