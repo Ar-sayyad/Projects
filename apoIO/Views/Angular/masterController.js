@@ -238,9 +238,19 @@ function loadEventFrame(){
                                     stime = stime.split(':');//start time split array
                                     edate = edate.split('-');//end date split array
                                     etime = etime.split(':');//end time split array
-                                if(edate[0]==='9999'){var edyr=sdate[0]; var edmnth = now.getMonth();var eddt=now.getDate();var h = now.getHours();var m = now.getMinutes();var s = now.getSeconds(); eventFrameEndTime="Running";}
-                                else{var edyr=edate[0]; var edmnth = edate[1]-1; var eddt=edate[2];var h = etime[0];var m = etime[1];var s =etime[2];} //if Event Frame is Runnig Stage                              
-                             
+                                  
+                                if(edate[0]==='9999'){
+                                    var edyr=now.getFullYear(),
+                                    edmnth = now.getMonth(),
+                                    eddt=now.getDate(),
+                                    h = now.getHours(),
+                                    m = now.getMinutes(),
+                                    s = now.getSeconds(),
+                                    eventFrameEndTime="Running";
+                                }
+                                else{
+                                    var edyr = edate[0], edmnth = (edate[1]-1), eddt = edate[2], h = etime[0], m = etime[1], s = etime[2];
+                                } //if Event Frame is Runnig Stage     
                                 $.each(EFData,function(key) {
                                     if(eventFrameName===EFData[key].efName){
                                         data.push({
@@ -248,16 +258,15 @@ function loadEventFrame(){
                                              sd:eventFrameStartTime,
                                              ed:eventFrameEndTime,
                                              color:EFData[key].color,
-                                             x: Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]),
+                                             x: Date.UTC(sdate[0],(sdate[1]-1),sdate[2],stime[0],stime[1],stime[2]),
                                              x2: Date.UTC(edyr, edmnth, eddt,h,m,s),
                                              y: y,
-                                         }); 
+                                        }); 
                                      }
-                                });
-                             
+                                });                             
                               y++; //AXIS INCREAMENT
                             }); 
-                    var charts =  Highcharts.chart('eventFrame', {
+                    var chart =  Highcharts.chart('eventFrame', {
                                 chart: {
                                   type: 'xrange'
                                   // zoomType: 'xy'
@@ -267,15 +276,7 @@ function loadEventFrame(){
                                 },
                                 xAxis: {
                                   type: 'datetime'
-                                  //setExtremes:(Date.UTC(sdate[0], sdate[1]-1, sdate[2],stime[0],stime[1],stime[2]), Date.UTC(edate[0], edate[1]-1, edate[2],etime[0],etime[1],etime[2]))
-                                },
-                                plotOptions: {
-                                      series: {
-                                          pointStart: Date.UTC(sdate[0], sdate[1]-1, sdate[2]),
-                                          pointEnd:Date.UTC(edate[0], edate[1]-1, edate[2]),
-                                          pointInterval: 24 * 3600 * 1000 // one day
-                                      }
-                                  },
+                              },
                                tooltip: {
                                     shared: true,
                                     useHTML: true,
@@ -319,8 +320,9 @@ function loadEventFrame(){
                                 }]
 
                               }); 
-                              
-                         // charts.xAxis[0].setExtremes(Date.UTC(sdate[0], sdate[1]-1, sdate[2]), Date.UTC(edate[0], edate[1]-1, edate[2]));
+                        startDate = startDate.split('-');
+                        endDate = endDate.split('-');
+                        chart.xAxis[0].setExtremes(Date.UTC(startDate[0],(startDate[1]-1),startDate[2]), Date.UTC(endDate[0],(endDate[1]-1),endDate[2]));
                      });
                  }
              /*****LOAD EVENT FRAME DATA END****/
