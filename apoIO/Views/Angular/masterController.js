@@ -245,7 +245,7 @@ function loadEventFrame(){
                                     eddt=now.getDate(),
                                     h = now.getHours(),
                                     m = now.getMinutes(),
-                                    s = now.getSeconds(),
+                                    s = now.getSeconds();
                                     eventFrameEndTime="Running";
                                 }
                                 else{
@@ -318,11 +318,10 @@ function loadEventFrame(){
                                     }
                                   }
                                 }]
-
                               }); 
                         startDate = startDate.split('-');
                         endDate = endDate.split('-');
-                        chart.xAxis[0].setExtremes(Date.UTC(startDate[0],(startDate[1]-1),startDate[2]), Date.UTC(endDate[0],(endDate[1]-1),endDate[2]));
+                        chart.xAxis[0].setExtremes(Date.UTC(startDate[0],(startDate[1]-1),startDate[2]), Date.UTC(endDate[0],(endDate[1]-1),endDate[2]));//EXTREME POINTS
                      });
                  }
              /*****LOAD EVENT FRAME DATA END****/
@@ -419,10 +418,9 @@ function loadEventFrame(){
     });  
      if(chkArray.length === 0){
         $("#cellgraphChart"+maincell).empty(); //Empty current chart Div  
-    }else{
-     //console.log(chkArray);
-    }
-        }
+    }else{ //console.log(chkArray);
+            }
+}
 /****LOAD CHILD ATTRIBUTES CHARTS****/
 
 /*********MAIN CHARTS SECTION START**********/  
