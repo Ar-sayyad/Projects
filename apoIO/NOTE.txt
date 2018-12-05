@@ -1,0 +1,14 @@
+59.165.238.74:4433
+manoj.wagh
+Sterlite@1
+Sterlite PI VISION
+/****/
+
+MES Server Details: 
+user name : Balco.mes
+password: & Feb@2018
+Server  IP: 10.101.71.127
+
+VPN Details: FortiClient
+Username :        osi.mes
+Password  :         Feb(&)1234 
